@@ -1,5 +1,5 @@
 ---
-title: Webservices 3.0 Integration
+title: API Integration
 
 language_tabs:
   - json: JSON
