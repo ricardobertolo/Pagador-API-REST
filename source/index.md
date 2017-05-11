@@ -8,63 +8,59 @@ language_tabs:
 search: true
 ---
 
-# Integração API
+# Integração Pagador API
 
-O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API da Braspag, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
+O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API do Pagador, gateway de pagamentos da Braspag, descrevendo os serviços disponíveis com exemplos de requisição e respostas.
 
-O mecanismo de integração com o Braspag eCommerce é simples, de modo que apenas conhecimentos intermediários em linguagem de programação para Web, requisições HTTP/HTTPS e manipulação de arquivos JSON, são necessários para implantar a solução Braspag eCommerce com sucesso.
+Todas as operações requerem credenciais de acesso (Merchant ID e Merchant Key) específicos para respectivos ambientes: **Sandbox**, **Homologação** e **Produção**. Para executar uma operação, combine o endpoint base do ambiente com o endpoint da operação desejada e envie utilizando o VERBO HTTP conforme descrito na operação.
 
-Nesse manual você encontrará a referência sobre todas as operações disponíveis na API REST do API. Estas operações devem ser executadas utilizando sua chave específica (Merchant ID e Merchant Key) nos respectivos endpoints dos ambientes:
+## Ambientes
 
-* Ambiente Produção
-    * **Requisição de transação**: https://api.braspag.com.br/
-    * **Consulta transação**: https://apiquery.braspag.com.br/
-* Ambiente Sandbox
-    * **Requisição de transação**: https://apisandbox.braspag.com.br/
-    * **Consulta transação**: https://apiquerysandbox.braspag.com.br/
+### Ambiente Sandbox
 
-Para executar uma operação, combine a URL base do ambiente com a URL da operação desejada e envie utilizando o verbo HTTP conforme descrito na operação.
+Experimente as nossas APIs sem compromisso! 
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Basta acessar o [Cadastro do Sandbox](https://cadastrosandbox.braspag.com.br/) e criar uma conta de testes. Ao fim do cadastro você receberá um `MerchantId` e um `MerchantKey`, que deverão ser utilizados para autenticar todas as requisições feitas para os endpoints da API|
+|Endpoint Transacional|https://apisandbox.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiquerysandbox.braspag.com.br/|
+
+### Ambiente de Homologação
+
+Valide seu desenvolvimento junto à nossa equipe! 
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Consulte-nos!|
+|Endpoint Transacional|https://apihomolog.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiqueryhomolog.braspag.com.br/|
+
+### Ambiente de Produção
+
+Já estou pronto para entrar em Produção!
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Consulte-nos!|
+|Endpoint Transacional|https://api.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiquery.braspag.com.br/|
 
 ## Suporte Braspag
 
-A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web, telefone e telefones de emergência. Nossa equipe de atendimento atende em português, inglês e espanhol.
+<aside class="notice">A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web. Contamos com a equipe que poderá atender em português, inglês e espanhol.</aside>
 
-* Web: [Suporte Braspag](http://suporte.braspag.com.br/)
-* Email: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
-* Telefone: (11) 2184 0550
-
-## Glossário
-
-Para facilitar o entendimento, listamos abaixo um pequeno glossário com os principais termos relacionados ao eCommerce, ao mercado de cartões e adquirencia:
-
-* **AUTORIZAÇÃO**: A autorização é a principal operação no e-commerce, é através dela que uma venda pode ser concretizada. Existe a possibilidade de realizar uma pré-autorização que apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
-* **CAPTURA**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através da operação de captura que se efetiva uma pré-autorização, podendo esta ser executada, em média, em até 5 dias após a data da pré-autorização.
-* **CANCELAMENTO** / **ESTORNO**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura. *É considerado estorno ao realizar a chamada após as 23:59:59 da data da autorização/captura.*
-* **AUTENTICAÇÃO**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco o risco de fraude.
-* **CARTÃO PROTEGIDO**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de “token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como “Compra com 1 clique” e “Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
-* **ANTIFRAUDE**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
-* **RECORRENTE**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
-* **RENOVA FÁCIL**: O serviço Renova Fácil traz garantia e tranquilidade à estabelecimentos que utilizam a aquirencia da Cielo e que efetuam vendas recorrentes.
-Ele possibilita a atualização do número do cartão do cliente, cuja numeração ou validade tenha sido alterada, eliminando a necessidade de contato com o cliente no momento da renovação do serviço e reduzindo o número de transações negadas. Com o Renova Fácil você garante as transações e oferece mais comodidade a seus clientes. A funcionalidade do Renova Fácil é transparente para o lojista e para o cliente final. Toda a integração fica do nosso lado, onde conseguimos atualizar os novos dados do cartão e submeter a transação com a informação atualizada.
-
-### Renova Fácil
-
-O serviço do Renova Fácil precisa está habilitado junto a Cielo. Bancos Emissores participantes:
-
-* Bradesco
-* Banco do Brasil
-* Santander
-* Panamericano
-* Citi
+* Atendimento Web: [Suporte Braspag via Portal](http://suporte.braspag.com.br/)
+* E-mail: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
+* Telefone: (11)2184-0550
 
 # Visão Geral
 
-Aqui você pode encontrar um resumo de todas as operações disponíveis na API REST do Pagador. Essas operações podem ser executadas utilizando sua chave específica nos ambientes (Sandbox e Produção).
+Aqui você pode encontrar detalhamentos de todas as operações disponíveis na API REST do Pagador. Essas operações podem ser executadas utilizando sua chave específica nos ambientes (Sandbox, Homologação ou Produção).
 
-## Características da solução
+## Características da Solução
 
-A solução API da plataforma Braspag eCommerce foi desenvolvida com a tecnologia REST, que é padrão de mercado e independe da tecnologia utilizada por nossos clientes. Dessa forma, é possível integrar-se utilizando as mais variadas linguagens de programação, tais como: ASP, ASP. Net, Java, PHP, Ruby, Python, etc.
+A solução API Pagador foi desenvolvida com a tecnologia REST, que é padrão de mercado e independe da tecnologia utilizada por nossos clientes. Desta forma, é possível integrar-se utilizando as mais variadas linguagens de programação, tais como: ASP, ASP. Net, Java, PHP, Ruby, Python, entre outras.
 
 Entre outras características, os atributos que mais se destacam na plataforma Braspag eCommerce:
 
@@ -83,77 +79,27 @@ A integração é realizada através de serviços disponibilizados como Web Serv
 * **PUT** - O método HTTP PUT é utilizado para atualização de um recurso já existente. Por exemplo, captura ou cancelamento de uma transação previamente autorizada.
 * **GET** - O método HTTP GET é utilizado para consultas de recursos já existentes. Por exemplo, consulta de transações.
 
-## Sandbox
-
-Para facilitar os testes durante a integração, a Braspag oferece um ambiente Sandbox que é composto por duas áreas:
-
-1. Cadastro de conta de testes
-2. Endpoints transacionais
-    * **Requisição**: https://apisandbox.braspag.com.br/
-    * **Consulta**: https://apiquerysandbox.braspag.com.br/
-
-Não é necessário uma afiliação para utilizar o Sanbox Braspag. Basta acessar o [Cadastro do Sandbox](https://cadastrosandbox.braspag.com.br/) e criar uma conta de testes. Ao fim do cadastro você receberá um `MerchantId` e um `MerchantKey`, que deverão ser utilizados para autenticar todas as requisições feitas para os endpoints da API.
-
-### Meio de Pagamento Simulado
-
-O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.
-
-Para melhor utilização do Meio de Pagamento Simulado, estamos disponibilizando cartões de testes na tabela abaixo.
-
-Os status das transações serão conforme a utilização de cada cartão.
-
-|Status da Transação|Cartões para realização dos testes|Código de Retorno|Mensagem de Retorno|
-|-------------------|----------------------------------|-----------------|-------------------|
-|Autorizado|0000.0000.0000.0001 / 0000.0000.0000.0004|4|Operação realizada com sucesso|
-|Não Autorizado|0000.0000.0000.0002|2|Não Autorizada|
-|Autorização Aleatória|0000.0000.0000.0009|4 / 99|Operation Successful / Time Out|
-|Não Autorizado|0000.0000.0000.0007|77|Cartão Cancelado|
-|Não Autorizado|0000.0000.0000.0008|70|Problemas com o Cartão de Crédito|
-|Não Autorizado|0000.0000.0000.0005|78|Cartão Bloqueado|
-|Não Autorizado|0000.0000.0000.0003|57|Cartão Expirado|
-|Não Autorizado|0000.0000.0000.0006|99|Time Out|
-
-As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).
-
-## Post de Notificação
-
-Para receber a notificação de modificação de status deve-se ter configurado no admin o campo URL Status Pagamento para receber os parâmetros conforme o exemplo ao lado.
-
-Resposta esperada da Loja: HTTP Status Code 200 OK
-
-Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes enviar o Post de Notificação.
-
-```json
-{
-   "PaymentId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-   "ChangeType": "1"
-}
-```
-
-|ChangeType|Descrição|
-|----------|---------|
-|1|Mudança de status do pagamento|
-|2|Recorrência criada|
-|3|Mudança de status do antiFraud|
-
 # Pagamentos com Cartão de Crédito
-
-<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada (ou confirmada).</aside>
 
 Para que você possa desfrutar de todos os recursos disponíveis em nossa API, é importante que antes você conheça os conceitos envolvidos no processamento de uma transação de cartão de crédito.
 
-* **Autorização**: A autorização (ou pré-autorização) é a principal operação no eCommerce, pois através dela é que uma venda pode ser concretizada. A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
-* **Captura**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através desta operação que se efetiva uma pré-autorização, podendo esta ser executada, em normalmente, em até 5 dias após a data da pré-autorização.
-* **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
+* **Autorização**: A autorização (ou pré-autorização) é uma operação que viabiliza o processamento de uma venda com um cartão de crédito.A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança na fatura para o consumidor. Desta forma, é necessário uma segunda operação, chamada 'captura'. 
+* **Captura**: Ao realizar uma pré-autorização, é necessário confirmá-la para que a cobrança seja efetivada. O tempo limite para capturar uma transação pré-autorizada varia de adquirente para adquirente, que pode ser por exemplo, de até 5 dias após a data da pré-autorização.
+* **Captura Automática**: É quando uma transação é autorizada e capturada no mesmo momento, isentando do lojista enviar uma confirmação posterior.
+* **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
+* **Estorno**: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de 'chargeback' pela adquirente. 
 * **Autenticação**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.
-* **Cartão protegido**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de "token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como "Compra com 1 clique” e "Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
-* **Antifraude**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
+* **Cartão Protegido**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de "token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como "Compra com 1 clique” e "Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
+* **Antifraude**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
 * **Recorrente**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
 É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
 
-## Criando uma transação simples
+<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada.</aside>
+<aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment, conforme o exemplo. Esse exemplo contempla o mínimo de campos necessários a serem enviados para a autorização.
+## Criando uma transação sem dados opcionais
+
+Exemplo de uma transação com dados obrigatórios para um simples processamento de transação de cartão de crédito. Algumas funcionalidades, tais como Captura Automática, Autenticação, Antifraude, Velocity entre outras, requerem preenchimento de mais dados. Neste caso, por favor, consulte os demais exemplos no manual.
 
 ### Requisição
 
@@ -161,17 +107,18 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ```json
 {
-   "MerchantOrderId":"2014111703",
+   "MerchantOrderId":"2017051001",
    "Customer":{
-      "Name":"Comprador Teste"
+      "Name":"Nome do Cliente"
    },
    "Payment":{
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
      "Installments":1,
      "CreditCard":{
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -182,25 +129,25 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--request POST "https://apihomolog.braspag.com.br/v2/sales/"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014111703",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051001",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":15700,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -212,76 +159,76 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305023644309",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Installments":1,
-        "ReceivedDate": "2015-04-25 08:34:04",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -290,74 +237,76 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305023644309",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Installments":1,
-        "ReceivedDate": "2015-04-25 08:34:04"
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 
-## Criando uma transação completa
+## Criando uma transação com todos os dados
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment conforme o exemplo. Esse exemplo contempla todos os campos possíveis que podem ser enviados.
+Este é um exemplo de uma transação com todos os dados preenchidos. Isso inclui os dados do comprador e campos específicos para definir o comportamento de autorização, autenticação e dados extras.
 
 ### Requisição
 
@@ -365,56 +314,56 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ```json
 {  
-   "MerchantOrderId":"2014111701",
+   "MerchantOrderId":"2017051002",
    "Customer":{  
-      "Name":"Comprador Teste",
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@teste.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Teste",
-         "Number":"123",
-         "Complement":"AP 123",
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
          "ZipCode":"12345987",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
+         "City":"São Paulo",
+         "State":"SP",
          "Country":"BRA"
       },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
      "Capture":true,
      "Authenticate":false,    
      "Recurrent": false,
-     "SoftDescriptor":"tst",
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
-         "SaveCard":"false",
-         "Brand":"Visa"
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "ExtraDataCollection":[{
          "Name":"NomeDoCampo",
-         "Value":"1234567"
+         "Value":"ValorDoCampo"
      }]
    }
 }
@@ -429,56 +378,56 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-   "MerchantOrderId":"2014111701",
+   "MerchantOrderId":"2017051002",
    "Customer":{  
-      "Name":"Comprador Teste",
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@teste.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Teste",
-         "Number":"123",
-         "Complement":"AP 123",
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
          "ZipCode":"12345987",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
+         "City":"São Paulo",
+         "State":"SP",
          "Country":"BRA"
       },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
      "Capture":true,
      "Authenticate":false,    
      "Recurrent": false,
-     "SoftDescriptor":"tst",
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
-         "SaveCard":"false",
-         "Brand":"Visa"
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "ExtraDataCollection":[{
          "Name":"NomeDoCampo",
-         "Value":"1234567"
+         "Value":"ValorDoCampo"
      }]
    }
 }
@@ -487,127 +436,136 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente.| 
-|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ).|
-|`Customer.Email`|Texto|255|Não|Email do Comprador.|
-|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador.|
-|`Customer.Address.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço do Comprador.br|
-|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.Address.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.Address.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.Address.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP).|
-|`Payment.Country`|Texto|3|Não|Pais na qual o pagamento será feito.|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer).|
-|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que identifica que a autorização deve ser com captura automática.|
-|`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o CardToken.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Email`|Texto|255|Não|Email do comprador|
+|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador no formato AAAA-MM-DD|
+|`Customer.Address.Street`|Texto|255|Não|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador.br|
+|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Não|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Não|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Não|Pais do endereço de contato do comprador|
+|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço de entrega do pedido|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização|
+|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP)|
+|`Payment.Country`|Texto|3|Não|País na qual o pagamento será feito|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer)|
+|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que indica se a autorização deve ser com captura automática (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Authenticate`|Booleano|---|Não (Default false)|Booleano que indica se a transação deve ser autenticada (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Recurrent`|Booleano|---|Não (Default false)|Booleano que indica se a transação é do tipo recorrente (true) ou não (false). Este com valor true não originará uma nova Recorrência, apenas permitirá a realização de uma transação sem a necessidade de envio do CVV. Somente para transações Cielo. Authenticate deve ser false quando Recurrent é true|
+|`Payment.SoftDescriptor`|Texto|13|Não|Texto que será impresso na fatura do portador|
+|`Payment.ExtraDataCollection.Name`|Texto|50|Não|Nome do campo que será gravado o Dado Extra|
+|`Payment.ExtraDataCollection.Value`|Texto|1024|Não|Valor do campo que será gravado o Dado Extra|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do portador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o token (CardToken)|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",    
-        "Identity":"11225468954",
-        "IdentityType":"CPF",
-        "Email": "compradorteste@teste.com",
-        "Birthdate": "1991-01-02",
-        "Address": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+  "MerchantOrderId": "2017051002",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Birthdate": "1991-01-02",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": true,
-        "Authenticate": false,
-        "Recurrent": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305020554239",
-        "AuthorizationCode": "123456",
-        "SoftDescriptor":"tst",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 08:42:48",
-        "CapturedAmount": 15700,
-        "CapturedDate": "2015-06-25 08:42:48",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ExtraDataCollection": [
-         {
-             "Name":"NomeDoCampo",
-             "Value":"1234567"
-         }
-        ],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 2,
-        "ProviderReasonCode": "6",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
     }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "20170510053219433",
+    "AcquirerTransactionId": "0510053219433",
+    "AuthorizationCode": "936403",
+    "SoftDescriptor": "Mensagem",
+    "VelocityAnalysis": {
+      "Id": "c374099e-c474-4916-9f5c-f2598fec2925",
+      "ResultMessage": "Accept",
+      "Score": 0
+    },
+    "PaymentId": "c374099e-c474-4916-9f5c-f2598fec2925",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 17:32:19",
+    "CapturedAmount": 10000,
+    "CapturedDate": "2017-05-10 17:32:19",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ExtraDataCollection": [
+      {
+        "Name": "NomeDoCampo",
+        "Value": "ValorDoCampo"
+      }
+    ],
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 2,
+    "ProviderReturnCode": "6",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apihomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -698,20 +656,25 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`CapturedDate`|Data em que a transação foi capturada a transação|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`CapturedAmount`|Valor capturado (sem pontuação)|Número|15|100 equivale a R$ 1,00|
+|`ECI`|Eletronic Commerce Indicator. Representa o resultado da autenticação|Texto|2|Exemplos: 5|
+|`ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 
 ## Criando uma venda com Autenticação
 
-Para criar uma transação com autenticação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment conforme o exemplo.
+Quando uma transação é submetida ao processo de autenticação, o portador será redirecionado ao ambiente do emissor, onde deverá realizar a confirmação de seus dados. Quando validado corretamente, o "liability" da transação passa a ser do banco, ou seja, em casos de contestação, o banco será o responsável. 
 
-<aside class="notice"><strong>Autenticação:</strong> Nesta modalidade o portador do cartão é direcionado para o ambiente de autenticação do banco emissor do cartão onde será solicitada a inclusão da senha do cartão.</aside>
+<aside class="notice"><strong>Autenticação:</strong>Nesta modalidade o portador do cartão é direcionado para o ambiente de autenticação do banco emissor do cartão onde será solicitada a inclusão da senha do cartão. Aplicável somente para Cielo.</aside>
 
 ### Requisição
 
@@ -724,15 +687,14 @@ Para criar uma transação com autenticação que utilizará cartão de crédito
       "Name":"Comprador Teste"
    },
    "Payment":{  
-      "Type":"CreditCard",
-      "Amount":15700,
       "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000,      
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
-      "SoftDescriptor":"tst",
       "CreditCard":{  
-         "CardNumber":"1234123412341231",
+         "CardNumber":"4551870000000181",
          "Holder":"Teste Holder",
          "ExpirationDate":"12/2015",
          "SecurityCode":"123",
@@ -756,15 +718,14 @@ curl
       "Name":"Comprador Teste"
    },
    "Payment":{  
-      "Type":"CreditCard",
-      "Amount":15700,
       "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000,      
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
-      "SoftDescriptor":"tst",
       "CreditCard":{  
-         "CardNumber":"1234123412341231",
+         "CardNumber":"4551870000000181",
          "Holder":"Teste Holder",
          "ExpirationDate":"12/2015",
          "SecurityCode":"123",
@@ -777,70 +738,67 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
 |`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber.`|Texto|16|Sim|Número do Cartão do Comprador|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`Payment.ReturnUrl`|Texto|1024|Sim (quando Autenticate é true)|URL para onde o usuário será redirecionado após o fim da autenticação|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-	"MerchantOrderId":"2014111903",
-	"Customer":
-	{
-		"Name":"Comprador Teste"
-	},
-	"Payment":
-	{
-		"ServiceTaxAmount":0,
-		"Installments":1,
-		"Interest":"ByMerchant",
-		"Capture":false,
-		"Authenticate":true,
-		"CreditCard":
-		{
-			"CardNumber":"123412******1112",
-			"Holder":"Teste Holder",
-			"ExpirationDate":"12/2015",
-			"SaveCard":false,
-			"Brand":"Visa"
-		},
-		"AuthenticationUrl":"https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?id=c5158c1c7b475fdb91a7ad7cc094e7fe",
-        "AcquirerTransactionId": "1006993069257E521001",
-        "SoftDescriptor":"tst",
-		"PaymentId":"f2dbd5df-c2ee-482f-ab1b-7fee039108c0",
-		"Type":"CreditCard",
-		"Amount":15700,
-        "ReceivedDate": "2015-04-25 09:00:42",
-		"Currency":"BRL",
-		"Country":"BRA",
-		"Provider":"Cielo",
-		"ExtraDataCollection":[],
-		"ReasonCode":9,
-		"ReasonMessage":"Waiting",
-		"Status":0,
-        "ProviderReasonCode": "0",
-		"Links":
-		[
-			{
-				"Method":"GET",
-				"Rel":"self",
-				"Href":"https://apiquerysandbox.braspag.com.br/v2/sales/{Paymentid}"
-			}
-		]
-	}
+  "MerchantOrderId": "2014111903",
+  "Customer": {
+    "Name": "Comprador Teste"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Teste Holder",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08",
+    "AcquirerTransactionId": "10069930690009D1DADA",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "a465993c-b828-4aa0-ae89-c4c5df769a69",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 18:21:03",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/a465993c-b828-4aa0-ae89-c4c5df769a69"
+      }
+    ]
+  }
 }
 ```
 
@@ -849,63 +807,62 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-	"MerchantOrderId":"2014111903",
-	"Customer":
-	{
-		"Name":"Comprador Teste"
-	},
-	"Payment":
-	{
-		"ServiceTaxAmount":0,
-		"Installments":1,
-		"Interest":"ByMerchant",
-		"Capture":false,
-		"Authenticate":true,
-		"CreditCard":
-		{
-			"CardNumber":"123412******1112",
-			"Holder":"Teste Holder",
-			"ExpirationDate":"12/2015",
-			"SaveCard":false,
-			"Brand":"Visa"
-		},
-		"AuthenticationUrl":"https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?id=c5158c1c7b475fdb91a7ad7cc094e7fe",
-        "AcquirerTransactionId": "1006993069257E521001",
-        "SoftDescriptor":"tst",
-		"PaymentId":"f2dbd5df-c2ee-482f-ab1b-7fee039108c0",
-		"Type":"CreditCard",
-		"Amount":15700,
-        "ReceivedDate": "2015-04-25 09:00:42",
-		"Currency":"BRL",
-		"Country":"BRA",
-		"Provider":"Cielo",
-		"ExtraDataCollection":[],
-		"ReasonCode":9,
-		"ReasonMessage":"Waiting",
-		"Status":0,
-        "ProviderReasonCode": "0",
-		"Links":
-		[
-			{
-				"Method":"GET",
-				"Rel":"self",
-				"Href":"https://apiquerysandbox.braspag.com.br/v2/sales/{Paymentid}"
-			}
-		]
-	}
+  "MerchantOrderId": "2014111903",
+  "Customer": {
+    "Name": "Comprador Teste"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Teste Holder",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08",
+    "AcquirerTransactionId": "10069930690009D1DADA",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "a465993c-b828-4aa0-ae89-c4c5df769a69",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 18:21:03",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/a465993c-b828-4aa0-ae89-c4c5df769a69"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`AuthenticationUrl`|URL para qual o Lojista deve redirecionar o Cliente para o fluxo de autenticação|Texto|256|https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08|
 
 ## Criando uma venda com Analise de Fraude
 
@@ -1145,82 +1102,82 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Customer.Email`|Texto|255|Não|Email do Comprador.|
-|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador.|
-|`Customer.Address.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.Address.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.Address.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.Address.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP).|
-|`Payment.Country`|Texto|3|Não|Pais na qual o pagamento será feito.|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer).|
-|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que identifica que a autorização deve ser com captura automática.|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Email`|Texto|255|Não|Email do comprador|
+|`Customer.Birthdate`|Date|10|Não|Data de nascimento do comprador|
+|`Customer.Address.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número do endereço do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço do comprador|
+|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço do comprador|
+|`Customer.Address.City`|Texto|50|Não|Cidade do endereço do comprador|
+|`Customer.Address.State`|Texto|2|Não|Estado do endereço do comprador|
+|`Customer.Address.Country`|Texto|35|Não|Pais do endereço do comprador|
+|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número do endereço do comprador|
+|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço do comprador|
+|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço do comprador|
+|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço do comprador|
+|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço do comprador|
+|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço do comprador|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP)|
+|`Payment.Country`|Texto|3|Não|Pais na qual o pagamento será feito|
+|`Payment.Provider`|Texto|15|---|Nome da provedora de Meio de Pagamento|
+|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer)|
+|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que identifica que a autorização deve ser com captura automática|
 |`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o CardToken.|
-|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o CardToken|
+|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover)|
 |`FraudAnalysis.Sequence`|Texto|14|Não|Tipo de Fluxo para realização da análise de fraude. Primeiro Analise (AnalyseFirst) ou Primeiro Autorização (AuthorizeFirst)|
 |`FraudAnalysis.SequenceCriteria`|Texto|9|Não|Critério do fluxo. OnSuccess - Só realiza a analise se tiver sucesso na transação. Always - Sempre realiza a analise|
-|`FraudAnalysis.FingerPrintId`|Texto|50|Não|Identificador utilizado para cruzar informações obtidas pelo Browser do internauta com os dados enviados para análise. Este mesmo valor deve ser passado na variável SESSIONID do script do DeviceFingerPrint.|
-|`FraudAnalysis.Browser.CookiesAccepted`|Booleano|---|Não|Booleano para identificar se o browser do cliente aceita cookies.|
-|`FraudAnalysis.Browser.Email`|Texto|100|Não|E-mail registrado no browser do comprador.|
-|`FraudAnalysis.Browser.HostName`|Texto|60|Não|Nome do host onde o comprador estava antes de entrar no site da loja.|
-|`FraudAnalysis.Browser.IpAddress`|Texto|15|Não|Endereço IP do comprador. É altamente recomendável o envio deste campo.|
-|`FraudAnalysis.Browser.Type`|Texto|40|Não|Nome do browser utilizado pelo comprador.|
-|`FraudAnalysis.Cart.IsGift`|Booleano|---|Não|Booleano que indica se o pedido é para presente ou não.|
-|`FraudAnalysis.Cart.ReturnsAccepted`|Booleano|---|Não|Booleano que define se devoluções são aceitas para o pedido.|
-|`FraudAnalysis.Items.GiftCategory`|Texto|9|Não|Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países.|
-|`FraudAnalysis.Items.HostHedge`|Texto||Não|Nível de importância do e-mail e endereços IP dos clientes em risco de pontuação.|
-|`FraudAnalysis.Items.NonSensicalHedge`|Texto|6|Não|Nível dos testes realizados sobre os dados do comprador com pedidos recebidos sem sentido.|
-|`FraudAnalysis.Items.ObscenitiesHedge`|Texto|6|Não|Nível de obscenidade dos pedidos recebedidos.|
-|`FraudAnalysis.Items.PhoneHedge`|Texto|6|Não|Nível dos testes realizados com os números de telefones.|
-|`FraudAnalysis.Items.Name`|Texto|255|Não|Nome do Produto.|
-|`FraudAnalysis.Items.Quantity`|Número|15|Não|Quantidade do produto a ser adquirido.|
-|`FraudAnalysis.Items.Sku`|Texto|255|Não|Código comerciante identificador do produto.|
-|`FraudAnalysis.Items.UnitPrice`|Número|15|Não|Preço unitário do produto.|
-|`FraudAnalysis.Items.Risk`|Texto|6|Não|Nível do risco do produto.|
-|`FraudAnalysis.Items.TimeHedge`|Texto||Não|Nível de importância da hora do dia do pedido do cliente.|
-|`FraudAnalysis.Items.Type`|Texto||Não|Tipo do produto.|
-|`FraudAnalysis.Items.VelocityHedge`|Texto|6|Não|Nível de importância de frequência de compra do cliente.|
-|`FraudAnalysis.Items.Passenger.Email`|Texto|255|Não|Email do Passageiro.|
-|`FraudAnalysis.Items.Passenger.Identity`|Texto|32|Não|Id do passageiro a quem o bilheite foi emitido.|
-|`FraudAnalysis.Items.Passenger.Name`|Texto|120|Não|Nome do passageiro.|
-|`FraudAnalysis.Items.Passenger.Rating`|Texto||Não|Classificação do Passageiro.|
-|`FraudAnalysis.Items.Passenger.Phone`|Texto|15|Não|Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país.|
-|`FraudAnalysis.Items.Passenger.Status`|Texto|32|Não|Classificação da empresa aérea. Pode-se usar valores como Gold ou Platina.|
-|`FraudAnalysis.MerchantDefinedFields.Id`|Texto|---|Não|Id das informações adicionais a serem enviadas.|
-|`FraudAnalysis.MerchantDefinedFields.Value`|Texto|255|Não|Valor das informações adicionais a serem enviadas.|
-|`FraudAnalysis.Shipping.Addressee`|Texto|255|Não|Nome do destinatário da entrega.|
-|`FraudAnalysis.Shipping.Method`|Texto||Não|Tipo de serviço de entrega do produto.|
-|`FraudAnalysis.Shipping.Phone`|Texto|15|Não|Telefone do destinatário da entrega.|
-|`FraudAnalysis.Travel.DepartureTime`|DateTime|23|Não|Data, hora e minuto de partida do vôo.|
-|`FraudAnalysis.Travel.JourneyType`|Texto|32|Não|Tipo de viagem.|
-|`FraudAnalysis.Travel.Route`|Texto|255|Não|Rota da viagem. Concatenação de pernas de viagem individuais no formato ORIG1- DEST1.|
-|`FraudAnalysis.Travel.Legs.Destination`|Texto|3|Não|Código do aeroporto do ponto de destino da viagem.|
-|`FraudAnalysis.Travel.Legs.Origin`|Texto|3|Não |Código do aeroporto do ponto de origem da viagem.|
+|`FraudAnalysis.FingerPrintId`|Texto|50|Não|Identificador utilizado para cruzar informações obtidas pelo Browser do internauta com os dados enviados para análise. Este mesmo valor deve ser passado na variável SESSIONID do script do DeviceFingerPrint|
+|`FraudAnalysis.Browser.CookiesAccepted`|Booleano|---|Não|Booleano para identificar se o browser do cliente aceita cookies|
+|`FraudAnalysis.Browser.Email`|Texto|100|Não|E-mail registrado no browser do comprador|
+|`FraudAnalysis.Browser.HostName`|Texto|60|Não|Nome do host onde o comprador estava antes de entrar no site da loja|
+|`FraudAnalysis.Browser.IpAddress`|Texto|15|Não|Endereço IP do comprador. É altamente recomendável o envio deste campo|
+|`FraudAnalysis.Browser.Type`|Texto|40|Não|Nome do browser utilizado pelo comprador|
+|`FraudAnalysis.Cart.IsGift`|Booleano|---|Não|Booleano que indica se o pedido é para presente ou não|
+|`FraudAnalysis.Cart.ReturnsAccepted`|Booleano|---|Não|Booleano que define se devoluções são aceitas para o pedido|
+|`FraudAnalysis.Items.GiftCategory`|Texto|9|Não|Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países|
+|`FraudAnalysis.Items.HostHedge`|Texto||Não|Nível de importância do e-mail e endereços IP dos clientes em risco de pontuação|
+|`FraudAnalysis.Items.NonSensicalHedge`|Texto|6|Não|Nível dos testes realizados sobre os dados do comprador com pedidos recebidos sem sentido|
+|`FraudAnalysis.Items.ObscenitiesHedge`|Texto|6|Não|Nível de obscenidade dos pedidos recebedidos|
+|`FraudAnalysis.Items.PhoneHedge`|Texto|6|Não|Nível dos testes realizados com os números de telefones|
+|`FraudAnalysis.Items.Name`|Texto|255|Não|Nome do Produto|
+|`FraudAnalysis.Items.Quantity`|Número|15|Não|Quantidade do produto a ser adquirido|
+|`FraudAnalysis.Items.Sku`|Texto|255|Não|Código comerciante identificador do produto|
+|`FraudAnalysis.Items.UnitPrice`|Número|15|Não|Preço unitário do produto|
+|`FraudAnalysis.Items.Risk`|Texto|6|Não|Nível do risco do produto|
+|`FraudAnalysis.Items.TimeHedge`|Texto||Não|Nível de importância da hora do dia do pedido do cliente|
+|`FraudAnalysis.Items.Type`|Texto||Não|Tipo do produto|
+|`FraudAnalysis.Items.VelocityHedge`|Texto|6|Não|Nível de importância de frequência de compra do cliente|
+|`FraudAnalysis.Items.Passenger.Email`|Texto|255|Não|Email do Passageiro|
+|`FraudAnalysis.Items.Passenger.Identity`|Texto|32|Não|Id do passageiro a quem o bilheite foi emitido|
+|`FraudAnalysis.Items.Passenger.Name`|Texto|120|Não|Nome do passageiro|
+|`FraudAnalysis.Items.Passenger.Rating`|Texto||Não|Classificação do Passageiro|
+|`FraudAnalysis.Items.Passenger.Phone`|Texto|15|Não|Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país|
+|`FraudAnalysis.Items.Passenger.Status`|Texto|32|Não|Classificação da empresa aérea. Pode-se usar valores como Gold ou Platina|
+|`FraudAnalysis.MerchantDefinedFields.Id`|Texto|---|Não|Id das informações adicionais a serem enviadas|
+|`FraudAnalysis.MerchantDefinedFields.Value`|Texto|255|Não|Valor das informações adicionais a serem enviadas|
+|`FraudAnalysis.Shipping.Addressee`|Texto|255|Não|Nome do destinatário da entrega|
+|`FraudAnalysis.Shipping.Method`|Texto||Não|Tipo de serviço de entrega do produto|
+|`FraudAnalysis.Shipping.Phone`|Texto|15|Não|Telefone do destinatário da entrega|
+|`FraudAnalysis.Travel.DepartureTime`|DateTime|23|Não|Data, hora e minuto de partida do vôo|
+|`FraudAnalysis.Travel.JourneyType`|Texto|32|Não|Tipo de viagem|
+|`FraudAnalysis.Travel.Route`|Texto|255|Não|Rota da viagem. Concatenação de pernas de viagem individuais no formato ORIG1- DEST1|
+|`FraudAnalysis.Travel.Legs.Destination`|Texto|3|Não|Código do aeroporto do ponto de destino da viagem|
+|`FraudAnalysis.Travel.Legs.Origin`|Texto|3|Não |Código do aeroporto do ponto de origem da viagem|
 
 ### Resposta
 
@@ -1547,26 +1504,26 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
 |`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`Id`|Indentificação da Transação no Antifraud.|Texto|300|Texto alfanumérico|
-|`Status`|Status da Transação.|Byte|---|2|
-|`FraudAnalysisReasonCode`|Resultado da análise.|Byte|---|Número:<br /><ul><li>100 - Operação bem sucedida.</li><li>101 - O pedido está faltando um ou mais campos necessários. Possível ação: Veja os campos que estão faltando na lista AntiFraudResponse.MissingFieldCollection. Reenviar o pedido com a informação completa.</li><li>102 - Um ou mais campos do pedido contêm dados inválidos. Possível ação: Veja os campos inválidos na lista AntiFraudResponse.InvalidFieldCollection. Reenviar o pedido com as informações corretas.</li><li>150 Falha no sistema geral. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>151 - O pedido foi recebido, mas ocorreu time-out no servidor. Este erro não inclui time-out entre o cliente e o servidor. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>152 O pedido foi recebido, mas ocorreu time-out. Possível ação: Aguarde alguns minutos e reenviar o pedido.</li><li>202 – Prevenção à Fraude recusou o pedido porque o cartão expirou. Você também pode receber este código se a data de validade não coincidir com a data em arquivo do banco emissor. Se o processador de pagamento permite a emissão de créditos para cartões expirados, a CyberSource não limita essa funcionalidade. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>231 O número da conta é inválido. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>234 - Há um problema com a configuração do comerciante. Possível ação: Não envie o pedido. Entre em contato com o Suporte ao Cliente para corrigir o problema de configuração.</li><li>400 A pontuação de fraude ultrapassa o seu limite. Possível ação: Reveja o pedido do cliente.</li><li>480 O pedido foi marcado para revisão pelo Gerenciador de Decisão.</li><li>481 - O pedido foi rejeitado pelo Gerenciador de Decisão</li></ul>|
-|`AddressInfoCode`|Combinação de códigos que indicam erro no endereço de cobrança e/ou entrega. Os códigos são concatenados usando o caractere ^.|Texto|255|Ex: COR-BA^MM-BIN<br /><ul><li>COR-BA - O endereço de cobrança pode ser normalizado.</li><li>COR-SA - O endereço de entrega pode ser normalizado.</li><li>INTL-BA - O país de cobrança é fora dos U.S.</li><li>INTL-SA - O país de entrega é fora dos U.S.</li><li>MIL-USA - Este é um endereço militar nos U.S.</li><li>MM-A - Os endereços de cobrança e entrega usam nomes de ruas diferentes.</li><li>MM-BIN - O BIN do cartão (os seis primeiros dígitos do número) não corresponde ao país.</li><li>MM-C - Os endereços de cobrança e entrega usam cidades diferentes.</li><li>MM-CO - Os endereços de cobrança e entrega usam países diferentes.</li><li>MM-ST - Os endereços de cobrança e entrega usam estados diferentes.</li><li>MM-Z - Os endereços de cobrança e entrega usam códidos postais diferentes.</li><li>UNV-ADDR - O endereço é inverificável.</li></ul>|
-|`FactorCode`|Combinação de códigos que indicam o score do pedido. Os códigos são concatenados usando o caractere ^.|Texto|100|Ex: B^D^R^Z<br /><ul><li>A - Mudança de endereço excessiva. O cliente mudou o endereço de cobrança duas ou mais vezes nos últimos seis meses.</li><li>B - BIN do cartão ou autorização de risco. Os fatores de risco estão relacionados com BIN de cartão de crédito e/ou verificações de autorização do cartão.</li><li>C - Elevado números de cartões de créditos. O cliente tem usado mais de seis números de cartões de créditos nos últimos seis meses.</li><li>D - Impacto do endereço de e-mail. O cliente usa um provedor de e-mail gratuito ou o endereço de email é arriscado.</li><li>E - Lista positiva. O cliente está na sua lista positiva.</li><li>F - Lista negativa. O número da conta, endereço, endereço de e-mail ou endereço IP para este fim aparece sua lista negativa.</li><li>G - Inconsistências de geolocalização. O domínio do cliente de e-mail, número de telefone, endereço de cobrança, endereço de envio ou endereço IP é suspeito.</li><li>H - Excessivas mudanças de nome. O cliente mudou o nome duas ou mais vezes nos últimos seis meses.</li><li>I - Inconsistências de internet. O endereço IP e de domínio de e-mail não são consistentes com o endereço de cobrança.</li><li>N - Entrada sem sentido. O nome do cliente e os campos de endereço contém palavras sem sentido ou idioma.</li><li>O - Obscenidades. Dados do cliente contém palavras obscenas.</li><li>P - Identidade morphing. Vários valores de um elemento de identidade estão ligados a um valor de um elemento de identidade diferentes. Por exemplo, vários números de telefone estão ligados a um número de conta única.</li><li>Q - Inconsistências do telefone. O número de telefone do cliente é suspeito.</li><li>R - Ordem arriscada. A transação, o cliente e o lojista mostram informações correlacionadas de alto risco.</li><li>T - Cobertura Time. O cliente está a tentar uma compra fora do horário esperado.</li><li>U - Endereço não verificável. O endereço de cobrança ou de entrega não pode ser verificado.</li><li>V - Velocity. O número da conta foi usado muitas vezes nos últimos 15 minutos.</li><li>W - Marcado como suspeito. O endereço de cobrança ou de entrega é semelhante a um endereço previamente marcado como suspeito.</li><li>Y - O endereço, cidade, estado ou país dos endereços de cobrança e entrega não se correlacionam.</li><li>Z - Valor inválido. Como a solicitação contém um valor inesperado, um valor padrão foi substituído. Embora a transação ainda possa ser processada, examinar o pedido com cuidado para detectar anomalias.</li></ul>|
-|`Score`|Score total calculado para o pedido.|Número|---|Número|
-|`BinCountry`|Sigla do país de origem da compra.|Texto|2|us|
-|`CardIssuer`|Nome do banco ou entidade emissora do cartão.|Texto|128|Bradesco|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`Id`|Indentificação da Transação no Antifraud|Texto|300|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|---|2|
+|`FraudAnalysisReasonCode`|Resultado da análise|Byte|---|Número:<br /><ul><li>100 - Operação bem sucedida.</li><li>101 - O pedido está faltando um ou mais campos necessários. Possível ação: Veja os campos que estão faltando na lista AntiFraudResponse.MissingFieldCollection. Reenviar o pedido com a informação completa.</li><li>102 - Um ou mais campos do pedido contêm dados inválidos. Possível ação: Veja os campos inválidos na lista AntiFraudResponse.InvalidFieldCollection. Reenviar o pedido com as informações corretas.</li><li>150 Falha no sistema geral. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>151 - O pedido foi recebido, mas ocorreu time-out no servidor. Este erro não inclui time-out entre o cliente e o servidor. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>152 O pedido foi recebido, mas ocorreu time-out. Possível ação: Aguarde alguns minutos e reenviar o pedido.</li><li>202 – Prevenção à Fraude recusou o pedido porque o cartão expirou. Você também pode receber este código se a data de validade não coincidir com a data em arquivo do banco emissor. Se o processador de pagamento permite a emissão de créditos para cartões expirados, a CyberSource não limita essa funcionalidade. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>231 O número da conta é inválido. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>234 - Há um problema com a configuração do comerciante. Possível ação: Não envie o pedido. Entre em contato com o Suporte ao Cliente para corrigir o problema de configuração.</li><li>400 A pontuação de fraude ultrapassa o seu limite. Possível ação: Reveja o pedido do cliente.</li><li>480 O pedido foi marcado para revisão pelo Gerenciador de Decisão.</li><li>481 - O pedido foi rejeitado pelo Gerenciador de Decisão</li></ul>|
+|`AddressInfoCode`|Combinação de códigos que indicam erro no endereço de cobrança e/ou entrega. Os códigos são concatenados usando o caractere ^|Texto|255|Ex: COR-BA^MM-BIN<br /><ul><li>COR-BA - O endereço de cobrança pode ser normalizado.</li><li>COR-SA - O endereço de entrega pode ser normalizado.</li><li>INTL-BA - O país de cobrança é fora dos U.S.</li><li>INTL-SA - O país de entrega é fora dos U.S.</li><li>MIL-USA - Este é um endereço militar nos U.S.</li><li>MM-A - Os endereços de cobrança e entrega usam nomes de ruas diferentes.</li><li>MM-BIN - O BIN do cartão (os seis primeiros dígitos do número) não corresponde ao país.</li><li>MM-C - Os endereços de cobrança e entrega usam cidades diferentes.</li><li>MM-CO - Os endereços de cobrança e entrega usam países diferentes.</li><li>MM-ST - Os endereços de cobrança e entrega usam estados diferentes.</li><li>MM-Z - Os endereços de cobrança e entrega usam códidos postais diferentes.</li><li>UNV-ADDR - O endereço é inverificável.</li></ul>|
+|`FactorCode`|Combinação de códigos que indicam o score do pedido. Os códigos são concatenados usando o caractere ^|Texto|100|Ex: B^D^R^Z<br /><ul><li>A - Mudança de endereço excessiva. O cliente mudou o endereço de cobrança duas ou mais vezes nos últimos seis meses.</li><li>B - BIN do cartão ou autorização de risco. Os fatores de risco estão relacionados com BIN de cartão de crédito e/ou verificações de autorização do cartão.</li><li>C - Elevado números de cartões de créditos. O cliente tem usado mais de seis números de cartões de créditos nos últimos seis meses.</li><li>D - Impacto do endereço de e-mail. O cliente usa um provedor de e-mail gratuito ou o endereço de email é arriscado.</li><li>E - Lista positiva. O cliente está na sua lista positiva.</li><li>F - Lista negativa. O número da conta, endereço, endereço de e-mail ou endereço IP para este fim aparece sua lista negativa.</li><li>G - Inconsistências de geolocalização. O domínio do cliente de e-mail, número de telefone, endereço de cobrança, endereço de envio ou endereço IP é suspeito.</li><li>H - Excessivas mudanças de nome. O cliente mudou o nome duas ou mais vezes nos últimos seis meses.</li><li>I - Inconsistências de internet. O endereço IP e de domínio de e-mail não são consistentes com o endereço de cobrança.</li><li>N - Entrada sem sentido. O nome do cliente e os campos de endereço contém palavras sem sentido ou idioma.</li><li>O - Obscenidades. Dados do cliente contém palavras obscenas.</li><li>P - Identidade morphing. Vários valores de um elemento de identidade estão ligados a um valor de um elemento de identidade diferentes. Por exemplo, vários números de telefone estão ligados a um número de conta única.</li><li>Q - Inconsistências do telefone. O número de telefone do cliente é suspeito.</li><li>R - Ordem arriscada. A transação, o cliente e o lojista mostram informações correlacionadas de alto risco.</li><li>T - Cobertura Time. O cliente está a tentar uma compra fora do horário esperado.</li><li>U - Endereço não verificável. O endereço de cobrança ou de entrega não pode ser verificado.</li><li>V - Velocity. O número da conta foi usado muitas vezes nos últimos 15 minutos.</li><li>W - Marcado como suspeito. O endereço de cobrança ou de entrega é semelhante a um endereço previamente marcado como suspeito.</li><li>Y - O endereço, cidade, estado ou país dos endereços de cobrança e entrega não se correlacionam.</li><li>Z - Valor inválido. Como a solicitação contém um valor inesperado, um valor padrão foi substituído. Embora a transação ainda possa ser processada, examinar o pedido com cuidado para detectar anomalias.</li></ul>|
+|`Score`|Score total calculado para o pedido|Número|---|Número|
+|`BinCountry`|Sigla do país de origem da compra|Texto|2|us|
+|`CardIssuer`|Nome do banco ou entidade emissora do cartão|Texto|128|Bradesco|
 |`CardScheme`|Tipo da bandeira|Texto|20|<ul><li>MaestroInternational - Maestro International</li><li>MaestroUkDomestic - Maestro UK Domestic</li><li>MastercardCredit - MasterCard Credit</li><li>MastercardDebit - MasterCard Debit</li><li>VisaCredit - Visa Credit</li><li>VisaDebit - Visa Debit</li><li>VisaElectron - Visa Electron</li></ul>|
-|`HostSeverity`|Nível de risco do domínio de e-mail do comprador, de 0 a 5, onde 0 é risco indeterminado e 5 representa o risco mais alto.|Número|---|5|
-|`InternetInfoCode`|Sequência de códigos que indicam que existe uma excessiva alteração de identidades do comprador. Os códigos são concatenados usando o caractere ^.|Texto|255|Ex: <br /><ul><li>MORPH-B - O mesmo endereço de cobrança tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-C - O mesmo número de conta tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-E - O mesmo endereço de e-mail tem sido utilizado várias vezes com identidades de clientes múltiplos. MORPH-I O mesmo endereço IP tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-P - O mesmo número de telefone tem sido usado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-S - O mesmo endereço de entrega tem sido utilizado várias vezes com identidades de clientes múltiplos.</li></ul>|
-|`IpRoutingMethod`|Tipo de roteamento de IP utilizado pelo computador.|Texto|---|<ul><li>Anonymizer</li><li>AolBased</li><li>CacheProxy</li><li>Fixed</li><li>InternationalProxy</li><li>MobileGateway</li><li>Pop</li><li>RegionalProxy</li><li>Satellite</li><li>SuperPop</li></ul>|
-|`ScoreModelUsed`|Nome do modelo de score utilizado.|Texto|20|Ex: default_lac|
-|`CasePriority`|Caso o lojista seja assinante do Enhanced Case Management, ele recebe este valor com o nível de prioridade, sendo 1 o mais alto e 5 o mais baixo.|Número|---|3|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`HostSeverity`|Nível de risco do domínio de e-mail do comprador, de 0 a 5, onde 0 é risco indeterminado e 5 representa o risco mais alto|Número|---|5|
+|`InternetInfoCode`|Sequência de códigos que indicam que existe uma excessiva alteração de identidades do comprador. Os códigos são concatenados usando o caractere ^|Texto|255|Ex: <br /><ul><li>MORPH-B - O mesmo endereço de cobrança tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-C - O mesmo número de conta tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-E - O mesmo endereço de e-mail tem sido utilizado várias vezes com identidades de clientes múltiplos. MORPH-I O mesmo endereço IP tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-P - O mesmo número de telefone tem sido usado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-S - O mesmo endereço de entrega tem sido utilizado várias vezes com identidades de clientes múltiplos.</li></ul>|
+|`IpRoutingMethod`|Tipo de roteamento de IP utilizado pelo computador|Texto|---|<ul><li>Anonymizer</li><li>AolBased</li><li>CacheProxy</li><li>Fixed</li><li>InternationalProxy</li><li>MobileGateway</li><li>Pop</li><li>RegionalProxy</li><li>Satellite</li><li>SuperPop</li></ul>|
+|`ScoreModelUsed`|Nome do modelo de score utilizado|Texto|20|Ex: default_lac|
+|`CasePriority`|Caso o lojista seja assinante do Enhanced Case Management, ele recebe este valor com o nível de prioridade, sendo 1 o mais alto e 5 o mais baixo|Número|---|3|
+|`ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
 
 ## Criando uma venda com Card Token
 
@@ -1630,17 +1587,17 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto | 40 | Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. | Texto | 50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto | 255 |Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. | Texto | 100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).| Número | 15 |Sim|
-|`Payment.Installments`|Número de Parcelas.| Número | 2 |Sim|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)| Número | 15 |Sim|
+|`Payment.Installments`|Número de Parcelas| Número | 2 |Sim|
 |`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador| Texto | 13 |Não|
 |`Payment.ReturnUrl`|URI para onde o usuário será redirecionado após o fim do pagamento|Texto |1024 |Sim quando Authenticate = true|
 |`CreditCard.CardToken`|Token de identificação do Cartão. |Guid |36 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto |10 |Sim|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto |4 |Sim|
+|`CreditCard.Brand`|Bandeira do cartão|Texto |10 |Sim|
 
 ### Resposta
 
@@ -1755,14 +1712,14 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
 |`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação|Texto|2|Exemplos: 7|
+|`Status`|Status da Transação|Byte|---|2|
+|`ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
 
 ## Capturando uma venda
 
@@ -1789,9 +1746,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. | Guid | 36 | Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. | Texto | 40 | Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Campo Identificador do Pedido. | Guid | 36 | Sim|
-|`Amount`|Valor do Pedido (ser enviado em centavos).| Número | 15 | Não|
+|`Amount`|Valor do Pedido (ser enviado em centavos)| Número | 15 | Não|
 |`ServiceTaxAmount`|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização. | Número | 15 | Não|
 
 ### Resposta
@@ -1874,9 +1831,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |Sim|
-|`Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Não|
+|`Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Não|
 
 ### Resposta
 
@@ -1987,17 +1944,17 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento.|Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.ReturnUrl`|Url de retorno do lojista.|Texto |1024 |Sim|
+|`Payment.Type`|Tipo do Meio de Pagamento|Texto |100 |Sim|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.ReturnUrl`|Url de retorno do lojista|Texto |1024 |Sim|
 |`Payment.ReturnUrl`|URI para onde o usuário será redirecionado após o fim do pagamento|Texto |1024 |Sim|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16 |Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25 |Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
+|`CreditCard.CardNumber`|Número do Cartão do comprador|Texto |16 |Sim|
+|`CreditCard.Holder`|Nome do Comprador impresso no cartão|Texto |25 |Sim|
+|`CreditCard.ExpirationDate`|Data de validade impresso no cartão|Texto |7 |Sim|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto |4 |Sim|
 |`CreditCard.Brand`|Bandeira do cartão. |Texto |10 |Sim|
 
 ### Resposta
@@ -2087,7 +2044,7 @@ curl
 |-----------|---------|----|-------|-------|
 |`AuthenticationUrl`|URL para qual o Lojista deve redirecionar o Cliente para o fluxo de Débito. |Texto |56 |Url de Autenticação |
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
-|`ReturnUrl`|Url de retorno do lojista. URL para onde o lojista vai ser redirecionado no final do fluxo.|Texto |1024 |http://www.urllogista.com.br |
+|`ReturnUrl`|Url de retorno do lojista. URL para onde o lojista vai ser redirecionado no final do fluxo|Texto |1024 |http://www.urllogista.com.br |
 |`Status`|Status da Transação. |Byte |--- |0|
 |`ReasonCode`|Código de retorno da Adquirência. |Texto |32 |Texto alfanumérico |
 
@@ -2147,12 +2104,12 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto |15 |---|
 
 ### Resposta
 
@@ -2280,12 +2237,12 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto |15 |---|
 
 ### Resposta
 
@@ -2441,19 +2398,19 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100|Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
-|`Payment.Adress`|Endereço do Cedente.|Texto |255|Não|
-|`Payment.BoletoNumber`|Número do Boleto ("NossoNumero").|Texto |50 |Não|
-|`Payment.Assignor`|Nome do Cedente.|Texto |200|Não|
-|`Payment.Demonstrative`|Texto de Demonstrativo.|Texto |450|Não|
-|`Payment.ExpirationDate`|Data de expiração do Boleto.|Date |10 |Não|
-|`Payment.Identification`|Documento de identificação do Cedente.|Texto |14 |Não|
-|`Payment.Instructions`|Instruções do Boleto.|Texto |450|Não|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto |15 |---|
+|`Payment.Adress`|Endereço do Cedente|Texto |255|Não|
+|`Payment.BoletoNumber`|Número do Boleto ("NossoNumero")|Texto |50 |Não|
+|`Payment.Assignor`|Nome do Cedente|Texto |200|Não|
+|`Payment.Demonstrative`|Texto de Demonstrativo|Texto |450|Não|
+|`Payment.ExpirationDate`|Data de expiração do Boleto|Date |10 |Não|
+|`Payment.Identification`|Documento de identificação do Cedente|Texto |14 |Não|
+|`Payment.Instructions`|Instruções do Boleto|Texto |450|Não|
 
 ### Resposta
 
@@ -2631,22 +2588,22 @@ curl
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |6 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API.|Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantKey`|Chave Publica para Autenticação Dupla no API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Installments`|Número de Parcelas.|Número |2 |Sim|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Installments`|Número de Parcelas|Número |2 |Sim|
 |`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Texto |13 |Não|
-|`Payment.RecurrentPayment.EndDate`|Data para termino da recorrência.|Texto |10 |Não|
+|`Payment.RecurrentPayment.EndDate`|Data para termino da recorrência|Texto |10 |Não|
 |`Payment.RecurrentPayment.Interval`|Intervalo da recorrência.<br /><ul><li>Monthly (Default) </li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |Texto |10 |Não|
-|`Payment.RecurrentPayment.AuthorizeNow`|Booleano para saber se a primeira recorrência já vai ser Autorizada ou não.|Booleano |--- |Sim|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16 |Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25 |Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto |10 |Sim|
+|`Payment.RecurrentPayment.AuthorizeNow`|Booleano para saber se a primeira recorrência já vai ser Autorizada ou não|Booleano |--- |Sim|
+|`CreditCard.CardNumber`|Número do Cartão do comprador|Texto |16 |Sim|
+|`CreditCard.Holder`|Nome do Comprador impresso no cartão|Texto |25 |Sim|
+|`CreditCard.ExpirationDate`|Data de validade impresso no cartão|Texto |7 |Sim|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto |4 |Sim|
+|`CreditCard.Brand`|Bandeira do cartão|Texto |10 |Sim|
 
 ### Resposta
 
@@ -2881,7 +2838,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API |Guid |36|Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API |Texto |40|Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50|Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
 |`Customer.Email`|Email do Comprador. |Texto |255 |Não|
@@ -2889,7 +2846,7 @@ curl
 |`Customer.Identity`|Número do RG, CPF ou CNPJ do Cliente. |Texto |14 |Não|
 |`Customer.Address.Street`|Endereço do Comprador. |Texto |255|Não|
 |`Customer.Address.Number`|Número do endereço do Comprador. |Texto |15 |Não|
-|`Customer.Address.Complement`|Complemento do endereço do Comprador.|Texto |50 |Não|
+|`Customer.Address.Complement`|Complemento do endereço do comprador|Texto |50 |Não|
 |`Customer.Address.ZipCode`|CEP do endereço do Comprador. |Texto |9 |Não|
 |`Customer.Address.City`|Cidade do endereço do Comprador. |Texto |50|Não|
 |`Customer.Address.State`|Estado do endereço do Comprador. |Texto |2 |Não|
@@ -3088,16 +3045,16 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API|Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
 |`Customer.Email`|Email do Comprador. |Texto |255|Não|
 |`Customer.Birthdate`|Data de nascimento do Comprador. |Date |10 |Não|
 |`Customer.Identity`|Número do RG, CPF ou CNPJ do Cliente. |Texto |14 |Não|
-|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ).|
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ)|
 |`Customer.Address.Street`|Endereço do Comprador. |Texto |255 |Não|
 |`Customer.Address.Number`|Número do endereço do Comprador. |Texto |15 |Não|
-|`Customer.Address.Complement`|Complemento do endereço do Comprador.|Texto |50 |Não|
+|`Customer.Address.Complement`|Complemento do endereço do comprador|Texto |50 |Não|
 |`Customer.Address.ZipCode`|CEP do endereço do Comprador. |Texto |9 |Não|
 |`Customer.Address.City`|Cidade do endereço do Comprador. |Texto |50 |Não|
 |`Customer.Address.State`|Estado do endereço do Comprador. |Texto |2 |Não|
@@ -3148,9 +3105,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`EndDate`|Data para termino da recorrência.|Texto |10 |Sim|
+|`EndDate`|Data para termino da recorrência|Texto |10 |Sim|
 
 ### Resposta
 
@@ -3188,9 +3145,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`Installments`|Número de Parcelas.|Número |2 |Sim|
+|`Installments`|Número de Parcelas|Número |2 |Sim|
 
 ### Resposta
 
@@ -3228,7 +3185,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Interval`|Intervalo da recorrência. <ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul>|Número |2 |Sim|
 
@@ -3270,9 +3227,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`RecurrencyDay`|Dia da Recorrência.|Número |2 |Sim|
+|`RecurrencyDay`|Dia da Recorrência|Número |2 |Sim|
 
 ### Resposta
 
@@ -3308,10 +3265,10 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API.|Guid|36|Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API.|Texto|40|Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`RecurrentPaymentId`|Numero de identificação da Recorrência.|Texto|50|Sim|
+|`MerchantId`|Identificador da loja no API|Guid|36|Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla no API|Texto|40|Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RecurrentPaymentId`|Numero de identificação da Recorrência|Texto|50|Sim|
 |`Payment.Amount`|Valor do Pedido em centavos: 156 equivale a R$ 1,56|Número|15|Sim|
 
 <aside class="warning">Essa alteração só afeta a data de pagamento da próxima recorrência.</aside>
@@ -3352,9 +3309,9 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`NextPaymentDate`|Data de pagamento da próxima recorrência.|Texto |10 |Sim|
+|`NextPaymentDate`|Data de pagamento da próxima recorrência|Texto |10 |Sim|
 
 ### Resposta
 
@@ -3422,17 +3379,17 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100|Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Installments`|Número de Parcelas.|Número |2 |Sim|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Installments`|Número de Parcelas|Número |2 |Sim|
 |`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Texto |13|Não|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16|Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25|Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto|10|Sim|
+|`CreditCard.CardNumber`|Número do Cartão do comprador|Texto |16|Sim|
+|`CreditCard.Holder`|Nome do Comprador impresso no cartão|Texto |25|Sim|
+|`CreditCard.ExpirationDate`|Data de validade impresso no cartão|Texto |7 |Sim|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto |4 |Sim|
+|`CreditCard.Brand`|Bandeira do cartão|Texto|10|Sim|
 
 ### Resposta
 
@@ -3465,7 +3422,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 
 ### Resposta
@@ -3499,7 +3456,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 
 ### Resposta
@@ -3535,7 +3492,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Numero de identificação do Pagamento. |Texto |36 |Sim|
 
 ### Resposta
@@ -3651,20 +3608,20 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`Status`|Status da Transação.|Byte|---|2|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`Status`|Status da Transação|Byte|---|2|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Provider`|Texto|15|---|Nome da provedora de Meio de Pagamento|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover)|
 
 ## Consultando uma venda pelo identificador da loja
 
@@ -3691,7 +3648,7 @@ curls
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Campo Identificador do Pedido na Loja. |Texto |36 |Sim|
 
 ### Resposta
@@ -3733,7 +3690,7 @@ curls
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
 
 ## Consultando uma venda Recorrente
 
@@ -3758,7 +3715,7 @@ curl
 |-----------|---------|----|-------|-----------|
 |`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
 |`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Campo Identificador da Recorrência. |Texto |36 |Sim|
 
 ### Resposta
@@ -4120,7 +4077,7 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 |303|Sent OrderId does not exist|---|
 |304|Customer Identity is required|---|
 |306|Merchant is blocked|---|
-|307|Transaction not found|Transação não encontrada ou não existente no ambiente.|
+|307|Transaction not found|Transação não encontrada ou não existente no ambiente|
 |308|Transaction not available to capture|Transação não pode ser capturada - Entre em contato com o suporte Braspag|
 |309|Transaction not available to void|Transação não pode ser Cancelada - Entre em contato com o suporte Braspag|
 |310|Payment method doest not support this operation|Comando enviado não suportado pelo meio de pagamento|
@@ -4134,7 +4091,7 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 |318|No transaction found|---|
 |319|Smart recurrency is not enabled|Recorrencia não vinculada ao cadastro do lojista|
 |320|Can not Update Affiliation Because this Recurrency not Affiliation saved|---|
-|321|Can not set EndDate to before next recurrency.|---|
+|321|Can not set EndDate to before next recurrency|---|
 |322|Zero Dollar Auth is not enabled|Zero Dollar não vinculado ao cadastro do lojista|
 |323|Bin Query is not enabled|Consulta de Bins não vinculada ao cadastro do lojista|
 
@@ -4144,108 +4101,178 @@ Códigos retornados pelo autorizador e que descrevem a autorização ou não da 
 
 |Código Resposta|Definição|Significado|Ação|Permite Retentativa|
 |---------------|---------|-----------|----|-------------------|
-|00|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|000|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|01|Transação não autorizada. Transação referida.|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|02|Transação não autorizada. Transação referida.|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|03|Transação não permitida. Erro no cadastramento do código do estabelecimento no arquivo de configuração do TEF|Transação não permitida. Estabelecimento inválido. Entre com contato com a Braspag.|Não foi possível processar a transação. Entre com contato com a Loja Virtual.|Não|
-|04|Transação não autorizada. Cartão bloqueado pelo banco emissor.|Transação não autorizada. Cartão bloqueado pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|05|Transação não autorizada. Cartão inadimplente (Do not honor).|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|06|Transação não autorizada. Cartão cancelado.|Transação não autorizada. Não foi possível processar a transação. Cartão cancelado permanentemente pelo banco emissor.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|07|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|08|Transação não autorizada. Código de segurança inválido.|Transação não autorizada. Código de segurança inválido. Oriente o portador a corrigir os dados e tentar novamente.|Transação não autorizada. Dados incorretos. Reveja os dados e informe novamente.|Não|
-|11|Transação autorizada com sucesso para cartão emitido no exterior|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|12|Transação inválida, erro no cartão.|Não foi possível processar a transação. Solicite ao portador que verifique os dados do cartão e tente novamente.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|13|Transação não permitida. Valor da transação Inválido.|Transação não permitida. Valor inválido. Solicite ao portador que reveja os dados e novamente. Se o erro persistir, entre em contato com a Braspag.|Transação não autorizada. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|14|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor, dados incorretos ou tentativas de testes de cartão. Use o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo. Consulte www.Braspag.com.br/desenvolvedores para implantar o Algoritmo de Lhum.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|15|Banco emissor indisponível ou inexistente.|Transação não autorizada. Banco emissor indisponível.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|19|Refaça a transação ou tente novamente mais tarde.|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|21|Cancelamento não efetuado. Transação não localizada.|Não foi possível processar o cancelamento. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar o cancelamento. Tente novamente mais tarde. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|22|Parcelamento inválido. Número de parcelas inválidas.|Não foi possível processar a transação. Número de parcelas inválidas. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|23|Transação não autorizada. Valor da prestação inválido.|Não foi possível processar a transação. Valor da prestação inválido. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Valor da prestação inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|24|Quantidade de parcelas inválido.|Não foi possível processar a transação. Quantidade de parcelas inválido. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Quantidade de parcelas inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|25|Pedido de autorização não enviou número do cartão|Não foi possível processar a transação. Solicitação de autorização não enviou o número do cartão. Se o erro persistir, verifique a comunicação entre loja virtual e Braspag.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Persistindo o erro, entrar em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|28|Arquivo temporariamente indisponível.|Não foi possível processar a transação. Arquivo temporariamente indisponível. Reveja a comunicação entre Loja Virtual e Braspag. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Entre com contato com a Loja Virtual.|Apenas 4 vezes em 16 dias.|
-|39|Transação não autorizada. Erro no banco emissor.|Transação não autorizada. Erro no banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|41|Transação não autorizada. Cartão bloqueado por perda.|Transação não autorizada. Cartão bloqueado por perda.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|43|Transação não autorizada. Cartão bloqueado por roubo.|Transação não autorizada. Cartão bloqueado por roubo.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|51|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|52|Cartão com dígito de controle inválido.|Não foi possível processar a transação. Cartão com dígito de controle inválido.|Transação não autorizada. Reveja os dados informados e tente novamente.|Não|
-|53|Transação não permitida. Cartão poupança inválido|Transação não permitida. Cartão poupança inválido.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|54|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|55|Transação não autorizada. Senha inválida|Transação não autorizada. Senha inválida.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|57|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|58|Transação não permitida. Opção de pagamento inválida.|Transação não permitida. Opção de pagamento inválida. Reveja se a opção de pagamento escolhida está habilitada no cadastro|Transação não autorizada. Entre em contato com sua loja virtual.|Não|
-|59|Transação não autorizada. Suspeita de fraude.|Transação não autorizada. Suspeita de fraude.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|60|Transação não autorizada.|Transação não autorizada. Tente novamente. Se o erro persistir o portador deve entrar em contato com o banco emissor.|Não foi possível processar a transação. Tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|61|Banco emissor Visa indisponível.|Transação não autorizada. Banco emissor Visa indisponível.|Transação não autorizada. Tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|62|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Cartão restrito para uso doméstico.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|63|Transação não autorizada. Violação de segurança|Transação não autorizada. Violação de segurança.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|64|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor.|Não|
-|65|Transação não autorizada. Excedida a quantidade de transações para o cartão.|Transação não autorizada. Excedida a quantidade de transações para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|67|Transação não autorizada. Cartão bloqueado para compras hoje.|Transação não autorizada. Cartão bloqueado para compras hoje. Bloqueio pode ter ocorrido por excesso de tentativas inválidas. O cartão será desbloqueado automaticamente à meia noite.|Transação não autorizada. Cartão bloqueado temporariamente. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|70|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|72|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente.|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente. Se o erro persistir, entre em contato com a Braspag.|Cancelamento não efetuado. Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|74|Transação não autorizada. A senha está vencida.|Transação não autorizada. A senha está vencida.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|75|Senha bloqueada. Excedeu tentativas de cartão.|Transação não autorizada.|Sua Transação não pode ser processada. Entre em contato com o Emissor do seu cartão.|Não|
-|76|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual.|Não|
-|77|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual.|Não|
-|78|Transação não autorizada. Cartão bloqueado primeiro uso.|Transação não autorizada. Cartão bloqueado primeiro uso. Solicite ao portador que desbloqueie o cartão diretamente com seu banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor e solicite o desbloqueio do cartão.|Não|
-|80|Transação não autorizada. Divergencia na data de transação/pagamento.|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|82|Transação não autorizada. Cartão inválido.|Transação não autorizada. Cartão Inválido. Solicite ao portador que reveja os dados e tente novamente.|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|83|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|85|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|86|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|89|Erro na transação.|Transação não autorizada. Erro na transação. O portador deve tentar novamente e se o erro persistir, entrar em contato com o banco emissor.|Transação não autorizada. Erro na transação. Tente novamente e se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|90|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|91|Transação não autorizada. Banco emissor temporariamente indisponível.|Transação não autorizada. Banco emissor temporariamente indisponível.|Transação não autorizada. Banco emissor temporariamente indisponível. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|92|Transação não autorizada. Tempo de comunicação excedido.|Transação não autorizada. Tempo de comunicação excedido.|Transação não autorizada. Comunicação temporariamente indisponível. Entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|93|Transação não autorizada. Violação de regra - Possível erro no cadastro.|Transação não autorizada. Violação de regra - Possível erro no cadastro.|Sua transação não pode ser processada. Entre em contato com a loja virtual.|Não|
-|96|Falha no processamento.|Não foi possível processar a transação. Falha no sistema da Braspag. Se o erro persistir, entre em contato com a Braspag.|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|97|Valor não permitido para essa transação.|Transação não autorizada. Valor não permitido para essa transação.|Transação não autorizada. Valor não permitido para essa transação.|Não|
-|98|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Se for geral, verificar SITEF, GATEWAY e/ou Conectividade.|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|99|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|999|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|AA|Tempo Excedido|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor.|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco.|Apenas 4 vezes em 16 dias.|
-|AC|Transação não permitida. Cartão de débito sendo usado com crédito. Use a função débito.|Transação não permitida. Cartão de débito sendo usado com crédito. Solicite ao portador que selecione a opção de pagamento Cartão de Débito.|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de débito.|Não|
-|AE|Tente Mais Tarde|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor.|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco.|Apenas 4 vezes em 16 dias.|
-|AF|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|AG|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|AH|Transação não permitida. Cartão de crédito sendo usado com débito. Use a função crédito.|Transação não permitida. Cartão de crédito sendo usado com débito. Solicite ao portador que selecione a opção de pagamento Cartão de Crédito.|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de crédito.|Não|
-|AI|Transação não autorizada. Autenticação não foi realizada.|Transação não autorizada. Autenticação não foi realizada. O portador não concluiu a autenticação. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir, entre em contato com a Braspag informando o BIN (6 primeiros dígitos do cartão)|Transação não autorizada. Autenticação não foi realizada com sucesso. Tente novamente e informe corretamente os dados solicitado. Se o erro persistir, entre em contato com o lojista.|Não|
-|AJ|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente selecionando a opção Private Label.|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Solicite ao portador que tente novamente selecionando a opção Private Label. Caso não disponibilize a opção Private Label verifique na Braspag se o seu estabelecimento permite essa operação.|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente e selecione a opção Private Label. Em caso de um novo erro entre em contato com a loja virtual.|Não|
-|AV|Transação não autorizada. Dados Inválidos|Falha na validação dos dados da transação. Oriente o portador a rever os dados e tentar novamente.|Falha na validação dos dados. Reveja os dados informados e tente novamente.|Apenas 4 vezes em 16 dias.|
-|BD|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|BL|Transação não autorizada. Limite diário excedido.|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor.|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|BM|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor ou dados incorretos. Tente usar o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo.|Transação não autorizada. Cartão inválido.  Refaça a transação confirmando os dados informados.|Não|
-|BN|Transação não autorizada. Cartão ou conta bloqueado.|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Solicite ao portador que entre em contato com  seu banco emissor.|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Entre em contato com  seu banco emissor.|Não|
-|BO|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor.|Transação não permitida. Houve um erro no processamento. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor.|Apenas 4 vezes em 16 dias.|
-|BP|Transação não autorizada. Conta corrente inexistente.|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Entre em contato com o banco emissor.|Não|
-|BV|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|CF|Transação não autorizada.C79:J79 Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|CG|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DA|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DF|Transação não permitida. Falha no cartão ou cartão inválido.|Transação não permitida. Falha no cartão ou cartão inválido. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Transação não permitida. Falha no cartão ou cartão inválido. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Apenas 4 vezes em 16 dias.|
-|DM|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|DQ|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DS|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|EB|Transação não autorizada. Limite diário excedido.|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor.|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|EE|Transação não permitida. Valor da parcela inferior ao mínimo permitido.|Transação não permitida. Valor da parcela inferior ao mínimo permitido. Não é permitido parcelas inferiores a R$ 5,00. Necessário rever calculo para parcelas.|Transação não permitida. O valor da parcela está abaixo do mínimo permitido. Entre em contato com a loja virtual.|Não|
-|EK|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|FA|Transação não autorizada. |Transação não autorizada AmEx.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|FC|Transação não autorizada. Ligue Emissor|Transação não autorizada. Oriente o portador a entrar em contato com o banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|FD|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|FE|Transação não autorizada. Divergencia na data de transação/pagamento.|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|FF|Cancelamento OK|Transação de cancelamento autorizada com sucesso. ATENÇÂO: Esse retorno é para casos de cancelamentos e não para casos de autorizações.|Transação de cancelamento autorizada com sucesso|Não|
-|FG|Transação não autorizada. Ligue AmEx.|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx.|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|FG|Ligue 08007285090|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx.|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|GA|Aguarde Contato|Transação não autorizada. Referida pelo Lynx Online de forma preventiva. A Braspag entrará em contato com o lojista sobre esse caso.|Transação não autorizada. Entre em contato com o lojista.|Não|
-|HJ|Transação não permitida. Código da operação inválido.|Transação não permitida. Código da operação Coban inválido.|Transação não permitida. Código da operação Coban inválido. Entre em contato com o lojista.|Não|
-|IA|Transação não permitida. Indicador da operação inválido.|Transação não permitida. Indicador da operação Coban inválido.|Transação não permitida. Indicador da operação Coban inválido. Entre em contato com o lojista.|Não|
-|JB|Transação não permitida. Valor da operação inválido.|Transação não permitida. Valor da operação Coban inválido.|Transação não permitida. Valor da operação Coban inválido. Entre em contato com o lojista.|Não|
-|KA|Transação não permitida. Falha na validação dos dados.|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag.|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
-|KB|Transação não permitida. Selecionado a opção incorrente.|Transação não permitida. Selecionado a opção incorreta. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir deve ser verificado a comunicação entre loja virtual e Braspag.|Transação não permitida. Selecionado a opção incorreta. Tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
-|KE|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Verifique as opções disponíveis para o portador.|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Entre em contato com a loja virtual.|Não|
-|N7|Transação não autorizada. Código de segurança inválido.|Transação não autorizada. Código de segurança inválido. Oriente o portador corrigir os dados e tentar novamente.|Transação não autorizada. Reveja os dados e informe novamente.|Não|
-|R1|Transação não autorizada. Cartão inadimplente (Do not honor).|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|U3|Transação não permitida. Falha na validação dos dados.|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag.|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
+|00|Transação autorizada com sucesso|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
+|000|Transação autorizada com sucesso|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
+|01|Transação não autorizada. Transação referida|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|02|Transação não autorizada. Transação referida|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|03|Transação não permitida. Erro no cadastramento do código do estabelecimento no arquivo de configuração do TEF|Transação não permitida. Estabelecimento inválido. Entre com contato com a Braspag|Não foi possível processar a transação. Entre com contato com a Loja Virtual|Não|
+|04|Transação não autorizada. Cartão bloqueado pelo banco emissor|Transação não autorizada. Cartão bloqueado pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|05|Transação não autorizada. Cartão inadimplente (Do not honor)|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|06|Transação não autorizada. Cartão cancelado|Transação não autorizada. Não foi possível processar a transação. Cartão cancelado permanentemente pelo banco emissor|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
+|07|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|08|Transação não autorizada. Código de segurança inválido|Transação não autorizada. Código de segurança inválido. Oriente o portador a corrigir os dados e tentar novamente|Transação não autorizada. Dados incorretos. Reveja os dados e informe novamente|Não|
+|11|Transação autorizada com sucesso para cartão emitido no exterior|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
+|12|Transação inválida, erro no cartão|Não foi possível processar a transação. Solicite ao portador que verifique os dados do cartão e tente novamente|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Não|
+|13|Transação não permitida. Valor da transação Inválido|Transação não permitida. Valor inválido. Solicite ao portador que reveja os dados e novamente. Se o erro persistir, entre em contato com a Braspag|Transação não autorizada. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
+|14|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor, dados incorretos ou tentativas de testes de cartão. Use o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo. Consulte www.Braspag.com.br/desenvolvedores para implantar o Algoritmo de Lhum|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Não|
+|15|Banco emissor indisponível ou inexistente|Transação não autorizada. Banco emissor indisponível|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
+|19|Refaça a transação ou tente novamente mais tarde|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
+|21|Cancelamento não efetuado. Transação não localizada|Não foi possível processar o cancelamento. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar o cancelamento. Tente novamente mais tarde. Persistindo o erro, entrar em contato com a loja virtual|Não|
+|22|Parcelamento inválido. Número de parcelas inválidas|Não foi possível processar a transação. Número de parcelas inválidas. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
+|23|Transação não autorizada. Valor da prestação inválido|Não foi possível processar a transação. Valor da prestação inválido. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Valor da prestação inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
+|24|Quantidade de parcelas inválido|Não foi possível processar a transação. Quantidade de parcelas inválido. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Quantidade de parcelas inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
+|25|Pedido de autorização não enviou número do cartão|Não foi possível processar a transação. Solicitação de autorização não enviou o número do cartão. Se o erro persistir, verifique a comunicação entre loja virtual e Braspag|Não foi possível processar a transação. reveja os dados informados e tente novamente. Persistindo o erro, entrar em contato com a loja virtual|Apenas 4 vezes em 16 dias|
+|28|Arquivo temporariamente indisponível|Não foi possível processar a transação. Arquivo temporariamente indisponível. Reveja a comunicação entre Loja Virtual e Braspag. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Entre com contato com a Loja Virtual|Apenas 4 vezes em 16 dias|
+|39|Transação não autorizada. Erro no banco emissor|Transação não autorizada. Erro no banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|41|Transação não autorizada. Cartão bloqueado por perda|Transação não autorizada. Cartão bloqueado por perda|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|43|Transação não autorizada. Cartão bloqueado por roubo|Transação não autorizada. Cartão bloqueado por roubo|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|51|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|52|Cartão com dígito de controle inválido|Não foi possível processar a transação. Cartão com dígito de controle inválido|Transação não autorizada. Reveja os dados informados e tente novamente|Não|
+|53|Transação não permitida. Cartão poupança inválido|Transação não permitida. Cartão poupança inválido|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
+|54|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido|Transação não autorizada. Refazer a transação confirmando os dados|Não|
+|55|Transação não autorizada. Senha inválida|Transação não autorizada. Senha inválida|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|57|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|58|Transação não permitida. Opção de pagamento inválida|Transação não permitida. Opção de pagamento inválida. Reveja se a opção de pagamento escolhida está habilitada no cadastro|Transação não autorizada. Entre em contato com sua loja virtual|Não|
+|59|Transação não autorizada. Suspeita de fraude|Transação não autorizada. Suspeita de fraude|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|60|Transação não autorizada|Transação não autorizada. Tente novamente. Se o erro persistir o portador deve entrar em contato com o banco emissor|Não foi possível processar a transação. Tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|61|Banco emissor Visa indisponível|Transação não autorizada. Banco emissor Visa indisponível|Transação não autorizada. Tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|62|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|63|Transação não autorizada. Violação de segurança|Transação não autorizada. Violação de segurança|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|64|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor|Não|
+|65|Transação não autorizada. Excedida a quantidade de transações para o cartão|Transação não autorizada. Excedida a quantidade de transações para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|67|Transação não autorizada. Cartão bloqueado para compras hoje|Transação não autorizada. Cartão bloqueado para compras hoje. Bloqueio pode ter ocorrido por excesso de tentativas inválidas. O cartão será desbloqueado automaticamente à meia noite|Transação não autorizada. Cartão bloqueado temporariamente. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|70|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|72|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente. Se o erro persistir, entre em contato com a Braspag|Cancelamento não efetuado. Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Não|
+|74|Transação não autorizada. A senha está vencida|Transação não autorizada. A senha está vencida|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|75|Senha bloqueada. Excedeu tentativas de cartão|Transação não autorizada|Sua Transação não pode ser processada. Entre em contato com o Emissor do seu cartão|Não|
+|76|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual|Não|
+|77|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual|Não|
+|78|Transação não autorizada. Cartão bloqueado primeiro uso|Transação não autorizada. Cartão bloqueado primeiro uso. Solicite ao portador que desbloqueie o cartão diretamente com seu banco emissor|Transação não autorizada. Entre em contato com seu banco emissor e solicite o desbloqueio do cartão|Não|
+|80|Transação não autorizada. Divergencia na data de transação/pagamento|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida|Transação não autorizada. Refazer a transação confirmando os dados|Não|
+|82|Transação não autorizada. Cartão inválido|Transação não autorizada. Cartão Inválido. Solicite ao portador que reveja os dados e tente novamente|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor|Não|
+|83|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor|Não|
+|85|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|86|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|89|Erro na transação|Transação não autorizada. Erro na transação. O portador deve tentar novamente e se o erro persistir, entrar em contato com o banco emissor|Transação não autorizada. Erro na transação. Tente novamente e se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|90|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|91|Transação não autorizada. Banco emissor temporariamente indisponível|Transação não autorizada. Banco emissor temporariamente indisponível|Transação não autorizada. Banco emissor temporariamente indisponível. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|92|Transação não autorizada. Tempo de comunicação excedido|Transação não autorizada. Tempo de comunicação excedido|Transação não autorizada. Comunicação temporariamente indisponível. Entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
+|93|Transação não autorizada. Violação de regra - Possível erro no cadastro|Transação não autorizada. Violação de regra - Possível erro no cadastro|Sua transação não pode ser processada. Entre em contato com a loja virtual|Não|
+|96|Falha no processamento|Não foi possível processar a transação. Falha no sistema da Braspag. Se o erro persistir, entre em contato com a Braspag|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
+|97|Valor não permitido para essa transação|Transação não autorizada. Valor não permitido para essa transação|Transação não autorizada. Valor não permitido para essa transação|Não|
+|98|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Se for geral, verificar SITEF, GATEWAY e/ou Conectividade|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
+|99|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|999|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|AA|Tempo Excedido|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco|Apenas 4 vezes em 16 dias|
+|AC|Transação não permitida. Cartão de débito sendo usado com crédito. Use a função débito|Transação não permitida. Cartão de débito sendo usado com crédito. Solicite ao portador que selecione a opção de pagamento Cartão de Débito|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de débito|Não|
+|AE|Tente Mais Tarde|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco|Apenas 4 vezes em 16 dias|
+|AF|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|AG|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|AH|Transação não permitida. Cartão de crédito sendo usado com débito. Use a função crédito|Transação não permitida. Cartão de crédito sendo usado com débito. Solicite ao portador que selecione a opção de pagamento Cartão de Crédito|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de crédito|Não|
+|AI|Transação não autorizada. Autenticação não foi realizada|Transação não autorizada. Autenticação não foi realizada. O portador não concluiu a autenticação. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir, entre em contato com a Braspag informando o BIN (6 primeiros dígitos do cartão)|Transação não autorizada. Autenticação não foi realizada com sucesso. Tente novamente e informe corretamente os dados solicitado. Se o erro persistir, entre em contato com o lojista|Não|
+|AJ|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente selecionando a opção Private Label|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Solicite ao portador que tente novamente selecionando a opção Private Label. Caso não disponibilize a opção Private Label verifique na Braspag se o seu estabelecimento permite essa operação|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente e selecione a opção Private Label. Em caso de um novo erro entre em contato com a loja virtual|Não|
+|AV|Transação não autorizada. Dados Inválidos|Falha na validação dos dados da transação. Oriente o portador a rever os dados e tentar novamente|Falha na validação dos dados. Reveja os dados informados e tente novamente|Apenas 4 vezes em 16 dias|
+|BD|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
+|BL|Transação não autorizada. Limite diário excedido|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|BM|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor ou dados incorretos. Tente usar o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo|Transação não autorizada. Cartão inválido.  Refaça a transação confirmando os dados informados|Não|
+|BN|Transação não autorizada. Cartão ou conta bloqueado|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Solicite ao portador que entre em contato com  seu banco emissor|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Entre em contato com  seu banco emissor|Não|
+|BO|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor|Transação não permitida. Houve um erro no processamento. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor|Apenas 4 vezes em 16 dias|
+|BP|Transação não autorizada. Conta corrente inexistente|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Entre em contato com o banco emissor|Não|
+|BV|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido|Transação não autorizada. Refazer a transação confirmando os dados|Não|
+|CF|Transação não autorizada.C79:J79 Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
+|CG|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
+|DA|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
+|DF|Transação não permitida. Falha no cartão ou cartão inválido|Transação não permitida. Falha no cartão ou cartão inválido. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Transação não permitida. Falha no cartão ou cartão inválido. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Apenas 4 vezes em 16 dias|
+|DM|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|DQ|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
+|DS|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|EB|Transação não autorizada. Limite diário excedido|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
+|EE|Transação não permitida. Valor da parcela inferior ao mínimo permitido|Transação não permitida. Valor da parcela inferior ao mínimo permitido. Não é permitido parcelas inferiores a R$ 5,00. Necessário rever calculo para parcelas|Transação não permitida. O valor da parcela está abaixo do mínimo permitido. Entre em contato com a loja virtual|Não|
+|EK|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|FA|Transação não autorizada. |Transação não autorizada AmEx|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|FC|Transação não autorizada. Ligue Emissor|Transação não autorizada. Oriente o portador a entrar em contato com o banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|FD|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
+|FE|Transação não autorizada. Divergencia na data de transação/pagamento|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida|Transação não autorizada. Refazer a transação confirmando os dados|Não|
+|FF|Cancelamento OK|Transação de cancelamento autorizada com sucesso. ATENÇÂO: Esse retorno é para casos de cancelamentos e não para casos de autorizações|Transação de cancelamento autorizada com sucesso|Não|
+|FG|Transação não autorizada. Ligue AmEx|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
+|FG|Ligue 08007285090|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
+|GA|Aguarde Contato|Transação não autorizada. Referida pelo Lynx Online de forma preventiva. A Braspag entrará em contato com o lojista sobre esse caso|Transação não autorizada. Entre em contato com o lojista|Não|
+|HJ|Transação não permitida. Código da operação inválido|Transação não permitida. Código da operação Coban inválido|Transação não permitida. Código da operação Coban inválido. Entre em contato com o lojista|Não|
+|IA|Transação não permitida. Indicador da operação inválido|Transação não permitida. Indicador da operação Coban inválido|Transação não permitida. Indicador da operação Coban inválido. Entre em contato com o lojista|Não|
+|JB|Transação não permitida. Valor da operação inválido|Transação não permitida. Valor da operação Coban inválido|Transação não permitida. Valor da operação Coban inválido. Entre em contato com o lojista|Não|
+|KA|Transação não permitida. Falha na validação dos dados|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
+|KB|Transação não permitida. Selecionado a opção incorrente|Transação não permitida. Selecionado a opção incorreta. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir deve ser verificado a comunicação entre loja virtual e Braspag|Transação não permitida. Selecionado a opção incorreta. Tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
+|KE|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Verifique as opções disponíveis para o portador|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Entre em contato com a loja virtual|Não|
+|N7|Transação não autorizada. Código de segurança inválido|Transação não autorizada. Código de segurança inválido. Oriente o portador corrigir os dados e tentar novamente|Transação não autorizada. Reveja os dados e informe novamente|Não|
+|R1|Transação não autorizada. Cartão inadimplente (Do not honor)|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
+|U3|Transação não permitida. Falha na validação dos dados|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
+
+# Post de Notificação
+
+Para receber a notificação de modificação de status deve-se ter configurado no admin o campo URL Status Pagamento para receber os parâmetros conforme o exemplo ao lado.
+
+Resposta esperada da Loja: HTTP Status Code 200 OK
+
+Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes enviar o Post de Notificação.
+
+```json
+{
+   "PaymentId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+   "ChangeType": "1"
+}
+```
+
+|ChangeType|Descrição|
+|----------|---------|
+|1|Mudança de status do pagamento|
+|2|Recorrência criada|
+|3|Mudança de status do antiFraud|
+
+# Anexos
+
+## Glossário
+
+Para facilitar o entendimento, listamos abaixo um pequeno glossário com os principais termos relacionados ao eCommerce, ao mercado de cartões e adquirencia:
+
+* **AUTORIZAÇÃO**: A autorização é a principal operação no e-commerce, é através dela que uma venda pode ser concretizada. Existe a possibilidade de realizar uma pré-autorização que apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
+* **CAPTURA**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através da operação de captura que se efetiva uma pré-autorização, podendo esta ser executada, em média, em até 5 dias após a data da pré-autorização.
+* **CANCELAMENTO** / **ESTORNO**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura. *É considerado estorno ao realizar a chamada após as 23:59:59 da data da autorização/captura.*
+* **AUTENTICAÇÃO**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco o risco de fraude.
+* **CARTÃO PROTEGIDO**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de “token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como “Compra com 1 clique” e “Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
+* **ANTIFRAUDE**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
+* **RECORRENTE**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
+É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
+* **RENOVA FÁCIL**: O serviço Renova Fácil traz garantia e tranquilidade à estabelecimentos que utilizam a aquirencia da Cielo e que efetuam vendas recorrentes.
+Ele possibilita a atualização do número do cartão do cliente, cuja numeração ou validade tenha sido alterada, eliminando a necessidade de contato com o cliente no momento da renovação do serviço e reduzindo o número de transações negadas. Com o Renova Fácil você garante as transações e oferece mais comodidade a seus clientes. A funcionalidade do Renova Fácil é transparente para o lojista e para o cliente final. Toda a integração fica do nosso lado, onde conseguimos atualizar os novos dados do cartão e submeter a transação com a informação atualizada.
+
+### Renova Fácil
+
+O serviço do Renova Fácil precisa está habilitado junto a Cielo. Bancos Emissores participantes:
+
+* Bradesco
+* Banco do Brasil
+* Santander
+* Panamericano
+* Citi
+
+
+## Meio de Pagamento Simulado
+
+O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.
+
+Para melhor utilização do Meio de Pagamento Simulado, estamos disponibilizando cartões de testes na tabela abaixo.
+
+Os status das transações serão conforme a utilização de cada cartão.
+
+|Status da Transação|Cartões para realização dos testes|Código de Retorno|Mensagem de Retorno|
+|-------------------|----------------------------------|-----------------|-------------------|
+|Autorizado|0000.0000.0000.0001 / 0000.0000.0000.0004|4|Operação realizada com sucesso|
+|Não Autorizado|0000.0000.0000.0002|2|Não Autorizada|
+|Autorização Aleatória|0000.0000.0000.0009|4 / 99|Operation Successful / Time Out|
+|Não Autorizado|0000.0000.0000.0007|77|Cartão Cancelado|
+|Não Autorizado|0000.0000.0000.0008|70|Problemas com o Cartão de Crédito|
+|Não Autorizado|0000.0000.0000.0005|78|Cartão Bloqueado|
+|Não Autorizado|0000.0000.0000.0003|57|Cartão Expirado|
+|Não Autorizado|0000.0000.0000.0006|99|Time Out|
+
+As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).
