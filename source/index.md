@@ -8,7 +8,7 @@ language_tabs:
 search: true
 ---
 
-# Integração Pagador API
+# Introdução ao Pagador API
 
 O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API do Pagador, gateway de pagamentos da Braspag, descrevendo os serviços disponíveis com exemplos de requisição e respostas.
 
@@ -32,7 +32,7 @@ Valide seu desenvolvimento junto à nossa equipe!
 
 |Informação|Descrição|
 |----------|---------|
-|Credenciais de Acesso à API|Consulte-nos!|
+|Credenciais de Acesso à API|Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!|
 |Endpoint Transacional|https://apihomolog.braspag.com.br/|
 |Endpoint para Serviços de Consultas|https://apiqueryhomolog.braspag.com.br/|
 
@@ -42,7 +42,7 @@ Já estou pronto para entrar em Produção!
 
 |Informação|Descrição|
 |----------|---------|
-|Credenciais de Acesso à API|Consulte-nos!|
+|Credenciais de Acesso à API|Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!|
 |Endpoint Transacional|https://api.braspag.com.br/|
 |Endpoint para Serviços de Consultas|https://apiquery.braspag.com.br/|
 
@@ -53,10 +53,6 @@ Já estou pronto para entrar em Produção!
 * Atendimento Web: [Suporte Braspag via Portal](http://suporte.braspag.com.br/)
 * E-mail: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
 * Telefone: (11)2184-0550
-
-# Visão Geral
-
-Aqui você pode encontrar detalhamentos de todas as operações disponíveis na API REST do Pagador. Essas operações podem ser executadas utilizando sua chave específica nos ambientes (Sandbox, Homologação ou Produção).
 
 ## Características da Solução
 
@@ -86,16 +82,17 @@ Para que você possa desfrutar de todos os recursos disponíveis em nossa API, �
 * **Autorização**: A autorização (ou pré-autorização) é uma operação que viabiliza o processamento de uma venda com um cartão de crédito.A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança na fatura para o consumidor. Desta forma, é necessário uma segunda operação, chamada 'captura'. 
 * **Captura**: Ao realizar uma pré-autorização, é necessário confirmá-la para que a cobrança seja efetivada. O tempo limite para capturar uma transação pré-autorizada varia de adquirente para adquirente, que pode ser por exemplo, de até 5 dias após a data da pré-autorização.
 * **Captura Automática**: É quando uma transação é autorizada e capturada no mesmo momento, isentando do lojista enviar uma confirmação posterior.
+
+<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada.</aside>
+
 * **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
 * **Estorno**: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de 'chargeback' pela adquirente. 
+
+<aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
+
 * **Autenticação**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.
 * **Cartão Protegido**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de "token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como "Compra com 1 clique” e "Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
 * **Antifraude**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
-* **Recorrente**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
-
-<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada.</aside>
-<aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
 
 ## Criando uma transação básica
 
@@ -129,7 +126,7 @@ Exemplo de uma transação com dados obrigatórios para um simples processamento
 
 ```shell
 curl
---request POST "https://apihomolog.braspag.com.br/v2/sales/"
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -215,17 +212,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
       }
     ]
   }
@@ -274,17 +271,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
       }
     ]
   }
@@ -565,12 +562,12 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
       }
     ]
   }
@@ -657,12 +654,12 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
       }
     ]
   }
@@ -810,7 +807,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
       }
     ]
   }
@@ -858,7 +855,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
       }
     ]
   }
@@ -1353,7 +1350,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
       }
     ]
   }
@@ -1502,7 +1499,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
       }
     ]
   }
@@ -1659,17 +1656,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
       }
     ]
   }
@@ -1723,17 +1720,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
       }
     ]
   }
@@ -1866,17 +1863,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
       }
     ]
   }
@@ -1923,17 +1920,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
       }
     ]
   }
@@ -2124,7 +2121,7 @@ curl
 
 ## Criando uma transação
 
-Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um Cartão de Crédito, porém, é obrigatório submetê-la ao processo de autenticação. 
+Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um Cartão de Crédito, porém, é obrigatório submetê-la ao processo de autenticação. <BR><BR>Atualmente, somente o Provider "Cielo" ou "Cielo30" suportam processamento desta modalidade.
 
 ### Requisição
 
@@ -2151,7 +2148,6 @@ Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um
      }
    }
 }
---verbose
 ```
 
 ```shell
@@ -2237,12 +2233,12 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
       }
     ]
   }
@@ -2284,12 +2280,12 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
       }
     ]
   }
@@ -2310,7 +2306,7 @@ curl
 |`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 |`AuthenticationUrl`|URL para o qual o portador será redirecionado para autenticação |Texto |56 |https://qasecommerce.cielo.com.br/web/index.cbmp?id=13fda1da8e3d90d3d0c9df8820b96a7f|
 
-# Pagamentos com Transferência Eletrônica (Débito Online)
+# Pagamentos com Transferência Eletrônica<BR>(Débito Online)
 	
 ## Criando uma transação
 
@@ -2608,7 +2604,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
       }
     ]
   }
@@ -2649,7 +2645,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
       }
     ]
   }
@@ -2819,7 +2815,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
       }
     ]
   }
@@ -2872,7 +2868,7 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
       }
     ]
   }
@@ -2891,6 +2887,9 @@ curl
 |`Status`|Status da Transação. |Byte |--- |1|
 
 # Pagamentos Recorrentes
+
+* **Recorrente**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
+É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
 
 ## Autorizar uma transação e agendar as próximas recorrências
 
@@ -3037,17 +3036,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
       }
     ]
   }
@@ -3110,17 +3109,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
       }
     ]
   }
@@ -3865,17 +3864,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
       }
     ]
   }
@@ -3920,17 +3919,17 @@ curl
       {
         "Method": "GET",
         "Rel": "self",
-        "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
       },
       {
         "Method": "PUT",
         "Rel": "capture",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
       },
       {
         "Method": "PUT",
         "Rel": "void",
-        "Href": "https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
       }
     ]
   }
@@ -4128,7 +4127,7 @@ curl
           {
             "Method": "GET",
             "Rel": "self",
-            "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
+            "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
           }
         ]
       }
@@ -4179,7 +4178,7 @@ curl
           {
             "Method": "GET",
             "Rel": "self",
-            "Href": "https://apiqueryhomolog.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
+            "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
           }
         ]
       }
@@ -4242,79 +4241,79 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 
 ### Providers para Crédito
 
-* Simulado
-* Cielo
-    * Visa
-    * Master
-    * Amex
-    * Elo
-    * Aura
-    * Jcb
-    * Diners
-    * Discover
-* Cielo30 (Cielo 3.0)
-    * Visa
-    * Master
-    * Amex
-    * Elo
-    * Aura
-    * Jcb
-    * Diners
-    * Discover	
-* Redecard (Komerci)
-    * Visa
-    * Master
-    * Hipercard
-    * Hiper
-    * Diners
-* Rede (e-Rede)
-    * Visa
-    * Master
-    * Hipercard
-    * Hiper
-    * Diners
-* RedeSitef
-    * Visa
-    * Master
-    * Hipercard
-    * Diners
-* CieloSitef
-    * Visa
-    * Master
-    * Amex
-    * Elo
-    * Aura
-    * Jcb
-    * Diners
-    * Discover
-* SantanderSitef
-    * Visa
-    * Master
+|Provider|Brand|
+|--------|-----|
+|Simulado|---|
+|Cielo|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|Cielo30 (Cielo 3.0)|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|Redecard (Komerci)|Visa, Master, Hipercard, Hiper, Diners|
+|Rede (e-Rede)|Visa, Master, Hipercard, Hiper, Diners|
+|RedeSitef|Visa, Master, Hipercard, Diners|
+|CieloSitef|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|SantanderSitef|Visa, Master|
+|Banorte|Visa, Master|
+|DMCard|---|
 
 ### Providers pra Débito
 
-* Cielo
+|Provider|Brand|
+|--------|-----|
+|Cielo|Visa, Master|
+|
+### Providers para Boleto sem Registro
 
-### Providers para Boleto
+|Provider|
+|--------|
+|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Brb, Caixa, Santander, HSBC|
 
-* Simulado
-* Bradesco
-* BancoDoBrasil
-* CitiBank
-* Itau
-* Brb
-* Caixa
-* Santander
-* HSBC
+### Providers para Boleto com Registro
+
+|Provider|
+|--------|
+|Bradesco2, BancoDoBrasil2, ItauShopline|
 
 ### Providers para Transferência Eletronica (Débito Online)
 
-* Bradesco
-* BancoDoBrasil
-* SafetyPay
-* Itau
+|Provider|
+|--------|
+|Bradesco, BancoDoBrasil, SafetyPay, Itau|
 
-## ReasonCode e ReasonMessage
+## Lista de Status da Transação
+
+Status retornados pela API
+
+|Código|Status do Pagamento|Meio de pagamento|Descrição|
+|------|-------------------|-----------------|---------|
+|0|NotFinished|Todos|Falha ao processar o pagamento|
+|1|Authorized|Todos|Meio de pagamento apto a ser capturado ou pago(Boleto)|
+|2|PaymentConfirmed|Todos|Pagamento confirmado e finalizado|
+|3|Denied|Cartão de Crédito e Débito / Transferência eletrônica|
+|10|Voided|Todos|Pagamento cancelado|
+|11|Refunded|Cartão de crédito e Débito|Pagamento Cancelado/Estornado|
+|12|Pending|Cartão de Crédito e Débito / Transferência eletrônica |Esperando retorno da instituição financeira|
+|13|Aborted|Todos|Pagamento cancelado por falha no processamento|
+|20|Scheduled|Cartão de crédito|Recorrência agendada|
+
+## Lista de HTTP Status Code
+
+|HTTP Status Code|Descrição|
+|----------------|---------|
+|200|OK|
+|400|Bad Request|
+|404|Resource Not Found|
+|500|Internal Server Error|
+
+## Lista de Status da Recorrência
+
+|Código|Descrição|
+|------|---------|
+|1|	Active|
+|2|	Finished|
+|3|	DisabledByMerchant|
+|4|	DisabledMaxAttempts|
+|5|	DisabledExpiredCreditCard|
+
+## Lista de ReasonCode/ReasonMessage
 
 |Reason Code|Reason Message|
 |-----------|--------------|
@@ -4345,41 +4344,6 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 |24|	PaymentMethodIsNotEnabled|
 |98|	InvalidRequest|
 |99|	InternalError|
-
-## Lista de Status
-
-Status retornados pela API
-
-|Código|Status do Pagamento|Meio de pagamento|Descrição|
-|------|-------------------|-----------------|---------|
-|0|NotFinished|Todos|Falha ao processar o pagamento|
-|1|Authorized|Todos|Meio de pagamento apto a ser capturado ou pago(Boleto|
-|2|PaymentConfirmed|Todos|Pagamento confirmado e finalizado|
-|3|Denied|Cartão de Crédito e Débito / Transferência eletrônica|
-|10|Voided|Todos|Pagamento cancelado|
-|11|Refunded|Cartão de crédito e Débito|Pagamento Cancelado/Estornado|
-|12|Pending|Cartão de Crédito e Débito / Transferência eletrônica |Esperando retorno da instituição financeira|
-|13|Aborted|Todos|Pagamento cancelado por falha no processamento|
-|20|Scheduled|Cartão de crédito|Recorrência agendada|
-
-## Status da Recorrência
-
-|Código|Descrição|
-|------|---------|
-|1|	Active|
-|2|	Finished|
-|3|	DisabledByMerchant|
-|4|	DisabledMaxAttempts|
-|5|	DisabledExpiredCreditCard|
-
-## HTTP Status Code
-
-|HTTP Status Code|Descrição|
-|----------------|---------|
-|200|OK|
-|400|Bad Request|
-|404|Resource Not Found|
-|500|Internal Server Error|
 
 ## Códigos de Erros da API
 
@@ -4528,133 +4492,6 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 |322|Zero Dollar Auth is not enabled|Zero Dollar não vinculado ao cadastro do lojista|
 |323|Bin Query is not enabled|Consulta de Bins não vinculada ao cadastro do lojista|
 
-## Códigos de Retorno das Vendas
-
-Códigos retornados pelo autorizador e que descrevem a autorização ou não da venda e, em caso negativo, os cenários onde o lojista pode retentar enviar a transação.
-
-|Código Resposta|Definição|Significado|Ação|Permite Retentativa|
-|---------------|---------|-----------|----|-------------------|
-|00|Transação autorizada com sucesso|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
-|000|Transação autorizada com sucesso|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
-|01|Transação não autorizada. Transação referida|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|02|Transação não autorizada. Transação referida|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|03|Transação não permitida. Erro no cadastramento do código do estabelecimento no arquivo de configuração do TEF|Transação não permitida. Estabelecimento inválido. Entre com contato com a Braspag|Não foi possível processar a transação. Entre com contato com a Loja Virtual|Não|
-|04|Transação não autorizada. Cartão bloqueado pelo banco emissor|Transação não autorizada. Cartão bloqueado pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|05|Transação não autorizada. Cartão inadimplente (Do not honor)|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|06|Transação não autorizada. Cartão cancelado|Transação não autorizada. Não foi possível processar a transação. Cartão cancelado permanentemente pelo banco emissor|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
-|07|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|08|Transação não autorizada. Código de segurança inválido|Transação não autorizada. Código de segurança inválido. Oriente o portador a corrigir os dados e tentar novamente|Transação não autorizada. Dados incorretos. Reveja os dados e informe novamente|Não|
-|11|Transação autorizada com sucesso para cartão emitido no exterior|Transação autorizada com sucesso|Transação autorizada com sucesso|Não|
-|12|Transação inválida, erro no cartão|Não foi possível processar a transação. Solicite ao portador que verifique os dados do cartão e tente novamente|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Não|
-|13|Transação não permitida. Valor da transação Inválido|Transação não permitida. Valor inválido. Solicite ao portador que reveja os dados e novamente. Se o erro persistir, entre em contato com a Braspag|Transação não autorizada. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
-|14|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor, dados incorretos ou tentativas de testes de cartão. Use o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo. Consulte www.Braspag.com.br/desenvolvedores para implantar o Algoritmo de Lhum|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Não|
-|15|Banco emissor indisponível ou inexistente|Transação não autorizada. Banco emissor indisponível|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
-|19|Refaça a transação ou tente novamente mais tarde|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
-|21|Cancelamento não efetuado. Transação não localizada|Não foi possível processar o cancelamento. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar o cancelamento. Tente novamente mais tarde. Persistindo o erro, entrar em contato com a loja virtual|Não|
-|22|Parcelamento inválido. Número de parcelas inválidas|Não foi possível processar a transação. Número de parcelas inválidas. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
-|23|Transação não autorizada. Valor da prestação inválido|Não foi possível processar a transação. Valor da prestação inválido. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Valor da prestação inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
-|24|Quantidade de parcelas inválido|Não foi possível processar a transação. Quantidade de parcelas inválido. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Quantidade de parcelas inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual|Não|
-|25|Pedido de autorização não enviou número do cartão|Não foi possível processar a transação. Solicitação de autorização não enviou o número do cartão. Se o erro persistir, verifique a comunicação entre loja virtual e Braspag|Não foi possível processar a transação. reveja os dados informados e tente novamente. Persistindo o erro, entrar em contato com a loja virtual|Apenas 4 vezes em 16 dias|
-|28|Arquivo temporariamente indisponível|Não foi possível processar a transação. Arquivo temporariamente indisponível. Reveja a comunicação entre Loja Virtual e Braspag. Se o erro persistir, entre em contato com a Braspag|Não foi possível processar a transação. Entre com contato com a Loja Virtual|Apenas 4 vezes em 16 dias|
-|39|Transação não autorizada. Erro no banco emissor|Transação não autorizada. Erro no banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|41|Transação não autorizada. Cartão bloqueado por perda|Transação não autorizada. Cartão bloqueado por perda|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|43|Transação não autorizada. Cartão bloqueado por roubo|Transação não autorizada. Cartão bloqueado por roubo|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|51|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|52|Cartão com dígito de controle inválido|Não foi possível processar a transação. Cartão com dígito de controle inválido|Transação não autorizada. Reveja os dados informados e tente novamente|Não|
-|53|Transação não permitida. Cartão poupança inválido|Transação não permitida. Cartão poupança inválido|Não foi possível processar a transação. Entre em contato com seu banco emissor|Não|
-|54|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido|Transação não autorizada. Refazer a transação confirmando os dados|Não|
-|55|Transação não autorizada. Senha inválida|Transação não autorizada. Senha inválida|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|57|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|58|Transação não permitida. Opção de pagamento inválida|Transação não permitida. Opção de pagamento inválida. Reveja se a opção de pagamento escolhida está habilitada no cadastro|Transação não autorizada. Entre em contato com sua loja virtual|Não|
-|59|Transação não autorizada. Suspeita de fraude|Transação não autorizada. Suspeita de fraude|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|60|Transação não autorizada|Transação não autorizada. Tente novamente. Se o erro persistir o portador deve entrar em contato com o banco emissor|Não foi possível processar a transação. Tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|61|Banco emissor Visa indisponível|Transação não autorizada. Banco emissor Visa indisponível|Transação não autorizada. Tente novamente. Se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|62|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|63|Transação não autorizada. Violação de segurança|Transação não autorizada. Violação de segurança|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|64|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor|Não|
-|65|Transação não autorizada. Excedida a quantidade de transações para o cartão|Transação não autorizada. Excedida a quantidade de transações para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|67|Transação não autorizada. Cartão bloqueado para compras hoje|Transação não autorizada. Cartão bloqueado para compras hoje. Bloqueio pode ter ocorrido por excesso de tentativas inválidas. O cartão será desbloqueado automaticamente à meia noite|Transação não autorizada. Cartão bloqueado temporariamente. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|70|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|72|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente. Se o erro persistir, entre em contato com a Braspag|Cancelamento não efetuado. Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Não|
-|74|Transação não autorizada. A senha está vencida|Transação não autorizada. A senha está vencida|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|75|Senha bloqueada. Excedeu tentativas de cartão|Transação não autorizada|Sua Transação não pode ser processada. Entre em contato com o Emissor do seu cartão|Não|
-|76|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual|Não|
-|77|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual|Não|
-|78|Transação não autorizada. Cartão bloqueado primeiro uso|Transação não autorizada. Cartão bloqueado primeiro uso. Solicite ao portador que desbloqueie o cartão diretamente com seu banco emissor|Transação não autorizada. Entre em contato com seu banco emissor e solicite o desbloqueio do cartão|Não|
-|80|Transação não autorizada. Divergencia na data de transação/pagamento|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida|Transação não autorizada. Refazer a transação confirmando os dados|Não|
-|82|Transação não autorizada. Cartão inválido|Transação não autorizada. Cartão Inválido. Solicite ao portador que reveja os dados e tente novamente|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor|Não|
-|83|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor|Não|
-|85|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|86|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|89|Erro na transação|Transação não autorizada. Erro na transação. O portador deve tentar novamente e se o erro persistir, entrar em contato com o banco emissor|Transação não autorizada. Erro na transação. Tente novamente e se o erro persistir, entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|90|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|91|Transação não autorizada. Banco emissor temporariamente indisponível|Transação não autorizada. Banco emissor temporariamente indisponível|Transação não autorizada. Banco emissor temporariamente indisponível. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|92|Transação não autorizada. Tempo de comunicação excedido|Transação não autorizada. Tempo de comunicação excedido|Transação não autorizada. Comunicação temporariamente indisponível. Entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
-|93|Transação não autorizada. Violação de regra - Possível erro no cadastro|Transação não autorizada. Violação de regra - Possível erro no cadastro|Sua transação não pode ser processada. Entre em contato com a loja virtual|Não|
-|96|Falha no processamento|Não foi possível processar a transação. Falha no sistema da Braspag. Se o erro persistir, entre em contato com a Braspag|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
-|97|Valor não permitido para essa transação|Transação não autorizada. Valor não permitido para essa transação|Transação não autorizada. Valor não permitido para essa transação|Não|
-|98|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Se for geral, verificar SITEF, GATEWAY e/ou Conectividade|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|Apenas 4 vezes em 16 dias|
-|99|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|999|Sistema/comunicação indisponível|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|AA|Tempo Excedido|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco|Apenas 4 vezes em 16 dias|
-|AC|Transação não permitida. Cartão de débito sendo usado com crédito. Use a função débito|Transação não permitida. Cartão de débito sendo usado com crédito. Solicite ao portador que selecione a opção de pagamento Cartão de Débito|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de débito|Não|
-|AE|Tente Mais Tarde|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco|Apenas 4 vezes em 16 dias|
-|AF|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|AG|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|AH|Transação não permitida. Cartão de crédito sendo usado com débito. Use a função crédito|Transação não permitida. Cartão de crédito sendo usado com débito. Solicite ao portador que selecione a opção de pagamento Cartão de Crédito|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de crédito|Não|
-|AI|Transação não autorizada. Autenticação não foi realizada|Transação não autorizada. Autenticação não foi realizada. O portador não concluiu a autenticação. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir, entre em contato com a Braspag informando o BIN (6 primeiros dígitos do cartão)|Transação não autorizada. Autenticação não foi realizada com sucesso. Tente novamente e informe corretamente os dados solicitado. Se o erro persistir, entre em contato com o lojista|Não|
-|AJ|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente selecionando a opção Private Label|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Solicite ao portador que tente novamente selecionando a opção Private Label. Caso não disponibilize a opção Private Label verifique na Braspag se o seu estabelecimento permite essa operação|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente e selecione a opção Private Label. Em caso de um novo erro entre em contato com a loja virtual|Não|
-|AV|Transação não autorizada. Dados Inválidos|Falha na validação dos dados da transação. Oriente o portador a rever os dados e tentar novamente|Falha na validação dos dados. Reveja os dados informados e tente novamente|Apenas 4 vezes em 16 dias|
-|BD|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual|Não|
-|BL|Transação não autorizada. Limite diário excedido|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|BM|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor ou dados incorretos. Tente usar o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo|Transação não autorizada. Cartão inválido.  Refaça a transação confirmando os dados informados|Não|
-|BN|Transação não autorizada. Cartão ou conta bloqueado|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Solicite ao portador que entre em contato com  seu banco emissor|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Entre em contato com  seu banco emissor|Não|
-|BO|Transação não permitida. Falha da operação|Transação não permitida. Houve um erro no processamento. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor|Transação não permitida. Houve um erro no processamento. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor|Apenas 4 vezes em 16 dias|
-|BP|Transação não autorizada. Conta corrente inexistente|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Entre em contato com o banco emissor|Não|
-|BV|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido|Transação não autorizada. Refazer a transação confirmando os dados|Não|
-|CF|Transação não autorizada.C79:J79 Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
-|CG|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
-|DA|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
-|DF|Transação não permitida. Falha no cartão ou cartão inválido|Transação não permitida. Falha no cartão ou cartão inválido. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Transação não permitida. Falha no cartão ou cartão inválido. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Apenas 4 vezes em 16 dias|
-|DM|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Limite excedido/sem saldo|Transação não autorizada. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|DQ|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor|Não|
-|DS|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|EB|Transação não autorizada. Limite diário excedido|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor|A partir do dia seguinte, apenas 4 vezes em 16 dias|
-|EE|Transação não permitida. Valor da parcela inferior ao mínimo permitido|Transação não permitida. Valor da parcela inferior ao mínimo permitido. Não é permitido parcelas inferiores a R$ 5,00. Necessário rever calculo para parcelas|Transação não permitida. O valor da parcela está abaixo do mínimo permitido. Entre em contato com a loja virtual|Não|
-|EK|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|FA|Transação não autorizada. |Transação não autorizada AmEx|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|FC|Transação não autorizada. Ligue Emissor|Transação não autorizada. Oriente o portador a entrar em contato com o banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|FD|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|FE|Transação não autorizada. Divergencia na data de transação/pagamento|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida|Transação não autorizada. Refazer a transação confirmando os dados|Não|
-|FF|Cancelamento OK|Transação de cancelamento autorizada com sucesso. ATENÇÂO: Esse retorno é para casos de cancelamentos e não para casos de autorizações|Transação de cancelamento autorizada com sucesso|Não|
-|FG|Transação não autorizada. Ligue AmEx|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|FG|Ligue 08007285090|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|GA|Aguarde Contato|Transação não autorizada. Referida pelo Lynx Online de forma preventiva. A Braspag entrará em contato com o lojista sobre esse caso|Transação não autorizada. Entre em contato com o lojista|Não|
-|HJ|Transação não permitida. Código da operação inválido|Transação não permitida. Código da operação Coban inválido|Transação não permitida. Código da operação Coban inválido. Entre em contato com o lojista|Não|
-|IA|Transação não permitida. Indicador da operação inválido|Transação não permitida. Indicador da operação Coban inválido|Transação não permitida. Indicador da operação Coban inválido. Entre em contato com o lojista|Não|
-|JB|Transação não permitida. Valor da operação inválido|Transação não permitida. Valor da operação Coban inválido|Transação não permitida. Valor da operação Coban inválido. Entre em contato com o lojista|Não|
-|KA|Transação não permitida. Falha na validação dos dados|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
-|KB|Transação não permitida. Selecionado a opção incorrente|Transação não permitida. Selecionado a opção incorreta. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir deve ser verificado a comunicação entre loja virtual e Braspag|Transação não permitida. Selecionado a opção incorreta. Tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
-|KE|Transação não autorizada. Falha na validação dos dados|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Verifique as opções disponíveis para o portador|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Entre em contato com a loja virtual|Não|
-|N7|Transação não autorizada. Código de segurança inválido|Transação não autorizada. Código de segurança inválido. Oriente o portador corrigir os dados e tentar novamente|Transação não autorizada. Reveja os dados e informe novamente|Não|
-|R1|Transação não autorizada. Cartão inadimplente (Do not honor)|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador|Transação não autorizada. Entre em contato com seu banco emissor|Apenas 4 vezes em 16 dias|
-|U3|Transação não permitida. Falha na validação dos dados|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual|Não|
-
-## Glossário
-
-Para facilitar o entendimento, listamos abaixo um pequeno glossário com os principais termos relacionados ao eCommerce, ao mercado de cartões e adquirencia:
-
-* **AUTORIZAÇÃO**: A autorização é a principal operação no e-commerce, é através dela que uma venda pode ser concretizada. Existe a possibilidade de realizar uma pré-autorização que apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
-* **CAPTURA**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através da operação de captura que se efetiva uma pré-autorização, podendo esta ser executada, em média, em até 5 dias após a data da pré-autorização.
-* **CANCELAMENTO** / **ESTORNO**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura. *É considerado estorno ao realizar a chamada após as 23:59:59 da data da autorização/captura.*
-* **AUTENTICAÇÃO**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco o risco de fraude.
-* **CARTÃO PROTEGIDO**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de “token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como “Compra com 1 clique” e “Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
-* **ANTIFRAUDE**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
-* **RECORRENTE**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
-* **RENOVA FÁCIL**: O serviço Renova Fácil traz garantia e tranquilidade à estabelecimentos que utilizam a aquirencia da Cielo e que efetuam vendas recorrentes.
-Ele possibilita a atualização do número do cartão do cliente, cuja numeração ou validade tenha sido alterada, eliminando a necessidade de contato com o cliente no momento da renovação do serviço e reduzindo o número de transações negadas. Com o Renova Fácil você garante as transações e oferece mais comodidade a seus clientes. A funcionalidade do Renova Fácil é transparente para o lojista e para o cliente final. Toda a integração fica do nosso lado, onde conseguimos atualizar os novos dados do cartão e submeter a transação com a informação atualizada.
-
 ## Cartões para Teste (Simulado)
 
 O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.
@@ -4676,3 +4513,8 @@ Os status das transações serão conforme a utilização de cada cartão.
 
 As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).
 
+#FAQ
+
+|Perguntas|Respostas|Tema|
+|---------|---------|----|
+|Qual é a diferença entre Status, ReasonCode e ProviderReasonCode?|<UL><LI>Status: representa o status atual da transação.</LI><LI>ReasonCode: representa o status da requisição.</LI><LI>ProviderReasonCode: representa o código de resposta da transação da adquirente.</LI></UL><BR><BR>Por exemplo, uma requisição de autorização poderá ter o retorno com ReasonCode=0 (Sucessfull), ou seja, a requisição finalizou com sucesso, porém, o Status poderá ser 0-Denied, por ter a transação não autorizada pela adquirente, por exemplo, ProviderReasonCode=57 (um dos códigos de negada da Cielo)|Integração|
