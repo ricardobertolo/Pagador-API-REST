@@ -5025,6 +5025,40 @@ Certifique-se de copiar todos os dados corretamente e de remover os sinais de ta
 ‹img src="https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID&session_\id=sample_merchantIDsample_sessionID&m=2" alt=""›
 ```
 
+##Flash code
+
+### Especificação
+```json
+‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=‹org ID›&session_id=‹merchant id›‹session ID›" width="1" height="1"id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=‹orgID›&session_id=‹merchant id›‹session ID›" /›
+‹div›‹/div›
+‹/object› 
+```
+
+### Exemplo
+```json
+‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&session_id=sample_merchantIDsample_sessionID"width="1" height="1" id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&session_id=sample_merchantIDsample_sessionID" /›
+‹div›‹/div›
+‹/object› 
+```
+
+##JavaScript code
+
+### Especificação
+```json
+‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+```
+
+### Exemplo
+```json
+‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+```
+
 #FAQ
 
 |Perguntas|Respostas|Tema|
