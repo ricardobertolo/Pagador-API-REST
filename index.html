@@ -75,7 +75,7 @@
     <div class="page-wrapper">
         <div class="dark-box"></div>
         <div class="content">
-                <h1 id="integração-pagador-api">Integração Pagador API</h1>
+                <h1 id="introdução-ao-pagador-api">Introdução ao Pagador API</h1>
 
 <p>O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API do Pagador, gateway de pagamentos da Braspag, descrevendo os serviços disponíveis com exemplos de requisição e respostas.</p>
 
@@ -119,7 +119,7 @@
 </thead><tbody>
 <tr>
 <td>Credenciais de Acesso à API</td>
-<td>Consulte-nos!</td>
+<td>Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!</td>
 </tr>
 <tr>
 <td>Endpoint Transacional</td>
@@ -143,7 +143,7 @@
 </thead><tbody>
 <tr>
 <td>Credenciais de Acesso à API</td>
-<td>Consulte-nos!</td>
+<td>Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!</td>
 </tr>
 <tr>
 <td>Endpoint Transacional</td>
@@ -164,10 +164,6 @@
 <li>E-mail: <a href="suporte@braspag.com.br">mailto:suporte@braspag.com.br</a></li>
 <li>Telefone: (11)2184-0550</li>
 </ul>
-
-<h1 id="visão-geral">Visão Geral</h1>
-
-<p>Aqui você pode encontrar detalhamentos de todas as operações disponíveis na API REST do Pagador. Essas operações podem ser executadas utilizando sua chave específica nos ambientes (Sandbox, Homologação ou Produção).</p>
 
 <h2 id="características-da-solução">Características da Solução</h2>
 
@@ -202,18 +198,22 @@
 <li><strong>Autorização</strong>: A autorização (ou pré-autorização) é uma operação que viabiliza o processamento de uma venda com um cartão de crédito.A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança na fatura para o consumidor. Desta forma, é necessário uma segunda operação, chamada &lsquo;captura&rsquo;. </li>
 <li><strong>Captura</strong>: Ao realizar uma pré-autorização, é necessário confirmá-la para que a cobrança seja efetivada. O tempo limite para capturar uma transação pré-autorizada varia de adquirente para adquirente, que pode ser por exemplo, de até 5 dias após a data da pré-autorização.</li>
 <li><strong>Captura Automática</strong>: É quando uma transação é autorizada e capturada no mesmo momento, isentando do lojista enviar uma confirmação posterior.</li>
-<li><strong>Cancelamento</strong>: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.</li>
-<li><strong>Estorno</strong>: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de &#39;chargeback&rsquo; pela adquirente. </li>
-<li><strong>Autenticação</strong>: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.</li>
-<li><strong>Cartão Protegido</strong>: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de &ldquo;token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como &quot;Compra com 1 clique” e &quot;Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.</li>
-<li><strong>Antifraude</strong>: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.</li>
-<li><strong>Recorrente</strong>: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.</li>
 </ul>
 
 <aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada.</aside>
 
+<ul>
+<li><strong>Cancelamento</strong>: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.</li>
+<li><strong>Estorno</strong>: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de &#39;chargeback&rsquo; pela adquirente. </li>
+</ul>
+
 <aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
+
+<ul>
+<li><strong>Autenticação</strong>: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.</li>
+<li><strong>Cartão Protegido</strong>: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de &ldquo;token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como &quot;Compra com 1 clique” e &quot;Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.</li>
+<li><strong>Antifraude</strong>: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.</li>
+</ul>
 
 <h2 id="criando-uma-transação-básica">Criando uma transação básica</h2>
 
@@ -243,7 +243,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <pre><code class="highlight shell">curl
---request POST <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/"</span>
+--request POST <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/"</span>
 --header <span class="s2">"Content-Type: application/json"</span>
 --header <span class="s2">"MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
 --header <span class="s2">"MerchantKey: 0123456789012345678901234567890123456789"</span>
@@ -419,17 +419,17 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -476,17 +476,17 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -1107,12 +1107,12 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1197,12 +1197,12 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -1534,7 +1534,7 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1580,7 +1580,7 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -2667,7 +2667,7 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -2814,7 +2814,7 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -3221,17 +3221,17 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -3283,17 +3283,17 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -3573,17 +3573,17 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -3628,17 +3628,17 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -4015,7 +4015,7 @@
 
 <h2 id="criando-uma-transação">Criando uma transação</h2>
 
-<p>Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um Cartão de Crédito, porém, é obrigatório submetê-la ao processo de autenticação. </p>
+<p>Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um Cartão de Crédito, porém, é obrigatório submetê-la ao processo de autenticação. <BR><BR>Atualmente, somente o Provider &ldquo;Cielo&rdquo; ou &ldquo;Cielo30&rdquo; suportam processamento desta modalidade.</p>
 
 <h3 id="requisição">Requisição</h3>
 
@@ -4040,7 +4040,6 @@
      </span><span class="p">}</span><span class="w">
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span><span class="err">--verbose</span><span class="w">
 </span></code></pre>
 <pre><code class="highlight shell">curl
 --request POST <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/"</span>
@@ -4220,12 +4219,12 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -4265,12 +4264,12 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -4365,7 +4364,7 @@
 </tr>
 </tbody></table>
 
-<h1 id="pagamentos-com-transferência-eletrônica-(débito-online)">Pagamentos com Transferência Eletrônica (Débito Online)</h1>
+<h1 id="pagamentos-com-transferência-eletrônica(débito-online)">Pagamentos com Transferência Eletrônica<BR>(Débito Online)</h1>
 
 <h2 id="criando-uma-transação">Criando uma transação</h2>
 
@@ -4889,7 +4888,7 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -4928,7 +4927,7 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -5294,7 +5293,7 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -5345,7 +5344,7 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -5420,6 +5419,11 @@
 </tbody></table>
 
 <h1 id="pagamentos-recorrentes">Pagamentos Recorrentes</h1>
+
+<ul>
+<li><strong>Recorrente</strong>: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
+É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.</li>
+</ul>
 
 <h2 id="autorizar-uma-transação-e-agendar-as-próximas-recorrências">Autorizar uma transação e agendar as próximas recorrências</h2>
 
@@ -5670,17 +5674,17 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -5741,17 +5745,17 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -7168,17 +7172,17 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -7221,17 +7225,17 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"</span>
       <span class="o">}</span>,
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apihomolog.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -7816,7 +7820,7 @@
           </span><span class="p">{</span><span class="w">
             </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
             </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"</span><span class="w">
+            </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"</span><span class="w">
           </span><span class="p">}</span><span class="w">
         </span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
@@ -7865,7 +7869,7 @@
           <span class="o">{</span>
             <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
             <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-            <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"</span>
+            <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"</span>
           <span class="o">}</span>
         <span class="o">]</span>
       <span class="o">}</span>
@@ -8037,108 +8041,233 @@
 
 <h3 id="providers-para-crédito">Providers para Crédito</h3>
 
-<ul>
-<li>Simulado</li>
-<li>Cielo
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Amex</li>
-<li>Elo</li>
-<li>Aura</li>
-<li>Jcb</li>
-<li>Diners</li>
-<li>Discover</li>
-</ul></li>
-<li>Cielo30 (Cielo 3.0)
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Amex</li>
-<li>Elo</li>
-<li>Aura</li>
-<li>Jcb</li>
-<li>Diners</li>
-<li>Discover<br></li>
-</ul></li>
-<li>Redecard (Komerci)
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Hipercard</li>
-<li>Hiper</li>
-<li>Diners</li>
-</ul></li>
-<li>Rede (e-Rede)
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Hipercard</li>
-<li>Hiper</li>
-<li>Diners</li>
-</ul></li>
-<li>RedeSitef
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Hipercard</li>
-<li>Diners</li>
-</ul></li>
-<li>CieloSitef
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-<li>Amex</li>
-<li>Elo</li>
-<li>Aura</li>
-<li>Jcb</li>
-<li>Diners</li>
-<li>Discover</li>
-</ul></li>
-<li>SantanderSitef
-
-<ul>
-<li>Visa</li>
-<li>Master</li>
-</ul></li>
-</ul>
+<table><thead>
+<tr>
+<th>Provider</th>
+<th>Brand</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Simulado</td>
+<td>&mdash;</td>
+</tr>
+<tr>
+<td>Cielo</td>
+<td>Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover</td>
+</tr>
+<tr>
+<td>Cielo30 (Cielo 3.0)</td>
+<td>Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover</td>
+</tr>
+<tr>
+<td>Redecard (Komerci)</td>
+<td>Visa, Master, Hipercard, Hiper, Diners</td>
+</tr>
+<tr>
+<td>Rede (e-Rede)</td>
+<td>Visa, Master, Hipercard, Hiper, Diners</td>
+</tr>
+<tr>
+<td>RedeSitef</td>
+<td>Visa, Master, Hipercard, Diners</td>
+</tr>
+<tr>
+<td>CieloSitef</td>
+<td>Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover</td>
+</tr>
+<tr>
+<td>SantanderSitef</td>
+<td>Visa, Master</td>
+</tr>
+<tr>
+<td>Banorte</td>
+<td>Visa, Master</td>
+</tr>
+<tr>
+<td>DMCard</td>
+<td>&mdash;</td>
+</tr>
+</tbody></table>
 
 <h3 id="providers-pra-débito">Providers pra Débito</h3>
 
-<ul>
-<li>Cielo</li>
-</ul>
+<table><thead>
+<tr>
+<th>Provider</th>
+<th>Brand</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Cielo</td>
+<td>Visa, Master</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 
-<h3 id="providers-para-boleto">Providers para Boleto</h3>
+<h3 id="providers-para-boleto-sem-registro">Providers para Boleto sem Registro</h3>
 
-<ul>
-<li>Simulado</li>
-<li>Bradesco</li>
-<li>BancoDoBrasil</li>
-<li>CitiBank</li>
-<li>Itau</li>
-<li>Brb</li>
-<li>Caixa</li>
-<li>Santander</li>
-<li>HSBC</li>
-</ul>
+<table><thead>
+<tr>
+<th>Provider</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Brb, Caixa, Santander, HSBC</td>
+</tr>
+</tbody></table>
+
+<h3 id="providers-para-boleto-com-registro">Providers para Boleto com Registro</h3>
+
+<table><thead>
+<tr>
+<th>Provider</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Bradesco2, BancoDoBrasil2, ItauShopline</td>
+</tr>
+</tbody></table>
 
 <h3 id="providers-para-transferência-eletronica-(débito-online)">Providers para Transferência Eletronica (Débito Online)</h3>
 
-<ul>
-<li>Bradesco</li>
-<li>BancoDoBrasil</li>
-<li>SafetyPay</li>
-<li>Itau</li>
-</ul>
+<table><thead>
+<tr>
+<th>Provider</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Bradesco, BancoDoBrasil, SafetyPay, Itau</td>
+</tr>
+</tbody></table>
 
-<h2 id="reasoncode-e-reasonmessage">ReasonCode e ReasonMessage</h2>
+<h2 id="lista-de-status-da-transação">Lista de Status da Transação</h2>
+
+<p>Status retornados pela API</p>
+
+<table><thead>
+<tr>
+<th>Código</th>
+<th>Status do Pagamento</th>
+<th>Meio de pagamento</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>NotFinished</td>
+<td>Todos</td>
+<td>Falha ao processar o pagamento</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Authorized</td>
+<td>Todos</td>
+<td>Meio de pagamento apto a ser capturado ou pago(Boleto)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PaymentConfirmed</td>
+<td>Todos</td>
+<td>Pagamento confirmado e finalizado</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Denied</td>
+<td>Cartão de Crédito e Débito / Transferência eletrônica</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Voided</td>
+<td>Todos</td>
+<td>Pagamento cancelado</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Refunded</td>
+<td>Cartão de crédito e Débito</td>
+<td>Pagamento Cancelado/Estornado</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Pending</td>
+<td>Cartão de Crédito e Débito / Transferência eletrônica</td>
+<td>Esperando retorno da instituição financeira</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Aborted</td>
+<td>Todos</td>
+<td>Pagamento cancelado por falha no processamento</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Scheduled</td>
+<td>Cartão de crédito</td>
+<td>Recorrência agendada</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-de-http-status-code">Lista de HTTP Status Code</h2>
+
+<table><thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Resource Not Found</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-de-status-da-recorrência">Lista de Status da Recorrência</h2>
+
+<table><thead>
+<tr>
+<th>Código</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>Active</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Finished</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DisabledByMerchant</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DisabledMaxAttempts</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DisabledExpiredCreditCard</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-de-reasoncode/reasonmessage">Lista de ReasonCode/ReasonMessage</h2>
 
 <table><thead>
 <tr>
@@ -8253,130 +8382,6 @@
 <tr>
 <td>99</td>
 <td>InternalError</td>
-</tr>
-</tbody></table>
-
-<h2 id="lista-de-status">Lista de Status</h2>
-
-<p>Status retornados pela API</p>
-
-<table><thead>
-<tr>
-<th>Código</th>
-<th>Status do Pagamento</th>
-<th>Meio de pagamento</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>0</td>
-<td>NotFinished</td>
-<td>Todos</td>
-<td>Falha ao processar o pagamento</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Authorized</td>
-<td>Todos</td>
-<td>Meio de pagamento apto a ser capturado ou pago(Boleto</td>
-</tr>
-<tr>
-<td>2</td>
-<td>PaymentConfirmed</td>
-<td>Todos</td>
-<td>Pagamento confirmado e finalizado</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Denied</td>
-<td>Cartão de Crédito e Débito / Transferência eletrônica</td>
-<td></td>
-</tr>
-<tr>
-<td>10</td>
-<td>Voided</td>
-<td>Todos</td>
-<td>Pagamento cancelado</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Refunded</td>
-<td>Cartão de crédito e Débito</td>
-<td>Pagamento Cancelado/Estornado</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Pending</td>
-<td>Cartão de Crédito e Débito / Transferência eletrônica</td>
-<td>Esperando retorno da instituição financeira</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Aborted</td>
-<td>Todos</td>
-<td>Pagamento cancelado por falha no processamento</td>
-</tr>
-<tr>
-<td>20</td>
-<td>Scheduled</td>
-<td>Cartão de crédito</td>
-<td>Recorrência agendada</td>
-</tr>
-</tbody></table>
-
-<h2 id="status-da-recorrência">Status da Recorrência</h2>
-
-<table><thead>
-<tr>
-<th>Código</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>1</td>
-<td>Active</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Finished</td>
-</tr>
-<tr>
-<td>3</td>
-<td>DisabledByMerchant</td>
-</tr>
-<tr>
-<td>4</td>
-<td>DisabledMaxAttempts</td>
-</tr>
-<tr>
-<td>5</td>
-<td>DisabledExpiredCreditCard</td>
-</tr>
-</tbody></table>
-
-<h2 id="http-status-code">HTTP Status Code</h2>
-
-<table><thead>
-<tr>
-<th>HTTP Status Code</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>200</td>
-<td>OK</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Bad Request</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Resource Not Found</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error</td>
 </tr>
 </tbody></table>
 
@@ -9093,773 +9098,6 @@
 </tr>
 </tbody></table>
 
-<h2 id="códigos-de-retorno-das-vendas">Códigos de Retorno das Vendas</h2>
-
-<p>Códigos retornados pelo autorizador e que descrevem a autorização ou não da venda e, em caso negativo, os cenários onde o lojista pode retentar enviar a transação.</p>
-
-<table><thead>
-<tr>
-<th>Código Resposta</th>
-<th>Definição</th>
-<th>Significado</th>
-<th>Ação</th>
-<th>Permite Retentativa</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>00</td>
-<td>Transação autorizada com sucesso</td>
-<td>Transação autorizada com sucesso</td>
-<td>Transação autorizada com sucesso</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>000</td>
-<td>Transação autorizada com sucesso</td>
-<td>Transação autorizada com sucesso</td>
-<td>Transação autorizada com sucesso</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>01</td>
-<td>Transação não autorizada. Transação referida</td>
-<td>Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>02</td>
-<td>Transação não autorizada. Transação referida</td>
-<td>Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>03</td>
-<td>Transação não permitida. Erro no cadastramento do código do estabelecimento no arquivo de configuração do TEF</td>
-<td>Transação não permitida. Estabelecimento inválido. Entre com contato com a Braspag</td>
-<td>Não foi possível processar a transação. Entre com contato com a Loja Virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>04</td>
-<td>Transação não autorizada. Cartão bloqueado pelo banco emissor</td>
-<td>Transação não autorizada. Cartão bloqueado pelo banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>05</td>
-<td>Transação não autorizada. Cartão inadimplente (Do not honor)</td>
-<td>Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>06</td>
-<td>Transação não autorizada. Cartão cancelado</td>
-<td>Transação não autorizada. Não foi possível processar a transação. Cartão cancelado permanentemente pelo banco emissor</td>
-<td>Não foi possível processar a transação. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>07</td>
-<td>Transação negada. Reter cartão condição especial</td>
-<td>Transação não autorizada por regras do banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>08</td>
-<td>Transação não autorizada. Código de segurança inválido</td>
-<td>Transação não autorizada. Código de segurança inválido. Oriente o portador a corrigir os dados e tentar novamente</td>
-<td>Transação não autorizada. Dados incorretos. Reveja os dados e informe novamente</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Transação autorizada com sucesso para cartão emitido no exterior</td>
-<td>Transação autorizada com sucesso</td>
-<td>Transação autorizada com sucesso</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Transação inválida, erro no cartão</td>
-<td>Não foi possível processar a transação. Solicite ao portador que verifique os dados do cartão e tente novamente</td>
-<td>Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Transação não permitida. Valor da transação Inválido</td>
-<td>Transação não permitida. Valor inválido. Solicite ao portador que reveja os dados e novamente. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Transação não autorizada. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Transação não autorizada. Cartão Inválido</td>
-<td>Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor, dados incorretos ou tentativas de testes de cartão. Use o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo. Consulte www.Braspag.com.br/desenvolvedores para implantar o Algoritmo de Lhum</td>
-<td>Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Banco emissor indisponível ou inexistente</td>
-<td>Transação não autorizada. Banco emissor indisponível</td>
-<td>Não foi possível processar a transação. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>19</td>
-<td>Refaça a transação ou tente novamente mais tarde</td>
-<td>Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir entre em contato com a loja virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>21</td>
-<td>Cancelamento não efetuado. Transação não localizada</td>
-<td>Não foi possível processar o cancelamento. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar o cancelamento. Tente novamente mais tarde. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>22</td>
-<td>Parcelamento inválido. Número de parcelas inválidas</td>
-<td>Não foi possível processar a transação. Número de parcelas inválidas. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar a transação. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>23</td>
-<td>Transação não autorizada. Valor da prestação inválido</td>
-<td>Não foi possível processar a transação. Valor da prestação inválido. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar a transação. Valor da prestação inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>24</td>
-<td>Quantidade de parcelas inválido</td>
-<td>Não foi possível processar a transação. Quantidade de parcelas inválido. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar a transação. Quantidade de parcelas inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>25</td>
-<td>Pedido de autorização não enviou número do cartão</td>
-<td>Não foi possível processar a transação. Solicitação de autorização não enviou o número do cartão. Se o erro persistir, verifique a comunicação entre loja virtual e Braspag</td>
-<td>Não foi possível processar a transação. reveja os dados informados e tente novamente. Persistindo o erro, entrar em contato com a loja virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>28</td>
-<td>Arquivo temporariamente indisponível</td>
-<td>Não foi possível processar a transação. Arquivo temporariamente indisponível. Reveja a comunicação entre Loja Virtual e Braspag. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Não foi possível processar a transação. Entre com contato com a Loja Virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>39</td>
-<td>Transação não autorizada. Erro no banco emissor</td>
-<td>Transação não autorizada. Erro no banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>41</td>
-<td>Transação não autorizada. Cartão bloqueado por perda</td>
-<td>Transação não autorizada. Cartão bloqueado por perda</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>43</td>
-<td>Transação não autorizada. Cartão bloqueado por roubo</td>
-<td>Transação não autorizada. Cartão bloqueado por roubo</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>51</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>52</td>
-<td>Cartão com dígito de controle inválido</td>
-<td>Não foi possível processar a transação. Cartão com dígito de controle inválido</td>
-<td>Transação não autorizada. Reveja os dados informados e tente novamente</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>53</td>
-<td>Transação não permitida. Cartão poupança inválido</td>
-<td>Transação não permitida. Cartão poupança inválido</td>
-<td>Não foi possível processar a transação. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>54</td>
-<td>Transação não autorizada. Cartão vencido</td>
-<td>Transação não autorizada. Cartão vencido</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>55</td>
-<td>Transação não autorizada. Senha inválida</td>
-<td>Transação não autorizada. Senha inválida</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>57</td>
-<td>Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>58</td>
-<td>Transação não permitida. Opção de pagamento inválida</td>
-<td>Transação não permitida. Opção de pagamento inválida. Reveja se a opção de pagamento escolhida está habilitada no cadastro</td>
-<td>Transação não autorizada. Entre em contato com sua loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>59</td>
-<td>Transação não autorizada. Suspeita de fraude</td>
-<td>Transação não autorizada. Suspeita de fraude</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>60</td>
-<td>Transação não autorizada</td>
-<td>Transação não autorizada. Tente novamente. Se o erro persistir o portador deve entrar em contato com o banco emissor</td>
-<td>Não foi possível processar a transação. Tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>61</td>
-<td>Banco emissor Visa indisponível</td>
-<td>Transação não autorizada. Banco emissor Visa indisponível</td>
-<td>Transação não autorizada. Tente novamente. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>62</td>
-<td>Transação não autorizada. Cartão restrito para uso doméstico</td>
-<td>Transação não autorizada. Cartão restrito para uso doméstico</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>63</td>
-<td>Transação não autorizada. Violação de segurança</td>
-<td>Transação não autorizada. Violação de segurança</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>64</td>
-<td>Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>65</td>
-<td>Transação não autorizada. Excedida a quantidade de transações para o cartão</td>
-<td>Transação não autorizada. Excedida a quantidade de transações para o cartão</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>67</td>
-<td>Transação não autorizada. Cartão bloqueado para compras hoje</td>
-<td>Transação não autorizada. Cartão bloqueado para compras hoje. Bloqueio pode ter ocorrido por excesso de tentativas inválidas. O cartão será desbloqueado automaticamente à meia noite</td>
-<td>Transação não autorizada. Cartão bloqueado temporariamente. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>70</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>72</td>
-<td>Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente</td>
-<td>Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Cancelamento não efetuado. Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>74</td>
-<td>Transação não autorizada. A senha está vencida</td>
-<td>Transação não autorizada. A senha está vencida</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>75</td>
-<td>Senha bloqueada. Excedeu tentativas de cartão</td>
-<td>Transação não autorizada</td>
-<td>Sua Transação não pode ser processada. Entre em contato com o Emissor do seu cartão</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>76</td>
-<td>Cancelamento não efetuado. Banco emissor não localizou a transação original</td>
-<td>Cancelamento não efetuado. Banco emissor não localizou a transação original</td>
-<td>Cancelamento não efetuado. Entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>77</td>
-<td>Cancelamento não efetuado. Não foi localizado a transação original</td>
-<td>Cancelamento não efetuado. Não foi localizado a transação original</td>
-<td>Cancelamento não efetuado. Entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>78</td>
-<td>Transação não autorizada. Cartão bloqueado primeiro uso</td>
-<td>Transação não autorizada. Cartão bloqueado primeiro uso. Solicite ao portador que desbloqueie o cartão diretamente com seu banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor e solicite o desbloqueio do cartão</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>80</td>
-<td>Transação não autorizada. Divergencia na data de transação/pagamento</td>
-<td>Transação não autorizada. Data da transação ou data do primeiro pagamento inválida</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>82</td>
-<td>Transação não autorizada. Cartão inválido</td>
-<td>Transação não autorizada. Cartão Inválido. Solicite ao portador que reveja os dados e tente novamente</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>83</td>
-<td>Transação não autorizada. Erro no controle de senhas</td>
-<td>Transação não autorizada. Erro no controle de senhas</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>85</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>86</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>89</td>
-<td>Erro na transação</td>
-<td>Transação não autorizada. Erro na transação. O portador deve tentar novamente e se o erro persistir, entrar em contato com o banco emissor</td>
-<td>Transação não autorizada. Erro na transação. Tente novamente e se o erro persistir, entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>90</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>91</td>
-<td>Transação não autorizada. Banco emissor temporariamente indisponível</td>
-<td>Transação não autorizada. Banco emissor temporariamente indisponível</td>
-<td>Transação não autorizada. Banco emissor temporariamente indisponível. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>92</td>
-<td>Transação não autorizada. Tempo de comunicação excedido</td>
-<td>Transação não autorizada. Tempo de comunicação excedido</td>
-<td>Transação não autorizada. Comunicação temporariamente indisponível. Entre em contato com a loja virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>93</td>
-<td>Transação não autorizada. Violação de regra - Possível erro no cadastro</td>
-<td>Transação não autorizada. Violação de regra - Possível erro no cadastro</td>
-<td>Sua transação não pode ser processada. Entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>96</td>
-<td>Falha no processamento</td>
-<td>Não foi possível processar a transação. Falha no sistema da Braspag. Se o erro persistir, entre em contato com a Braspag</td>
-<td>Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>97</td>
-<td>Valor não permitido para essa transação</td>
-<td>Transação não autorizada. Valor não permitido para essa transação</td>
-<td>Transação não autorizada. Valor não permitido para essa transação</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>98</td>
-<td>Sistema/comunicação indisponível</td>
-<td>Transação não autorizada. Sistema do emissor sem comunicação. Se for geral, verificar SITEF, GATEWAY e/ou Conectividade</td>
-<td>Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>99</td>
-<td>Sistema/comunicação indisponível</td>
-<td>Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !</td>
-<td>Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>999</td>
-<td>Sistema/comunicação indisponível</td>
-<td>Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !</td>
-<td>Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>AA</td>
-<td>Tempo Excedido</td>
-<td>Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor</td>
-<td>Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>AC</td>
-<td>Transação não permitida. Cartão de débito sendo usado com crédito. Use a função débito</td>
-<td>Transação não permitida. Cartão de débito sendo usado com crédito. Solicite ao portador que selecione a opção de pagamento Cartão de Débito</td>
-<td>Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de débito</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AE</td>
-<td>Tente Mais Tarde</td>
-<td>Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor</td>
-<td>Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>AF</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AG</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AH</td>
-<td>Transação não permitida. Cartão de crédito sendo usado com débito. Use a função crédito</td>
-<td>Transação não permitida. Cartão de crédito sendo usado com débito. Solicite ao portador que selecione a opção de pagamento Cartão de Crédito</td>
-<td>Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de crédito</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AI</td>
-<td>Transação não autorizada. Autenticação não foi realizada</td>
-<td>Transação não autorizada. Autenticação não foi realizada. O portador não concluiu a autenticação. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir, entre em contato com a Braspag informando o BIN (6 primeiros dígitos do cartão)</td>
-<td>Transação não autorizada. Autenticação não foi realizada com sucesso. Tente novamente e informe corretamente os dados solicitado. Se o erro persistir, entre em contato com o lojista</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AJ</td>
-<td>Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente selecionando a opção Private Label</td>
-<td>Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Solicite ao portador que tente novamente selecionando a opção Private Label. Caso não disponibilize a opção Private Label verifique na Braspag se o seu estabelecimento permite essa operação</td>
-<td>Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente e selecione a opção Private Label. Em caso de um novo erro entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>AV</td>
-<td>Transação não autorizada. Dados Inválidos</td>
-<td>Falha na validação dos dados da transação. Oriente o portador a rever os dados e tentar novamente</td>
-<td>Falha na validação dos dados. Reveja os dados informados e tente novamente</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>BD</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag</td>
-<td>Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>BL</td>
-<td>Transação não autorizada. Limite diário excedido</td>
-<td>Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor</td>
-<td>Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>BM</td>
-<td>Transação não autorizada. Cartão Inválido</td>
-<td>Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor ou dados incorretos. Tente usar o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo</td>
-<td>Transação não autorizada. Cartão inválido.  Refaça a transação confirmando os dados informados</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>BN</td>
-<td>Transação não autorizada. Cartão ou conta bloqueado</td>
-<td>Transação não autorizada. O cartão ou a conta do portador está bloqueada. Solicite ao portador que entre em contato com  seu banco emissor</td>
-<td>Transação não autorizada. O cartão ou a conta do portador está bloqueada. Entre em contato com  seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>BO</td>
-<td>Transação não permitida. Falha da operação</td>
-<td>Transação não permitida. Houve um erro no processamento. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor</td>
-<td>Transação não permitida. Houve um erro no processamento. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>BP</td>
-<td>Transação não autorizada. Conta corrente inexistente</td>
-<td>Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Solicite ao portador que entre em contato com o banco emissor</td>
-<td>Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Entre em contato com o banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>BV</td>
-<td>Transação não autorizada. Cartão vencido</td>
-<td>Transação não autorizada. Cartão vencido</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>CF</td>
-<td>Transação não autorizada.C79:J79 Falha na validação dos dados</td>
-<td>Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor</td>
-<td>Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>CG</td>
-<td>Transação não autorizada. Falha na validação dos dados</td>
-<td>Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor</td>
-<td>Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>DA</td>
-<td>Transação não autorizada. Falha na validação dos dados</td>
-<td>Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor</td>
-<td>Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>DF</td>
-<td>Transação não permitida. Falha no cartão ou cartão inválido</td>
-<td>Transação não permitida. Falha no cartão ou cartão inválido. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco</td>
-<td>Transação não permitida. Falha no cartão ou cartão inválido. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>DM</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Limite excedido/sem saldo</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>DQ</td>
-<td>Transação não autorizada. Falha na validação dos dados</td>
-<td>Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor</td>
-<td>Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>DS</td>
-<td>Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>EB</td>
-<td>Transação não autorizada. Limite diário excedido</td>
-<td>Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor</td>
-<td>Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor</td>
-<td>A partir do dia seguinte, apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>EE</td>
-<td>Transação não permitida. Valor da parcela inferior ao mínimo permitido</td>
-<td>Transação não permitida. Valor da parcela inferior ao mínimo permitido. Não é permitido parcelas inferiores a R$ 5,00. Necessário rever calculo para parcelas</td>
-<td>Transação não permitida. O valor da parcela está abaixo do mínimo permitido. Entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>EK</td>
-<td>Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Transação não permitida para o cartão</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>FA</td>
-<td>Transação não autorizada.</td>
-<td>Transação não autorizada AmEx</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FC</td>
-<td>Transação não autorizada. Ligue Emissor</td>
-<td>Transação não autorizada. Oriente o portador a entrar em contato com o banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FD</td>
-<td>Transação negada. Reter cartão condição especial</td>
-<td>Transação não autorizada por regras do banco emissor</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FE</td>
-<td>Transação não autorizada. Divergencia na data de transação/pagamento</td>
-<td>Transação não autorizada. Data da transação ou data do primeiro pagamento inválida</td>
-<td>Transação não autorizada. Refazer a transação confirmando os dados</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FF</td>
-<td>Cancelamento OK</td>
-<td>Transação de cancelamento autorizada com sucesso. ATENÇÂO: Esse retorno é para casos de cancelamentos e não para casos de autorizações</td>
-<td>Transação de cancelamento autorizada com sucesso</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FG</td>
-<td>Transação não autorizada. Ligue AmEx</td>
-<td>Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx</td>
-<td>Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>FG</td>
-<td>Ligue 08007285090</td>
-<td>Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx</td>
-<td>Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>GA</td>
-<td>Aguarde Contato</td>
-<td>Transação não autorizada. Referida pelo Lynx Online de forma preventiva. A Braspag entrará em contato com o lojista sobre esse caso</td>
-<td>Transação não autorizada. Entre em contato com o lojista</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>HJ</td>
-<td>Transação não permitida. Código da operação inválido</td>
-<td>Transação não permitida. Código da operação Coban inválido</td>
-<td>Transação não permitida. Código da operação Coban inválido. Entre em contato com o lojista</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>IA</td>
-<td>Transação não permitida. Indicador da operação inválido</td>
-<td>Transação não permitida. Indicador da operação Coban inválido</td>
-<td>Transação não permitida. Indicador da operação Coban inválido. Entre em contato com o lojista</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>JB</td>
-<td>Transação não permitida. Valor da operação inválido</td>
-<td>Transação não permitida. Valor da operação Coban inválido</td>
-<td>Transação não permitida. Valor da operação Coban inválido. Entre em contato com o lojista</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>KA</td>
-<td>Transação não permitida. Falha na validação dos dados</td>
-<td>Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag</td>
-<td>Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>KB</td>
-<td>Transação não permitida. Selecionado a opção incorrente</td>
-<td>Transação não permitida. Selecionado a opção incorreta. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir deve ser verificado a comunicação entre loja virtual e Braspag</td>
-<td>Transação não permitida. Selecionado a opção incorreta. Tente novamente. Se o erro persistir entre em contato com a Loja Virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>KE</td>
-<td>Transação não autorizada. Falha na validação dos dados</td>
-<td>Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Verifique as opções disponíveis para o portador</td>
-<td>Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Entre em contato com a loja virtual</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>N7</td>
-<td>Transação não autorizada. Código de segurança inválido</td>
-<td>Transação não autorizada. Código de segurança inválido. Oriente o portador corrigir os dados e tentar novamente</td>
-<td>Transação não autorizada. Reveja os dados e informe novamente</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>R1</td>
-<td>Transação não autorizada. Cartão inadimplente (Do not honor)</td>
-<td>Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador</td>
-<td>Transação não autorizada. Entre em contato com seu banco emissor</td>
-<td>Apenas 4 vezes em 16 dias</td>
-</tr>
-<tr>
-<td>U3</td>
-<td>Transação não permitida. Falha na validação dos dados</td>
-<td>Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag</td>
-<td>Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual</td>
-<td>Não</td>
-</tr>
-</tbody></table>
-
-<h2 id="glossário">Glossário</h2>
-
-<p>Para facilitar o entendimento, listamos abaixo um pequeno glossário com os principais termos relacionados ao eCommerce, ao mercado de cartões e adquirencia:</p>
-
-<ul>
-<li><strong>AUTORIZAÇÃO</strong>: A autorização é a principal operação no e-commerce, é através dela que uma venda pode ser concretizada. Existe a possibilidade de realizar uma pré-autorização que apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.</li>
-<li><strong>CAPTURA</strong>: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através da operação de captura que se efetiva uma pré-autorização, podendo esta ser executada, em média, em até 5 dias após a data da pré-autorização.</li>
-<li><strong>CANCELAMENTO</strong> / <strong>ESTORNO</strong>: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura. <em>É considerado estorno ao realizar a chamada após as 23:59:59 da data da autorização/captura.</em></li>
-<li><strong>AUTENTICAÇÃO</strong>: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco o risco de fraude.</li>
-<li><strong>CARTÃO PROTEGIDO</strong>: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de “token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como “Compra com 1 clique” e “Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.</li>
-<li><strong>ANTIFRAUDE</strong>: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.</li>
-<li><strong>RECORRENTE</strong>: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.</li>
-<li><strong>RENOVA FÁCIL</strong>: O serviço Renova Fácil traz garantia e tranquilidade à estabelecimentos que utilizam a aquirencia da Cielo e que efetuam vendas recorrentes.
-Ele possibilita a atualização do número do cartão do cliente, cuja numeração ou validade tenha sido alterada, eliminando a necessidade de contato com o cliente no momento da renovação do serviço e reduzindo o número de transações negadas. Com o Renova Fácil você garante as transações e oferece mais comodidade a seus clientes. A funcionalidade do Renova Fácil é transparente para o lojista e para o cliente final. Toda a integração fica do nosso lado, onde conseguimos atualizar os novos dados do cartão e submeter a transação com a informação atualizada.</li>
-</ul>
-
 <h2 id="cartões-para-teste-(simulado)">Cartões para Teste (Simulado)</h2>
 
 <p>O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.</p>
@@ -9927,6 +9165,22 @@ Ele possibilita a atualização do número do cartão do cliente, cuja numeraç�
 </tbody></table>
 
 <p>As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).</p>
+
+<h1 id="faq">FAQ</h1>
+
+<table><thead>
+<tr>
+<th>Perguntas</th>
+<th>Respostas</th>
+<th>Tema</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Qual é a diferença entre Status, ReasonCode e ProviderReasonCode?</td>
+<td><UL><LI>Status: representa o status atual da transação.</LI><LI>ReasonCode: representa o status da requisição.</LI><LI>ProviderReasonCode: representa o código de resposta da transação da adquirente.</LI></UL><BR><BR>Por exemplo, uma requisição de autorização poderá ter o retorno com ReasonCode=0 (Sucessfull), ou seja, a requisição finalizou com sucesso, porém, o Status poderá ser 0-Denied, por ter a transação não autorizada pela adquirente, por exemplo, ProviderReasonCode=57 (um dos códigos de negada da Cielo)</td>
+<td>Integração</td>
+</tr>
+</tbody></table>
 
             </div>
             <div class="dark-box">
