@@ -8,63 +8,55 @@ language_tabs:
 search: true
 ---
 
-# Integração API
+# Introdução ao Pagador API
 
-O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API da Braspag, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
+O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com o API do Pagador, gateway de pagamentos da Braspag, descrevendo os serviços disponíveis com exemplos de requisição e respostas.
 
-O mecanismo de integração com o Braspag eCommerce é simples, de modo que apenas conhecimentos intermediários em linguagem de programação para Web, requisições HTTP/HTTPS e manipulação de arquivos JSON, são necessários para implantar a solução Braspag eCommerce com sucesso.
+Todas as operações requerem credenciais de acesso (Merchant ID e Merchant Key) específicos para respectivos ambientes: **Sandbox**, **Homologação** e **Produção**. Para executar uma operação, combine o endpoint base do ambiente com o endpoint da operação desejada e envie utilizando o VERBO HTTP conforme descrito na operação.
 
-Nesse manual você encontrará a referência sobre todas as operações disponíveis na API REST do API. Estas operações devem ser executadas utilizando sua chave específica (Merchant ID e Merchant Key) nos respectivos endpoints dos ambientes:
+## Ambientes
 
-* Ambiente Produção
-    * **Requisição de transação**: https://api.braspag.com.br/
-    * **Consulta transação**: https://apiquery.braspag.com.br/
-* Ambiente Sandbox
-    * **Requisição de transação**: https://apisandbox.braspag.com.br/
-    * **Consulta transação**: https://apiquerysandbox.braspag.com.br/
+### Ambiente Sandbox
 
-Para executar uma operação, combine a URL base do ambiente com a URL da operação desejada e envie utilizando o verbo HTTP conforme descrito na operação.
+Experimente as nossas APIs sem compromisso! 
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Acesse o [Cadastro do Sandbox](https://cadastrosandbox.braspag.com.br/) e crie uma conta de testes.<BR>Ao fim do cadastro você receberá um `MerchantId` e um `MerchantKey`,<BR> que deverão ser utilizados para autenticar todas as requisições feitas para os endpoints da API|
+|Endpoint Transacional|https://apisandbox.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiquerysandbox.braspag.com.br/|
+
+### Ambiente de Homologação
+
+Valide seu desenvolvimento junto à nossa equipe! 
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!|
+|Endpoint Transacional|https://apihomolog.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiqueryhomolog.braspag.com.br/|
+
+### Ambiente de Produção
+
+Já estou pronto para entrar em Produção!
+
+|Informação|Descrição|
+|----------|---------|
+|Credenciais de Acesso à API|Envie um email para comercial@braspag.com.br para mais informações sobre a Braspag e sobre como podemos ajudar no seu negócio!|
+|Endpoint Transacional|https://api.braspag.com.br/|
+|Endpoint para Serviços de Consultas|https://apiquery.braspag.com.br/|
 
 ## Suporte Braspag
 
-A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web, telefone e telefones de emergência. Nossa equipe de atendimento atende em português, inglês e espanhol.
+<aside class="notice">A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web. Contamos com a equipe que poderá atender em português, inglês e espanhol.</aside>
 
-* Web: [Suporte Braspag](http://suporte.braspag.com.br/)
-* Email: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
-* Telefone: (11) 2184 0550
+* Atendimento Web: [Suporte Braspag via Portal](http://suporte.braspag.com.br/)
+* E-mail: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
+* Telefone: (11)2184-0550
 
-## Glossário
+## Características da Solução
 
-Para facilitar o entendimento, listamos abaixo um pequeno glossário com os principais termos relacionados ao eCommerce, ao mercado de cartões e adquirencia:
-
-* **AUTORIZAÇÃO**: A autorização é a principal operação no e-commerce, é através dela que uma venda pode ser concretizada. Existe a possibilidade de realizar uma pré-autorização que apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
-* **CAPTURA**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através da operação de captura que se efetiva uma pré-autorização, podendo esta ser executada, em média, em até 5 dias após a data da pré-autorização.
-* **CANCELAMENTO** / **ESTORNO**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura. *É considerado estorno ao realizar a chamada após as 23:59:59 da data da autorização/captura.*
-* **AUTENTICAÇÃO**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco o risco de fraude.
-* **CARTÃO PROTEGIDO**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de “token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como “Compra com 1 clique” e “Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
-* **ANTIFRAUDE**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
-* **RECORRENTE**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
-* **RENOVA FÁCIL**: O serviço Renova Fácil traz garantia e tranquilidade à estabelecimentos que utilizam a aquirencia da Cielo e que efetuam vendas recorrentes.
-Ele possibilita a atualização do número do cartão do cliente, cuja numeração ou validade tenha sido alterada, eliminando a necessidade de contato com o cliente no momento da renovação do serviço e reduzindo o número de transações negadas. Com o Renova Fácil você garante as transações e oferece mais comodidade a seus clientes. A funcionalidade do Renova Fácil é transparente para o lojista e para o cliente final. Toda a integração fica do nosso lado, onde conseguimos atualizar os novos dados do cartão e submeter a transação com a informação atualizada.
-
-### Renova Fácil
-
-O serviço do Renova Fácil precisa está habilitado junto a Cielo. Bancos Emissores participantes:
-
-* Bradesco
-* Banco do Brasil
-* Santander
-* Panamericano
-* Citi
-
-# Visão Geral
-
-Aqui você pode encontrar um resumo de todas as operações disponíveis na API REST do Pagador. Essas operações podem ser executadas utilizando sua chave específica nos ambientes (Sandbox e Produção).
-
-## Características da solução
-
-A solução API da plataforma Braspag eCommerce foi desenvolvida com a tecnologia REST, que é padrão de mercado e independe da tecnologia utilizada por nossos clientes. Dessa forma, é possível integrar-se utilizando as mais variadas linguagens de programação, tais como: ASP, ASP. Net, Java, PHP, Ruby, Python, etc.
+A solução API Pagador foi desenvolvida com a tecnologia REST, que é padrão de mercado e independe da tecnologia utilizada por nossos clientes. Desta forma, é possível integrar-se utilizando as mais variadas linguagens de programação, tais como: ASP, ASP. Net, Java, PHP, Ruby, Python, entre outras.
 
 Entre outras características, os atributos que mais se destacam na plataforma Braspag eCommerce:
 
@@ -77,83 +69,34 @@ Entre outras características, os atributos que mais se destacam na plataforma B
 
 ## Arquitetura
 
-A integração é realizada através de serviços disponibilizados como Web Services. O modelo empregado é bastante simples: Existem duas URLs (endpoint), uma específica operações que causam efeitos colaterais - como autorização, captura e cancelamento de transações, e uma URL específica para operações que não causam efeitos colaterais, como pesquisa de transações. Essas duas URLs receberão as mensagens HTTP através dos métodos POST, GET ou PUT. Cada tipo de mensagem deve ser enviada para um recurso identificado através do path.
+A integração é realizada através de serviços disponibilizados como Web Services. O modelo empregado é bastante simples: Existem duas URLs (endpoints), uma específica para autorização, captura e cancelamento de transações, e uma outra para operações como pesquisa de transações. Essas duas URLs receberão as mensagens HTTP através dos métodos POST, GET ou PUT. Cada tipo de mensagem deve ser enviada para um endereço identificado através do "path".
 
-* **POST** - O método HTTP POST é utilizado na criação dos recursos ou no envio de informações que serão processadas. Por exemplo, criação de uma transação.
+* **POST** - O método HTTP POST é utilizado na criação de uma transação.
 * **PUT** - O método HTTP PUT é utilizado para atualização de um recurso já existente. Por exemplo, captura ou cancelamento de uma transação previamente autorizada.
 * **GET** - O método HTTP GET é utilizado para consultas de recursos já existentes. Por exemplo, consulta de transações.
 
-## Sandbox
-
-Para facilitar os testes durante a integração, a Braspag oferece um ambiente Sandbox que é composto por duas áreas:
-
-1. Cadastro de conta de testes
-2. Endpoints transacionais
-    * **Requisição**: https://apisandbox.braspag.com.br/
-    * **Consulta**: https://apiquerysandbox.braspag.com.br/
-
-Não é necessário uma afiliação para utilizar o Sanbox Braspag. Basta acessar o [Cadastro do Sandbox](https://cadastrosandbox.braspag.com.br/) e criar uma conta de testes. Ao fim do cadastro você receberá um `MerchantId` e um `MerchantKey`, que deverão ser utilizados para autenticar todas as requisições feitas para os endpoints da API.
-
-### Meio de Pagamento Simulado
-
-O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.
-
-Para melhor utilização do Meio de Pagamento Simulado, estamos disponibilizando cartões de testes na tabela abaixo.
-
-Os status das transações serão conforme a utilização de cada cartão.
-
-|Status da Transação|Cartões para realização dos testes|Código de Retorno|Mensagem de Retorno|
-|-------------------|----------------------------------|-----------------|-------------------|
-|Autorizado|0000.0000.0000.0001 / 0000.0000.0000.0004|4|Operação realizada com sucesso|
-|Não Autorizado|0000.0000.0000.0002|2|Não Autorizada|
-|Autorização Aleatória|0000.0000.0000.0009|4 / 99|Operation Successful / Time Out|
-|Não Autorizado|0000.0000.0000.0007|77|Cartão Cancelado|
-|Não Autorizado|0000.0000.0000.0008|70|Problemas com o Cartão de Crédito|
-|Não Autorizado|0000.0000.0000.0005|78|Cartão Bloqueado|
-|Não Autorizado|0000.0000.0000.0003|57|Cartão Expirado|
-|Não Autorizado|0000.0000.0000.0006|99|Time Out|
-
-As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).
-
-## Post de Notificação
-
-Para receber a notificação de modificação de status deve-se ter configurado no admin o campo URL Status Pagamento para receber os parâmetros conforme o exemplo ao lado.
-
-Resposta esperada da Loja: HTTP Status Code 200 OK
-
-Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes enviar o Post de Notificação.
-
-```json
-{
-   "PaymentId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-   "ChangeType": "1"
-}
-```
-
-|ChangeType|Descrição|
-|----------|---------|
-|1|Mudança de status do pagamento|
-|2|Recorrência criada|
-|3|Mudança de status do antiFraud|
-
 # Pagamentos com Cartão de Crédito
-
-<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada (ou confirmada).</aside>
 
 Para que você possa desfrutar de todos os recursos disponíveis em nossa API, é importante que antes você conheça os conceitos envolvidos no processamento de uma transação de cartão de crédito.
 
-* **Autorização**: A autorização (ou pré-autorização) é a principal operação no eCommerce, pois através dela é que uma venda pode ser concretizada. A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança para o consumidor.
-* **Captura**: Ao realizar uma pré-autorização, é necessário a confirmação desta para que a cobrança seja efetivada ao portador do cartão. Através desta operação que se efetiva uma pré-autorização, podendo esta ser executada, em normalmente, em até 5 dias após a data da pré-autorização.
-* **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada ou for uma Autorização, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
+* **Autorização**: A autorização (ou pré-autorização) é uma operação que viabiliza o processamento de uma venda com um cartão de crédito.A pré-autorização apenas sensibiliza o limite do cliente, mas ainda não gera cobrança na fatura para o consumidor. Desta forma, é necessário uma segunda operação, chamada 'captura'. 
+* **Captura**: Ao realizar uma pré-autorização, é necessário confirmá-la para que a cobrança seja efetivada. O tempo limite para capturar uma transação pré-autorizada varia de adquirente para adquirente, que pode ser por exemplo, de até 5 dias após a data da pré-autorização.
+* **Captura Automática**: É quando uma transação é autorizada e capturada no mesmo momento, isentando do lojista enviar uma confirmação posterior.
+
+<aside class="warning">Uma transação autorizada somente gera o crédito para o lojista se ela for capturada.</aside>
+
+* **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
+* **Estorno**: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de 'chargeback' pela adquirente. 
+
+<aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
+
 * **Autenticação**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.
-* **Cartão protegido**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de "token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como "Compra com 1 clique” e "Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
-* **Antifraude**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Cada transação é submetida a mais de 260 regras, além das regras específicas de cada segmento, e geram uma recomendação de risco em aproximadamente dois segundos. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
-* **Recorrente**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
-É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
+* **Cartão Protegido**: É uma plataforma que permite o armazenamento seguro de dados sensíveis de cartão de crédito. Estes dados são transformados em um código criptografrado chamado de "token”, que poderá ser armazenado em banco de dados. Com a plataforma, a loja poderá oferecer recursos como "Compra com 1 clique” e "Retentativa de envio de transação”, sempre preservando a integridade e a confidencialidade das informações.
+* **Antifraude**: É uma plataforma de prevenção à fraude que fornece uma análise de risco detalhada das compras on-line. Este processo é totalmente transparente para o portador do cartão. De acordo com os critérios preestabelecidos, o pedido pode ser automaticamente aceito, recusado ou encaminhado para análise manual.
 
-## Criando uma transação simples
+## Criando uma transação básica
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment, conforme o exemplo. Esse exemplo contempla o mínimo de campos necessários a serem enviados para a autorização.
+Exemplo de uma transação com dados obrigatórios para um simples processamento de transação de cartão de crédito. Algumas funcionalidades, tais como Captura Automática, Autenticação, Antifraude, Velocity entre outras, requerem preenchimento de mais dados. Neste caso, por favor, consulte os demais exemplos no manual.
 
 ### Requisição
 
@@ -161,17 +104,18 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ```json
 {
-   "MerchantOrderId":"2014111703",
+   "MerchantOrderId":"2017051001",
    "Customer":{
-      "Name":"Comprador Teste"
+      "Name":"Nome do Cliente"
    },
    "Payment":{
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
      "Installments":1,
      "CreditCard":{
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -188,19 +132,19 @@ curl
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014111703",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051001",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":15700,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -212,76 +156,76 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305023644309",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Installments":1,
-        "ReceivedDate": "2015-04-25 08:34:04",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -290,74 +234,76 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305023644309",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Installments":1,
-        "ReceivedDate": "2015-04-25 08:34:04"
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 
-## Criando uma transação completa
+## Criando uma transação com dados do comprador
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment conforme o exemplo. Esse exemplo contempla todos os campos possíveis que podem ser enviados.
+Este é um exemplo de uma transação com todos os dados preenchidos. Isso inclui os dados do comprador e campos específicos para definir o comportamento de autorização, autenticação e dados extras.
 
 ### Requisição
 
@@ -365,56 +311,58 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ```json
 {  
-   "MerchantOrderId":"2014111701",
+   "MerchantOrderId":"2017051002",
    "Customer":{  
-      "Name":"Comprador Teste",
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@teste.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Teste",
-         "Number":"123",
-         "Complement":"AP 123",
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
          "ZipCode":"12345987",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
       },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
      "Capture":true,
      "Authenticate":false,    
      "Recurrent": false,
-     "SoftDescriptor":"tst",
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
-         "SaveCard":"false",
-         "Brand":"Visa"
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "ExtraDataCollection":[{
          "Name":"NomeDoCampo",
-         "Value":"1234567"
+         "Value":"ValorDoCampo"
      }]
    }
 }
@@ -429,56 +377,58 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-   "MerchantOrderId":"2014111701",
+   "MerchantOrderId":"2017051002",
    "Customer":{  
-      "Name":"Comprador Teste",
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@teste.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Teste",
-         "Number":"123",
-         "Complement":"AP 123",
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
          "ZipCode":"12345987",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
       },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":15700,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
      "Capture":true,
      "Authenticate":false,    
      "Recurrent": false,
-     "SoftDescriptor":"tst",
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
-         "SaveCard":"false",
-         "Brand":"Visa"
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "ExtraDataCollection":[{
          "Name":"NomeDoCampo",
-         "Value":"1234567"
+         "Value":"ValorDoCampo"
      }]
    }
 }
@@ -487,127 +437,140 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente.| 
-|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ).|
-|`Customer.Email`|Texto|255|Não|Email do Comprador.|
-|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador.|
-|`Customer.Address.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço do Comprador.br|
-|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.Address.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.Address.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.Address.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP).|
-|`Payment.Country`|Texto|3|Não|Pais na qual o pagamento será feito.|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer).|
-|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que identifica que a autorização deve ser com captura automática.|
-|`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o CardToken.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Email`|Texto|255|Não|Email do comprador|
+|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador no formato AAAA-MM-DD|
+|`Customer.Address.Street`|Texto|255|Não|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador|
+|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Não|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Não|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Não|Pais do endereço de contato do comprador|
+|`Customer.Address.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.DeliveryAddress.Number`|Texto|15|Não|Número do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização|
+|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP)|
+|`Payment.Country`|Texto|3|Não|País na qual o pagamento será feito|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Emissor (ByIssuer)|
+|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que indica se a autorização deve ser com captura automática (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Authenticate`|Booleano|---|Não (Default false)|Booleano que indica se a transação deve ser autenticada (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Recurrent`|Booleano|---|Não (Default false)|Booleano que indica se a transação é do tipo recorrente (true) ou não (false). Este com valor true não originará uma nova Recorrência, apenas permitirá a realização de uma transação sem a necessidade de envio do CVV. Somente para transações Cielo. Authenticate deve ser false quando Recurrent é true|
+|`Payment.SoftDescriptor`|Texto|13|Não|Texto que será impresso na fatura do portador|
+|`Payment.ExtraDataCollection.Name`|Texto|50|Não|Nome do campo que será gravado o Dado Extra|
+|`Payment.ExtraDataCollection.Value`|Texto|1024|Não|Valor do campo que será gravado o Dado Extra|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do portador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o token (CardToken)|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",    
-        "Identity":"11225468954",
-        "IdentityType":"CPF",
-        "Email": "compradorteste@teste.com",
-        "Birthdate": "1991-01-02",
-        "Address": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+  "MerchantOrderId": "2017051002",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Birthdate": "1991-01-02",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": true,
-        "Authenticate": false,
-        "Recurrent": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305020554239",
-        "AuthorizationCode": "123456",
-        "SoftDescriptor":"tst",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 08:42:48",
-        "CapturedAmount": 15700,
-        "CapturedDate": "2015-06-25 08:42:48",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ExtraDataCollection": [
-         {
-             "Name":"NomeDoCampo",
-             "Value":"1234567"
-         }
-        ],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 2,
-        "ProviderReasonCode": "6",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "20170510053219433",
+    "AcquirerTransactionId": "0510053219433",
+    "AuthorizationCode": "936403",
+    "SoftDescriptor": "Mensagem",
+    "VelocityAnalysis": {
+      "Id": "c374099e-c474-4916-9f5c-f2598fec2925",
+      "ResultMessage": "Accept",
+      "Score": 0
+    },
+    "PaymentId": "c374099e-c474-4916-9f5c-f2598fec2925",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 17:32:19",
+    "CapturedAmount": 10000,
+    "CapturedDate": "2017-05-10 17:32:19",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ExtraDataCollection": [
+      {
+        "Name": "NomeDoCampo",
+        "Value": "ValorDoCampo"
+      }
+    ],
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 2,
+    "ProviderReturnCode": "6",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -616,102 +579,114 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",    
-        "Identity":"11225468954",
-        "IdentityType":"CPF",
-        "Email": "compradorteste@teste.com",
-        "Birthdate": "1991-01-02",
-        "Address": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        },
-        "DeliveryAddress": {
-            "Street": "Rua Teste",
-            "Number": "123",
-            "Complement": "AP 123",
-            "ZipCode": "12345987",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+  "MerchantOrderId": "2017051002",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Birthdate": "1991-01-02",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": true,
-        "Authenticate": false,
-        "Recurrent": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AcquirerTransactionId": "0305020554239",
-        "AuthorizationCode": "123456",
-        "SoftDescriptor":"tst",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 08:42:48",
-        "CapturedAmount": 15700,
-        "CapturedDate": "2015-06-25 08:42:48",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ExtraDataCollection": [
-         {
-             "Name":"NomeDoCampo",
-             "Value":"1234567"
-         }
-        ],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 2,
-        "ProviderReasonCode": "6",
-        "ProviderReasonMessage": "Operation Successful",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "20170510053219433",
+    "AcquirerTransactionId": "0510053219433",
+    "AuthorizationCode": "936403",
+    "SoftDescriptor": "Mensagem",
+    "VelocityAnalysis": {
+      "Id": "c374099e-c474-4916-9f5c-f2598fec2925",
+      "ResultMessage": "Accept",
+      "Score": 0
+    },
+    "PaymentId": "c374099e-c474-4916-9f5c-f2598fec2925",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 17:32:19",
+    "CapturedAmount": 10000,
+    "CapturedDate": "2017-05-10 17:32:19",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ExtraDataCollection": [
+      {
+        "Name": "NomeDoCampo",
+        "Value": "ValorDoCampo"
+      }
+    ],
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 2,
+    "ProviderReturnCode": "6",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/c374099e-c474-4916-9f5c-f2598fec2925/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`CapturedDate`|Data em que a transação foi capturada a transação|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`CapturedAmount`|Valor capturado (sem pontuação)|Número|15|100 equivale a R$ 1,00|
+|`ECI`|Eletronic Commerce Indicator. Representa o resultado da autenticação|Texto|2|Exemplos: 5|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 
-## Criando uma venda com Autenticação
+## Criando uma transação com Autenticação
 
-Para criar uma transação com autenticação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment conforme o exemplo.
+Quando uma transação é submetida ao processo de autenticação, o portador será redirecionado ao ambiente do emissor, onde deverá realizar a confirmação de seus dados. Quando validado corretamente, o "liability" da transação passa a ser do banco, ou seja, em casos de contestação, o banco será o responsável. 
 
-<aside class="notice"><strong>Autenticação:</strong> Nesta modalidade o portador do cartão é direcionado para o ambiente de autenticação do banco emissor do cartão onde será solicitada a inclusão da senha do cartão.</aside>
+<aside class="notice"><strong>Autenticação:</strong>Nesta modalidade o portador do cartão é direcionado para o ambiente de autenticação do banco emissor do cartão onde será solicitada a inclusão da senha do cartão. Aplicável somente para Cielo.</aside>
 
 ### Requisição
 
@@ -719,21 +694,20 @@ Para criar uma transação com autenticação que utilizará cartão de crédito
 
 ```json
 {  
-   "MerchantOrderId":"2014111903",
+   "MerchantOrderId":"2017051101",
    "Customer":{  
-      "Name":"Comprador Teste"
+      "Name":"Nome do Comprador"
    },
    "Payment":{  
-      "Type":"CreditCard",
-      "Amount":15700,
       "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000,      
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
-      "SoftDescriptor":"tst",
       "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2015",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -751,21 +725,20 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-   "MerchantOrderId":"2014111903",
+   "MerchantOrderId":"2017051101",
    "Customer":{  
-      "Name":"Comprador Teste"
+      "Name":"Nome do Comprador"
    },
    "Payment":{  
-      "Type":"CreditCard",
-      "Amount":15700,
       "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000,      
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
-      "SoftDescriptor":"tst",
       "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2015",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -777,70 +750,67 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
 |`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber.`|Texto|16|Sim|Número do Cartão do Comprador|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`Payment.ReturnUrl`|Texto|1024|Sim (quando Autenticate é true)|URL para onde o usuário será redirecionado após o fim da autenticação|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-	"MerchantOrderId":"2014111903",
-	"Customer":
-	{
-		"Name":"Comprador Teste"
-	},
-	"Payment":
-	{
-		"ServiceTaxAmount":0,
-		"Installments":1,
-		"Interest":"ByMerchant",
-		"Capture":false,
-		"Authenticate":true,
-		"CreditCard":
-		{
-			"CardNumber":"123412******1112",
-			"Holder":"Teste Holder",
-			"ExpirationDate":"12/2015",
-			"SaveCard":false,
-			"Brand":"Visa"
-		},
-		"AuthenticationUrl":"https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?id=c5158c1c7b475fdb91a7ad7cc094e7fe",
-        "AcquirerTransactionId": "1006993069257E521001",
-        "SoftDescriptor":"tst",
-		"PaymentId":"f2dbd5df-c2ee-482f-ab1b-7fee039108c0",
-		"Type":"CreditCard",
-		"Amount":15700,
-        "ReceivedDate": "2015-04-25 09:00:42",
-		"Currency":"BRL",
-		"Country":"BRA",
-		"Provider":"Cielo",
-		"ExtraDataCollection":[],
-		"ReasonCode":9,
-		"ReasonMessage":"Waiting",
-		"Status":0,
-        "ProviderReasonCode": "0",
-		"Links":
-		[
-			{
-				"Method":"GET",
-				"Rel":"self",
-				"Href":"https://apiquerysandbox.braspag.com.br/v2/sales/{Paymentid}"
-			}
-		]
-	}
+  "MerchantOrderId": "2017051101",
+  "Customer": {
+    "Name": "Nome do Comprador"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
+    "AcquirerTransactionId": "10069930690009D2A47A",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "b125109f-681b-4338-8450-f3e38bc71b32",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 11:09:49",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+      }
+    ]
+  }
 }
 ```
 
@@ -849,67 +819,66 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-	"MerchantOrderId":"2014111903",
-	"Customer":
-	{
-		"Name":"Comprador Teste"
-	},
-	"Payment":
-	{
-		"ServiceTaxAmount":0,
-		"Installments":1,
-		"Interest":"ByMerchant",
-		"Capture":false,
-		"Authenticate":true,
-		"CreditCard":
-		{
-			"CardNumber":"123412******1112",
-			"Holder":"Teste Holder",
-			"ExpirationDate":"12/2015",
-			"SaveCard":false,
-			"Brand":"Visa"
-		},
-		"AuthenticationUrl":"https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?id=c5158c1c7b475fdb91a7ad7cc094e7fe",
-        "AcquirerTransactionId": "1006993069257E521001",
-        "SoftDescriptor":"tst",
-		"PaymentId":"f2dbd5df-c2ee-482f-ab1b-7fee039108c0",
-		"Type":"CreditCard",
-		"Amount":15700,
-        "ReceivedDate": "2015-04-25 09:00:42",
-		"Currency":"BRL",
-		"Country":"BRA",
-		"Provider":"Cielo",
-		"ExtraDataCollection":[],
-		"ReasonCode":9,
-		"ReasonMessage":"Waiting",
-		"Status":0,
-        "ProviderReasonCode": "0",
-		"Links":
-		[
-			{
-				"Method":"GET",
-				"Rel":"self",
-				"Href":"https://apiquerysandbox.braspag.com.br/v2/sales/{Paymentid}"
-			}
-		]
-	}
+  "MerchantOrderId": "2017051101",
+  "Customer": {
+    "Name": "Nome do Comprador"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
+    "AcquirerTransactionId": "10069930690009D2A47A",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "b125109f-681b-4338-8450-f3e38bc71b32",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 11:09:49",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`AuthenticationUrl`|URL para qual o Lojista deve redirecionar o Cliente para o fluxo de autenticação|Texto|256|https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08|
 
-## Criando uma venda com Analise de Fraude
+## Criando uma transação com Análise de Fraude
 
-Para criar uma venda com cartão de crédito e analise de fraude, é necessário enviar uma requisição utilizando o método `POST` para o recurso Payment conforme o exemplo.
+Para que a análise de fraude seja efetuada em tempo de transação, é necessário complementar a mensagem com os dados mencionados no nó "FraudAnalysis". 
 
 ### Requisição
 
@@ -917,107 +886,111 @@ Para criar uma venda com cartão de crédito e analise de fraude, é necessário
 
 ```json
 {  
-   "MerchantOrderId":"201411173454307",
+   "MerchantOrderId":"2017051102",
    "Customer":{  
-      "Name":"Comprador accept",    
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@live.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Júpter",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
       },
-      "DeliveryAddress":{  
-         "Street":"Rua Júpter",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
-      }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":100,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
-     "Capture":false,
-     "Authenticate":false,
-     "SoftDescriptor":"tst",
+     "Capture":true,
+     "Authenticate":false,    
+     "Recurrent": false,
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"4024007197692931",
-         "Holder":"Teste accept",
-         "ExpirationDate":"12/2015",
-         "SecurityCode":"023",
-         "Brand":"Visa"
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "FraudAnalysis":{
        "Sequence":"AnalyseFirst",
        "SequenceCriteria":"Always",
-       "FingerPrintId":"074c1ee676ed4998ab66491013c565e2",    
        "CaptureOnLowRisk":false,
-       "VoidOnHighRisk":false,
+       "VoidOnHighRisk":false,       
+       "FingerPrintId":"074c1ee676ed4998ab66491013c565e2",    
 	   "Browser":{
 		 "CookiesAccepted":false,
-		 "Email":"compradorteste@live.com",
+		 "Email":"comprador@braspag.com.br",
 		 "HostName":"Teste",
-		 "IpAddress":"200.190.150.350",
+		 "IpAddress":"127.0.0.1",
 		 "Type":"Chrome"
 		},
        "Cart":{
          "IsGift":false,
          "ReturnsAccepted":true,
          "Items":[{
-           "GiftCategory":"Undefined",
-           "HostHedge":"Off",
-           "NonSensicalHedge":"Off",
-           "ObscenitiesHedge":"Off",
-           "PhoneHedge":"Off",
-           "Name":"ItemTeste",
-           "Quantity":1,
-           "Sku":"201411170235134521346",
-           "UnitPrice":123,
-		   "Risk":"High",
-		   "TimeHedge":"Normal",
-		   "Type":"AdultContent",
-		   "VelocityHedge":"High",
-		   "Passenger":{
-			 "Email":"compradorteste@live.com",
-			 "Identity":"1234567890",
-			 "Name":"Comprador accept",
-			 "Rating":"Adult",
-			 "Phone":"999994444",
-			 "Status":"Accepted"
+				"GiftCategory":"Undefined",
+				"HostHedge":"Off",
+				"NonSensicalHedge":"Off",
+				"ObscenitiesHedge":"Off",
+				"PhoneHedge":"Off",
+				"Name":"ItemTeste",
+				"Quantity":1,
+				"Sku":"20170511",
+				"UnitPrice":10000,
+				"Risk":"High",
+				"TimeHedge":"Normal",
+				"Type":"AdultContent",
+				"VelocityHedge":"High",
+				"Passenger":{
+				"Email":"comprador@braspag.com.br",
+				"Identity":"1234567890",
+				"Name":"Nome do Comprador",
+				"Rating":"Adult",
+				"Phone":"999994444",
+				"Status":"Accepted"
 			}
            }]
        },
-	   "MerchantDefinedFields":[{
+	    "MerchantDefinedFields":[{
 			"Id":95,
-			"Value":"Eu defini isso"
+			"Value":"Dado Definido pela Loja"
 		}],
 		"Shipping":{
-			"Addressee":"Sr Comprador Teste",
+			"Addressee":"Alameda Xingu, 512",
 			"Method":"LowCost",
-			"Phone":"21114740"
+			"Phone":"1121840540"
 		},
 		"Travel":{
-			"DepartureTime":"2010-01-02",
+			"DepartureTime":"2020-01-01",
 			"JourneyType":"Ida",
 			"Route":"MAO-RJO",
-          "Legs":[{
-				"Destination":"GYN",
-				"Origin":"VCP"
+		"Legs":[{
+			"Destination":"GYN",
+			"Origin":"VCP"
           }]
 		}
      }
@@ -1034,107 +1007,111 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-   "MerchantOrderId":"201411173454307",
+   "MerchantOrderId":"2017051102",
    "Customer":{  
-      "Name":"Comprador accept",    
-      "Identity":"11225468954",
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
       "IdentityType":"CPF",
-      "Email":"compradorteste@live.com",
+      "Email":"comprador@braspag.com.br",
       "Birthdate":"1991-01-02",
       "Address":{  
-         "Street":"Rua Júpter",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
       },
-      "DeliveryAddress":{  
-         "Street":"Rua Júpter",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
-      }
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA",
+		 "District":"Alphaville"
+	    }
    },
    "Payment":{  
+     "Provider":"Simulado",
      "Type":"CreditCard",
-     "Amount":100,
+     "Amount":10000,
+     "ServiceTaxAmount":0,
      "Currency":"BRL",
      "Country":"BRA",
-     "Provider":"Simulado",
-     "ServiceTaxAmount":0,
      "Installments":1,
      "Interest":"ByMerchant",
-     "Capture":false,
-     "Authenticate":false,
-     "SoftDescriptor":"tst",
+     "Capture":true,
+     "Authenticate":false,    
+     "Recurrent": false,
+     "SoftDescriptor":"Mensagem",
      "CreditCard":{  
-         "CardNumber":"4024007197692931",
-         "Holder":"Teste accept",
-         "ExpirationDate":"12/2015",
-         "SecurityCode":"023",
-         "Brand":"Visa"
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa",
+         "SaveCard":"false"
      },
      "FraudAnalysis":{
        "Sequence":"AnalyseFirst",
        "SequenceCriteria":"Always",
-       "FingerPrintId":"074c1ee676ed4998ab66491013c565e2",    
        "CaptureOnLowRisk":false,
-       "VoidOnHighRisk":false,
+       "VoidOnHighRisk":false,       
+       "FingerPrintId":"074c1ee676ed4998ab66491013c565e2",    
 	   "Browser":{
 		 "CookiesAccepted":false,
-		 "Email":"compradorteste@live.com",
+		 "Email":"comprador@braspag.com.br",
 		 "HostName":"Teste",
-		 "IpAddress":"200.190.150.350",
+		 "IpAddress":"127.0.0.1",
 		 "Type":"Chrome"
 		},
        "Cart":{
          "IsGift":false,
          "ReturnsAccepted":true,
          "Items":[{
-           "GiftCategory":"Undefined",
-           "HostHedge":"Off",
-           "NonSensicalHedge":"Off",
-           "ObscenitiesHedge":"Off",
-           "PhoneHedge":"Off",
-           "Name":"ItemTeste",
-           "Quantity":1,
-           "Sku":"201411170235134521346",
-           "UnitPrice":123,
-		   "Risk":"High",
-		   "TimeHedge":"Normal",
-		   "Type":"AdultContent",
-		   "VelocityHedge":"High",
-		   "Passenger":{
-			 "Email":"compradorteste@live.com",
-			 "Identity":"1234567890",
-			 "Name":"Comprador accept",
-			 "Rating":"Adult",
-			 "Phone":"999994444",
-			 "Status":"Accepted"
+				"GiftCategory":"Undefined",
+				"HostHedge":"Off",
+				"NonSensicalHedge":"Off",
+				"ObscenitiesHedge":"Off",
+				"PhoneHedge":"Off",
+				"Name":"ItemTeste",
+				"Quantity":1,
+				"Sku":"20170511",
+				"UnitPrice":10000,
+				"Risk":"High",
+				"TimeHedge":"Normal",
+				"Type":"AdultContent",
+				"VelocityHedge":"High",
+				"Passenger":{
+				"Email":"comprador@braspag.com.br",
+				"Identity":"1234567890",
+				"Name":"Nome do Comprador",
+				"Rating":"Adult",
+				"Phone":"999994444",
+				"Status":"Accepted"
 			}
            }]
        },
-	   "MerchantDefinedFields":[{
+	    "MerchantDefinedFields":[{
 			"Id":95,
-			"Value":"Eu defini isso"
+			"Value":"Dado Definido pela Loja"
 		}],
 		"Shipping":{
-			"Addressee":"Sr Comprador Teste",
+			"Addressee":"Alameda Xingu, 512",
 			"Method":"LowCost",
-			"Phone":"21114740"
+			"Phone":"1121840540"
 		},
 		"Travel":{
-			"DepartureTime":"2010-01-02",
+			"DepartureTime":"2020-01-01",
 			"JourneyType":"Ida",
 			"Route":"MAO-RJO",
-          "Legs":[{
-				"Destination":"GYN",
-				"Origin":"VCP"
+		"Legs":[{
+			"Destination":"GYN",
+			"Origin":"VCP"
           }]
 		}
      }
@@ -1145,131 +1122,141 @@ curl
 
 |Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
 |-----------|----|-------|-----------|---------|
-|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag.|
-|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag.|
-|`RequestId`|Guid|36|Não|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT.|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido.|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Customer.Email`|Texto|255|Não|Email do Comprador.|
-|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador.|
-|`Customer.Address.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.Address.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.Address.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.Address.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do Comprador.|
-|`Customer.Address.Number`|Texto|15|Não|Número do endereço do Comprador.|
-|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço do Comprador.|
-|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço do Comprador.|
-|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço do Comprador.|
-|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço do Comprador.|
-|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP).|
-|`Payment.Country`|Texto|3|Não|Pais na qual o pagamento será feito.|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer).|
-|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que identifica que a autorização deve ser com captura automática.|
-|`Payment.Authenticate`|Booleano|---|Não (Default false)|Define se o comprador será direcionado ao Banco emissor para autenticação do cartão|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o CardToken.|
-|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
-|`FraudAnalysis.Sequence`|Texto|14|Não|Tipo de Fluxo para realização da análise de fraude. Primeiro Analise (AnalyseFirst) ou Primeiro Autorização (AuthorizeFirst)|
-|`FraudAnalysis.SequenceCriteria`|Texto|9|Não|Critério do fluxo. OnSuccess - Só realiza a analise se tiver sucesso na transação. Always - Sempre realiza a analise|
-|`FraudAnalysis.FingerPrintId`|Texto|50|Não|Identificador utilizado para cruzar informações obtidas pelo Browser do internauta com os dados enviados para análise. Este mesmo valor deve ser passado na variável SESSIONID do script do DeviceFingerPrint.|
-|`FraudAnalysis.Browser.CookiesAccepted`|Booleano|---|Não|Booleano para identificar se o browser do cliente aceita cookies.|
-|`FraudAnalysis.Browser.Email`|Texto|100|Não|E-mail registrado no browser do comprador.|
-|`FraudAnalysis.Browser.HostName`|Texto|60|Não|Nome do host onde o comprador estava antes de entrar no site da loja.|
-|`FraudAnalysis.Browser.IpAddress`|Texto|15|Não|Endereço IP do comprador. É altamente recomendável o envio deste campo.|
-|`FraudAnalysis.Browser.Type`|Texto|40|Não|Nome do browser utilizado pelo comprador.|
-|`FraudAnalysis.Cart.IsGift`|Booleano|---|Não|Booleano que indica se o pedido é para presente ou não.|
-|`FraudAnalysis.Cart.ReturnsAccepted`|Booleano|---|Não|Booleano que define se devoluções são aceitas para o pedido.|
-|`FraudAnalysis.Items.GiftCategory`|Texto|9|Não|Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países.|
-|`FraudAnalysis.Items.HostHedge`|Texto||Não|Nível de importância do e-mail e endereços IP dos clientes em risco de pontuação.|
-|`FraudAnalysis.Items.NonSensicalHedge`|Texto|6|Não|Nível dos testes realizados sobre os dados do comprador com pedidos recebidos sem sentido.|
-|`FraudAnalysis.Items.ObscenitiesHedge`|Texto|6|Não|Nível de obscenidade dos pedidos recebedidos.|
-|`FraudAnalysis.Items.PhoneHedge`|Texto|6|Não|Nível dos testes realizados com os números de telefones.|
-|`FraudAnalysis.Items.Name`|Texto|255|Não|Nome do Produto.|
-|`FraudAnalysis.Items.Quantity`|Número|15|Não|Quantidade do produto a ser adquirido.|
-|`FraudAnalysis.Items.Sku`|Texto|255|Não|Código comerciante identificador do produto.|
-|`FraudAnalysis.Items.UnitPrice`|Número|15|Não|Preço unitário do produto.|
-|`FraudAnalysis.Items.Risk`|Texto|6|Não|Nível do risco do produto.|
-|`FraudAnalysis.Items.TimeHedge`|Texto||Não|Nível de importância da hora do dia do pedido do cliente.|
-|`FraudAnalysis.Items.Type`|Texto||Não|Tipo do produto.|
-|`FraudAnalysis.Items.VelocityHedge`|Texto|6|Não|Nível de importância de frequência de compra do cliente.|
-|`FraudAnalysis.Items.Passenger.Email`|Texto|255|Não|Email do Passageiro.|
-|`FraudAnalysis.Items.Passenger.Identity`|Texto|32|Não|Id do passageiro a quem o bilheite foi emitido.|
-|`FraudAnalysis.Items.Passenger.Name`|Texto|120|Não|Nome do passageiro.|
-|`FraudAnalysis.Items.Passenger.Rating`|Texto||Não|Classificação do Passageiro.|
-|`FraudAnalysis.Items.Passenger.Phone`|Texto|15|Não|Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país.|
-|`FraudAnalysis.Items.Passenger.Status`|Texto|32|Não|Classificação da empresa aérea. Pode-se usar valores como Gold ou Platina.|
-|`FraudAnalysis.MerchantDefinedFields.Id`|Texto|---|Não|Id das informações adicionais a serem enviadas.|
-|`FraudAnalysis.MerchantDefinedFields.Value`|Texto|255|Não|Valor das informações adicionais a serem enviadas.|
-|`FraudAnalysis.Shipping.Addressee`|Texto|255|Não|Nome do destinatário da entrega.|
-|`FraudAnalysis.Shipping.Method`|Texto||Não|Tipo de serviço de entrega do produto.|
-|`FraudAnalysis.Shipping.Phone`|Texto|15|Não|Telefone do destinatário da entrega.|
-|`FraudAnalysis.Travel.DepartureTime`|DateTime|23|Não|Data, hora e minuto de partida do vôo.|
-|`FraudAnalysis.Travel.JourneyType`|Texto|32|Não|Tipo de viagem.|
-|`FraudAnalysis.Travel.Route`|Texto|255|Não|Rota da viagem. Concatenação de pernas de viagem individuais no formato ORIG1- DEST1.|
-|`FraudAnalysis.Travel.Legs.Destination`|Texto|3|Não|Código do aeroporto do ponto de destino da viagem.|
-|`FraudAnalysis.Travel.Legs.Origin`|Texto|3|Não |Código do aeroporto do ponto de origem da viagem.|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Email`|Texto|255|Não|Email do comprador|
+|`Customer.Birthdate`|Date|10|Não|Data de nascimento do Comprador no formato AAAA-MM-DD|
+|`Customer.Address.Street`|Texto|255|Não|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador|
+|`Customer.Address.ZipCode`|Texto|9|Não|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Não|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Não|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Não|Pais do endereço de contato do comprador|
+|`Customer.Address.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.DeliveryAddress.Number`|Texto|15|Não|Número do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.ZipCode`|Texto|9|Não|CEP do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.ServiceTaxAmount`|Número|15|Sim|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização|
+|`Payment.Currency`|Texto|3|Não|Moeda na qual o pagamento será feito (BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP)|
+|`Payment.Country`|Texto|3|Não|País na qual o pagamento será feito|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.Interest`|Texto|10|Não|Tipo de parcelamento - Loja (ByMerchant) ou Emissor (ByIssuer)|
+|`Payment.Capture`|Booleano|---|Não (Default false)|Booleano que indica se a autorização deve ser com captura automática (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Authenticate`|Booleano|---|Não (Default false)|Booleano que indica se a transação deve ser autenticada (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|
+|`Payment.Recurrent`|Booleano|---|Não (Default false)|Booleano que indica se a transação é do tipo recorrente (true) ou não (false). Este com valor true não originará uma nova Recorrência, apenas permitirá a realização de uma transação sem a necessidade de envio do CVV. Somente para transações Cielo. Authenticate deve ser false quando Recurrent é true|
+|`Payment.SoftDescriptor`|Texto|13|Não|Texto que será impresso na fatura do portador|
+|`Payment.ExtraDataCollection.Name`|Texto|50|Não|Nome do campo que será gravado o Dado Extra|
+|`Payment.ExtraDataCollection.Value`|Texto|1024|Não|Valor do campo que será gravado o Dado Extra|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do portador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+|`CreditCard.SaveCard`|Booleano|---|Não (Default false)|Booleano que identifica se o cartão será salvo para gerar o token (CardToken)|
+|`FraudAnalysis.Sequence`|Texto|14|Sim|Tipo de Fluxo para realização da análise de fraude. Primeiro Analise (AnalyseFirst) ou Primeiro Autorização (AuthorizeFirst)|
+|`FraudAnalysis.SequenceCriteria`|Texto|9|Sim|Critério do fluxo.<BR><UL><LI>OnSuccess - Só realiza a analise se tiver sucesso na transação</LI><LI>Always - Sempre realiza a analise</LI></UL>|
+|`FraudAnalysis.CaptureOnLowRisk`|Booleano|---|Não|Quando true, a autorização deve ser com captura automática quando o risco de fraude for considerado baixo (Accept). Em casos de Reject ou Review, o fluxo permanece o mesmo, ou seja, a captura acontecerá conforme o valor especificado no parâmetro "Capture". Para a utilização deste parâmetro, a sequência do fluxo de análise de risco deve ser obrigatoriamente "AuthorizeFirst". Por depender do resutlado de análise de risco, este parâmetro só terá efeito quando o serviço de Antifraude for contratado	|
+|`FraudAnalysis.VoidOnHighRisk`|Booleano|---|Não|Quando true, o estorno deve acontecer automaticamente quando o risco de fraude for considerado alto (Reject). Em casos de Accept ou Review, o fluxo permanece o mesmo, ou seja, o estorno deve ser feito manualmente. Para a utilização deste parâmetro, a sequência do fluxo de análise de risco deve ser obrigatoriamente "AuthorizeFirst". Por depender do resutlado de análise de risco, este parâmetro só terá efeito quando o serviço de Antifraude for contratado. |
+|`FraudAnalysis.FingerPrintId`|Texto|50|Sim|Identificador utilizado para cruzar informações obtidas pelo Browser do internauta com os dados enviados para análise. Este mesmo valor deve ser passado na variável SESSIONID do script do DeviceFingerPrint|
+|`FraudAnalysis.Browser.CookiesAccepted`|Booleano|---|Sim|Booleano para identificar se o browser do cliente aceita cookies|
+|`FraudAnalysis.Browser.Email`|Texto|100|Não|E-mail registrado no browser do comprador|
+|`FraudAnalysis.Browser.HostName`|Texto|60|Não|Nome do host onde o comprador estava antes de entrar no site da loja|
+|`FraudAnalysis.Browser.IpAddress`|Texto|15|Sim|Endereço IP do comprador. É altamente recomendável o envio deste campo|
+|`FraudAnalysis.Browser.Type`|Texto|40|Não|Nome do browser utilizado pelo comprador|
+|`FraudAnalysis.Cart.IsGift`|Booleano|---|Não|Booleano que indica se o pedido é para presente ou não|
+|`FraudAnalysis.Cart.ReturnsAccepted`|Booleano|---|Não|Booleano que define se devoluções são aceitas para o pedido|
+|`FraudAnalysis.Items.GiftCategory`|Texto|9|Não|Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países<BR><UL><LI>Yes (Em caso de divergência entre endereços de cobrança e entrega, marca como risco pequeno)</LI><LI>No (Em caso de divergência entre endereços de cobrança e entrega, marca com risco alto)</LI><LI>Off (Ignora a análise de risco para endereços divergentes)</LI></UL>|
+|`FraudAnalysis.Items.HostHedge`|Texto||Não|Nível de importância do e-mail e endereços IP dos clientes em risco de pontuação. <BR><UL><LI>Low (Baixa importância do e-mail e endereço IP na análise de risco)</LI><LI>Normal (Média importância do e-mail e endereço IP na análise de risco)</LI><LI>High (Alta importância do e-mail e endereço IP na análise de risco)</LI><LI>Off (E-mail e endereço IP não afetam a análise de risco)</LI></UL>|
+|`FraudAnalysis.Items.NonSensicalHedge`|Texto|6|Não|Nível dos testes realizados sobre os dados do comprador com pedidos recebidos sem sentido. <BR><UL><LI>Low (Baixa importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>Normal (Média importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>Off (Verificação do pedido do comprador não afeta a análise de risco)</LI></UL>|
+|`FraudAnalysis.Items.ObscenitiesHedge`|Texto|6|Não|Nível de obscenidade dos pedidos recebedidos. <BR><UL><LI>Low (Baixa importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Normal (Média importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Off (Verificação de obscenidade no pedido do comprador não afeta a análise de risco)</LI></UL>|
+|`FraudAnalysis.Items.PhoneHedge`|Texto|6|Não|Nível dos testes realizados com os números de telefones. <BR><UL><LI>Low (Baixa importância nos testes realizados com números de telefone)</LI><LI>Normal (Média importância nos testes realizados com números de telefone)</LI><LI>High (Alta importância nos testes realizados com números de telefone)</LI><LI>Off (Testes de números de telefone não afetam a análise de risco)</LI></UL>|
+|`FraudAnalysis.Items.Name`|Texto|255|Sim|Nome do Produto|
+|`FraudAnalysis.Items.Quantity`|Número|15|Sim|Quantidade do produto a ser adquirido|
+|`FraudAnalysis.Items.Sku`|Texto|255|Sim|Código comerciante identificador do produto|
+|`FraudAnalysis.Items.UnitPrice`|Número|15|Sim|Preço unitário do produto|
+|`FraudAnalysis.Items.Risk`|Texto|6|Não|Nível do risco do produto. <BR><UL><LI>Low (O produto tem um histórico de poucos chargebacks)</LI><LI>Normal (O produto tem um histórico de chargebacks considerado normal)</LI><LI>High (O produto tem um histórico de chargebacks acima da média)</LI></UL>|
+|`FraudAnalysis.Items.TimeHedge`|Texto||Não|Nível de importância da hora do dia do pedido do cliente. <BR><UL><LI>Low (Baixa importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>Normal (Média importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>High (Alta importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>Off (O horário da compra não afeta a análise de risco)</LI></UL>|
+|`FraudAnalysis.Items.Type`|Texto||Não|Tipo do produto. <BR><UL><LI>AdultContent(Conteúdo adulto)</LI><LI>Coupon(Cupon de desconto)</LI><LI>Default(Opção padrão para análise na CyberSource quando nenhum outro valor é selecionado)</LI><LI>EletronicGood(Produto eletrônico)</LI><LI>EletronicSoftware(Softwares distribuídos eletronicamente via download)</LI><LI>GiftCertificate(Vale presente)</LI><LI>HandlingOnly(Taxa de instalação ou manuseio)</LI><LI>Service(Serviço)</LI><LI>ShippingAndHandling(Frete e taxa de instalação ou manuseio)</LI><LI>ShippingOnly(Frete)</LI><LI>Subscription(Assinatura)</LI></UL>|
+|`FraudAnalysis.Items.VelocityHedge`|Texto|6|Não|Nível de importância de frequência de compra do cliente. <BR><UL><LI>Low (Baixa importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>Normal (Média importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>High (Alta importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>Off (A frequência de compras realizadas pelo cliente não afeta a análise de fraude)</LI></UL>|
+|`FraudAnalysis.Items.Passenger.Email`|Texto|255|Não|Email do Passageiro|
+|`FraudAnalysis.Items.Passenger.Identity`|Texto|32|Não|Id do passageiro a quem o bilheite foi emitido|
+|`FraudAnalysis.Items.Passenger.Name`|Texto|120|Não|Nome do passageiro|
+|`FraudAnalysis.Items.Passenger.Rating`|Texto||Não|Classificação do Passageiro. <BR><UL><LI>Adult (Passageiro adulto)</LI><LI>Child(Passageiro criança)</LI><LI>Infant(Passageiro infantil)</LI><LI>Youth(Passageiro adolescente)</LI><LI>Student(Passageiro estudante)</LI><LI>SeniorCitizen(Passageiro idoso)</LI><LI>Military(Passageiro militar)</LI></UL>|
+|`FraudAnalysis.Items.Passenger.Phone`|Texto|15|Não|Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país. 552133665599 (Ex. Código do Pais 55, Código da Cidade 21, Telefone 33665599)|
+|`FraudAnalysis.Items.Passenger.Status`|Texto|32|Não|Classificação da empresa aérea. Pode-se usar valores como Gold ou Platina|
+|`FraudAnalysis.MerchantDefinedFields.Id`|Texto|---|Sim (se aplicável)|Id das informações adicionais a serem enviadas|
+|`FraudAnalysis.MerchantDefinedFields.Value`|Texto|255|Sim (se aplicável)|Valor das informações adicionais a serem enviadas|
+|`FraudAnalysis.Shipping.Addressee`|Texto|255|Não|Nome do destinatário da entrega|
+|`FraudAnalysis.Shipping.Method`|Texto||Não|Tipo de serviço de entrega do produto. <BR><UL><LI>SameDay(Serviço de entrega no mesmo dia)</LI><LI>OneDay(Serviço de entrega noturna ou no dia seguint)</LI><LI>TwoDay(Serviço de entrega em dois dias)</LI><LI>ThreeDay(Serviço de entrega em três dias)</LI><LI>LowCost(Serviço de entrega de baixo custo)</LI><LI>Pickup(Produto retirado na loja)</LI><LI>Other(Outro método de entrega)</LI><LI>None(Sem serviço de entrega, pois é um serviço ou assinatura)</LI></UL>|
+|`FraudAnalysis.Shipping.Phone`|Texto|15|Não|Telefone do destinatário da entrega. Ex. 552133665599 (Código do Pais 55, Código da Cidade 21, Telefone 33665599)|
+|`FraudAnalysis.Travel.DepartureTime`|DateTime|23|Não|Data, hora e minuto de partida do vôo. AAAA-MM-DD HH:mm:SS|
+|`FraudAnalysis.Travel.JourneyType`|Texto|32|Não|Tipo de viagem. Ex. Só Ida, Só Volta, Ida e Volta |
+|`FraudAnalysis.Travel.Route`|Texto|255|Não|Rota da viagem. Concatenação de pernas de viagem individuais no formato ORIG1-DEST1|
+|`FraudAnalysis.Travel.Legs.Destination`|Texto|3|Não|Código do aeroporto do ponto de destino da viagem|
+|`FraudAnalysis.Travel.Legs.Origin`|Texto|3|Não |Código do aeroporto do ponto de origem da viagem|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "201411173454307",
-    "Customer": {
-        "Name": "Comprador accept",        
-        "Identity":"11225468954",
-        "IdentityType":"CPF",
-        "Email": "compradorteste@live.com",
-        "Birthdate": "1991-01-02",
-        "Address": {
-            "Street": "Rua Júpter",
-            "Number": "174",
-            "Complement": "AP 201",
-            "ZipCode": "21241140",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        },
-        "DeliveryAddress": {
-            "Street": "Rua Júpter",
-            "Number": "174",
-            "Complement": "AP 201",
-            "ZipCode": "21241140",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+  "MerchantOrderId": "2017051102",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Birthdate": "1991-01-02",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "402400******2931",
-            "Holder": "Teste accept",
-            "ExpirationDate": "12/2015",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "492115",
-        "AcquirerTransactionId": "10069930692606D31001",
-        "AuthorizationCode": "123456",
-        "SoftDescriptor":"tst",
-        "FraudAnalysis": {
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
+    }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Undefined"
+    },
+    "SoftDescriptor": "Mensagem",
+	"FraudAnalysis": {
             "Sequence": "AnalyseFirst",
             "SequenceCriteria": "Always",
             "FingerPrintId": "074c1ee676ed4998ab66491013c565e2",
@@ -1350,36 +1337,23 @@ curl
                 "CasePriority": 3
             }
         },
-        "PaymentId": "04096cfb-3f0a-4ece-946c-3b7dc5d38f19",
-        "Type": "CreditCard",
-        "Amount": 100,
-        "ReceivedDate": "2015-03-25 09:03:04",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Transação autorizada",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "PaymentId": "4219584b-6d23-49f0-a24c-2b677bc60df8",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 16,
+    "ReasonMessage": "AbortedByFraud",
+    "Status": 13,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
+      }
+    ]
+  }
 }
 ```
 
@@ -1387,51 +1361,51 @@ curl
 --header "Content-Type: application/json"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-    {
-    "MerchantOrderId": "201411173454307",
-    "Customer": {
-        "Name": "Comprador accept",        
-        "Identity":"11225468954",
-        "IdentityType":"CPF",
-        "Email": "compradorteste@live.com",
-        "Birthdate": "1991-01-02",
-        "Address": {
-            "Street": "Rua Júpter",
-            "Number": "174",
-            "Complement": "AP 201",
-            "ZipCode": "21241140",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        },
-        "DeliveryAddress": {
-            "Street": "Rua Júpter",
-            "Number": "174",
-            "Complement": "AP 201",
-            "ZipCode": "21241140",
-            "City": "Rio de Janeiro",
-            "State": "RJ",
-            "Country": "BRA"
-        }
+{
+  "MerchantOrderId": "2017051102",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Birthdate": "1991-01-02",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "402400******2931",
-            "Holder": "Teste accept",
-            "ExpirationDate": "12/2015",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "492115",
-        "AcquirerTransactionId": "10069930692606D31001",
-        "AuthorizationCode": "123456",
-        "SoftDescriptor":"tst",
-        "FraudAnalysis": {
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
+    }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Undefined"
+    },
+    "SoftDescriptor": "Mensagem",
+	"FraudAnalysis": {
             "Sequence": "AnalyseFirst",
             "SequenceCriteria": "Always",
             "FingerPrintId": "074c1ee676ed4998ab66491013c565e2",
@@ -1512,85 +1486,295 @@ curl
                 "CasePriority": 3
             }
         },
-        "PaymentId": "04096cfb-3f0a-4ece-946c-3b7dc5d38f19",
-        "Type": "CreditCard",
-        "Amount": 100,
-        "ReceivedDate": "2015-03-25 09:03:04",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Transação autorizada",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "PaymentId": "4219584b-6d23-49f0-a24c-2b677bc60df8",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 16,
+    "ReasonMessage": "AbortedByFraud",
+    "Status": 13,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/4219584b-6d23-49f0-a24c-2b677bc60df8"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
 |`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`Id`|Indentificação da Transação no Antifraud.|Texto|300|Texto alfanumérico|
-|`Status`|Status da Transação.|Byte|---|2|
-|`FraudAnalysisReasonCode`|Resultado da análise.|Byte|---|Número:<br /><ul><li>100 - Operação bem sucedida.</li><li>101 - O pedido está faltando um ou mais campos necessários. Possível ação: Veja os campos que estão faltando na lista AntiFraudResponse.MissingFieldCollection. Reenviar o pedido com a informação completa.</li><li>102 - Um ou mais campos do pedido contêm dados inválidos. Possível ação: Veja os campos inválidos na lista AntiFraudResponse.InvalidFieldCollection. Reenviar o pedido com as informações corretas.</li><li>150 Falha no sistema geral. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>151 - O pedido foi recebido, mas ocorreu time-out no servidor. Este erro não inclui time-out entre o cliente e o servidor. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>152 O pedido foi recebido, mas ocorreu time-out. Possível ação: Aguarde alguns minutos e reenviar o pedido.</li><li>202 – Prevenção à Fraude recusou o pedido porque o cartão expirou. Você também pode receber este código se a data de validade não coincidir com a data em arquivo do banco emissor. Se o processador de pagamento permite a emissão de créditos para cartões expirados, a CyberSource não limita essa funcionalidade. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>231 O número da conta é inválido. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>234 - Há um problema com a configuração do comerciante. Possível ação: Não envie o pedido. Entre em contato com o Suporte ao Cliente para corrigir o problema de configuração.</li><li>400 A pontuação de fraude ultrapassa o seu limite. Possível ação: Reveja o pedido do cliente.</li><li>480 O pedido foi marcado para revisão pelo Gerenciador de Decisão.</li><li>481 - O pedido foi rejeitado pelo Gerenciador de Decisão</li></ul>|
-|`AddressInfoCode`|Combinação de códigos que indicam erro no endereço de cobrança e/ou entrega. Os códigos são concatenados usando o caractere ^.|Texto|255|Ex: COR-BA^MM-BIN<br /><ul><li>COR-BA - O endereço de cobrança pode ser normalizado.</li><li>COR-SA - O endereço de entrega pode ser normalizado.</li><li>INTL-BA - O país de cobrança é fora dos U.S.</li><li>INTL-SA - O país de entrega é fora dos U.S.</li><li>MIL-USA - Este é um endereço militar nos U.S.</li><li>MM-A - Os endereços de cobrança e entrega usam nomes de ruas diferentes.</li><li>MM-BIN - O BIN do cartão (os seis primeiros dígitos do número) não corresponde ao país.</li><li>MM-C - Os endereços de cobrança e entrega usam cidades diferentes.</li><li>MM-CO - Os endereços de cobrança e entrega usam países diferentes.</li><li>MM-ST - Os endereços de cobrança e entrega usam estados diferentes.</li><li>MM-Z - Os endereços de cobrança e entrega usam códidos postais diferentes.</li><li>UNV-ADDR - O endereço é inverificável.</li></ul>|
-|`FactorCode`|Combinação de códigos que indicam o score do pedido. Os códigos são concatenados usando o caractere ^.|Texto|100|Ex: B^D^R^Z<br /><ul><li>A - Mudança de endereço excessiva. O cliente mudou o endereço de cobrança duas ou mais vezes nos últimos seis meses.</li><li>B - BIN do cartão ou autorização de risco. Os fatores de risco estão relacionados com BIN de cartão de crédito e/ou verificações de autorização do cartão.</li><li>C - Elevado números de cartões de créditos. O cliente tem usado mais de seis números de cartões de créditos nos últimos seis meses.</li><li>D - Impacto do endereço de e-mail. O cliente usa um provedor de e-mail gratuito ou o endereço de email é arriscado.</li><li>E - Lista positiva. O cliente está na sua lista positiva.</li><li>F - Lista negativa. O número da conta, endereço, endereço de e-mail ou endereço IP para este fim aparece sua lista negativa.</li><li>G - Inconsistências de geolocalização. O domínio do cliente de e-mail, número de telefone, endereço de cobrança, endereço de envio ou endereço IP é suspeito.</li><li>H - Excessivas mudanças de nome. O cliente mudou o nome duas ou mais vezes nos últimos seis meses.</li><li>I - Inconsistências de internet. O endereço IP e de domínio de e-mail não são consistentes com o endereço de cobrança.</li><li>N - Entrada sem sentido. O nome do cliente e os campos de endereço contém palavras sem sentido ou idioma.</li><li>O - Obscenidades. Dados do cliente contém palavras obscenas.</li><li>P - Identidade morphing. Vários valores de um elemento de identidade estão ligados a um valor de um elemento de identidade diferentes. Por exemplo, vários números de telefone estão ligados a um número de conta única.</li><li>Q - Inconsistências do telefone. O número de telefone do cliente é suspeito.</li><li>R - Ordem arriscada. A transação, o cliente e o lojista mostram informações correlacionadas de alto risco.</li><li>T - Cobertura Time. O cliente está a tentar uma compra fora do horário esperado.</li><li>U - Endereço não verificável. O endereço de cobrança ou de entrega não pode ser verificado.</li><li>V - Velocity. O número da conta foi usado muitas vezes nos últimos 15 minutos.</li><li>W - Marcado como suspeito. O endereço de cobrança ou de entrega é semelhante a um endereço previamente marcado como suspeito.</li><li>Y - O endereço, cidade, estado ou país dos endereços de cobrança e entrega não se correlacionam.</li><li>Z - Valor inválido. Como a solicitação contém um valor inesperado, um valor padrão foi substituído. Embora a transação ainda possa ser processada, examinar o pedido com cuidado para detectar anomalias.</li></ul>|
-|`Score`|Score total calculado para o pedido.|Número|---|Número|
-|`BinCountry`|Sigla do país de origem da compra.|Texto|2|us|
-|`CardIssuer`|Nome do banco ou entidade emissora do cartão.|Texto|128|Bradesco|
-|`CardScheme`|Tipo da bandeira|Texto|20|<ul><li>MaestroInternational - Maestro International</li><li>MaestroUkDomestic - Maestro UK Domestic</li><li>MastercardCredit - MasterCard Credit</li><li>MastercardDebit - MasterCard Debit</li><li>VisaCredit - Visa Credit</li><li>VisaDebit - Visa Debit</li><li>VisaElectron - Visa Electron</li></ul>|
-|`HostSeverity`|Nível de risco do domínio de e-mail do comprador, de 0 a 5, onde 0 é risco indeterminado e 5 representa o risco mais alto.|Número|---|5|
-|`InternetInfoCode`|Sequência de códigos que indicam que existe uma excessiva alteração de identidades do comprador. Os códigos são concatenados usando o caractere ^.|Texto|255|Ex: <br /><ul><li>MORPH-B - O mesmo endereço de cobrança tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-C - O mesmo número de conta tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-E - O mesmo endereço de e-mail tem sido utilizado várias vezes com identidades de clientes múltiplos. MORPH-I O mesmo endereço IP tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-P - O mesmo número de telefone tem sido usado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-S - O mesmo endereço de entrega tem sido utilizado várias vezes com identidades de clientes múltiplos.</li></ul>|
-|`IpRoutingMethod`|Tipo de roteamento de IP utilizado pelo computador.|Texto|---|<ul><li>Anonymizer</li><li>AolBased</li><li>CacheProxy</li><li>Fixed</li><li>InternationalProxy</li><li>MobileGateway</li><li>Pop</li><li>RegionalProxy</li><li>Satellite</li><li>SuperPop</li></ul>|
-|`ScoreModelUsed`|Nome do modelo de score utilizado.|Texto|20|Ex: default_lac|
-|`CasePriority`|Caso o lojista seja assinante do Enhanced Case Management, ele recebe este valor com o nível de prioridade, sendo 1 o mais alto e 5 o mais baixo.|Número|---|3|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`FraudAnalysis.Id`|Indentificação da Transação no Antifraud|Texto|300|Texto alfanumérico|
+|`FraudAnalysis.Status`|Status da Transação|Byte|---|2|
+|`FraudAnalysis.FraudAnalysisReasonCode`|Resultado da análise|Byte|---|<ul><li>100 - Operação bem sucedida.</li><li>101 - O pedido está faltando um ou mais campos necessários. Possível ação: Veja os campos que estão faltando na lista AntiFraudResponse.MissingFieldCollection. Reenviar o pedido com a informação completa.</li><li>102 - Um ou mais campos do pedido contêm dados inválidos. Possível ação: Veja os campos inválidos na lista AntiFraudResponse.InvalidFieldCollection. Reenviar o pedido com as informações corretas.</li><li>150 Falha no sistema geral. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>151 - O pedido foi recebido, mas ocorreu time-out no servidor. Este erro não inclui time-out entre o cliente e o servidor. Possível ação: Aguarde alguns minutos e tente reenviar o pedido.</li><li>152 O pedido foi recebido, mas ocorreu time-out. Possível ação: Aguarde alguns minutos e reenviar o pedido.</li><li>202 – Prevenção à Fraude recusou o pedido porque o cartão expirou. Você também pode receber este código se a data de validade não coincidir com a data em arquivo do banco emissor. Se o processador de pagamento permite a emissão de créditos para cartões expirados, a CyberSource não limita essa funcionalidade. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>231 O número da conta é inválido. Possível ação: Solicite um cartão ou outra forma de pagamento.</li><li>234 - Há um problema com a configuração do comerciante. Possível ação: Não envie o pedido. Entre em contato com o Suporte ao Cliente para corrigir o problema de configuração.</li><li>400 A pontuação de fraude ultrapassa o seu limite. Possível ação: Reveja o pedido do cliente.</li><li>480 O pedido foi marcado para revisão pelo Gerenciador de Decisão.</li><li>481 - O pedido foi rejeitado pelo Gerenciador de Decisão</li></ul>|
+|`FraudAnalysis.ReplyData.AddressInfoCode`|Combinação de códigos que indicam erro no endereço de cobrança e/ou entrega. Os códigos são concatenados usando o caractere ^|Texto|255|Ex: COR-BA^MM-BIN<br /><ul><li>COR-BA - O endereço de cobrança pode ser normalizado.</li><li>COR-SA - O endereço de entrega pode ser normalizado.</li><li>INTL-BA - O país de cobrança é fora dos U.S.</li><li>INTL-SA - O país de entrega é fora dos U.S.</li><li>MIL-USA - Este é um endereço militar nos U.S.</li><li>MM-A - Os endereços de cobrança e entrega usam nomes de ruas diferentes.</li><li>MM-BIN - O BIN do cartão (os seis primeiros dígitos do número) não corresponde ao país.</li><li>MM-C - Os endereços de cobrança e entrega usam cidades diferentes.</li><li>MM-CO - Os endereços de cobrança e entrega usam países diferentes.</li><li>MM-ST - Os endereços de cobrança e entrega usam estados diferentes.</li><li>MM-Z - Os endereços de cobrança e entrega usam códidos postais diferentes.</li><li>UNV-ADDR - O endereço é inverificável.</li></ul>|
+|`FraudAnalysis.ReplyData.FactorCode`|Combinação de códigos que indicam o score do pedido. Os códigos são concatenados usando o caractere ^|Texto|100|Ex: B^D^R^Z<br /><ul><li>A - Mudança de endereço excessiva. O cliente mudou o endereço de cobrança duas ou mais vezes nos últimos seis meses.</li><li>B - BIN do cartão ou autorização de risco. Os fatores de risco estão relacionados com BIN de cartão de crédito e/ou verificações de autorização do cartão.</li><li>C - Elevado números de cartões de créditos. O cliente tem usado mais de seis números de cartões de créditos nos últimos seis meses.</li><li>D - Impacto do endereço de e-mail. O cliente usa um provedor de e-mail gratuito ou o endereço de email é arriscado.</li><li>E - Lista positiva. O cliente está na sua lista positiva.</li><li>F - Lista negativa. O número da conta, endereço, endereço de e-mail ou endereço IP para este fim aparece sua lista negativa.</li><li>G - Inconsistências de geolocalização. O domínio do cliente de e-mail, número de telefone, endereço de cobrança, endereço de envio ou endereço IP é suspeito.</li><li>H - Excessivas mudanças de nome. O cliente mudou o nome duas ou mais vezes nos últimos seis meses.</li><li>I - Inconsistências de internet. O endereço IP e de domínio de e-mail não são consistentes com o endereço de cobrança.</li><li>N - Entrada sem sentido. O nome do cliente e os campos de endereço contém palavras sem sentido ou idioma.</li><li>O - Obscenidades. Dados do cliente contém palavras obscenas.</li><li>P - Identidade morphing. Vários valores de um elemento de identidade estão ligados a um valor de um elemento de identidade diferentes. Por exemplo, vários números de telefone estão ligados a um número de conta única.</li><li>Q - Inconsistências do telefone. O número de telefone do cliente é suspeito.</li><li>R - Ordem arriscada. A transação, o cliente e o lojista mostram informações correlacionadas de alto risco.</li><li>T - Cobertura Time. O cliente está a tentar uma compra fora do horário esperado.</li><li>U - Endereço não verificável. O endereço de cobrança ou de entrega não pode ser verificado.</li><li>V - Velocity. O número da conta foi usado muitas vezes nos últimos 15 minutos.</li><li>W - Marcado como suspeito. O endereço de cobrança ou de entrega é semelhante a um endereço previamente marcado como suspeito.</li><li>Y - O endereço, cidade, estado ou país dos endereços de cobrança e entrega não se correlacionam.</li><li>Z - Valor inválido. Como a solicitação contém um valor inesperado, um valor padrão foi substituído. Embora a transação ainda possa ser processada, examinar o pedido com cuidado para detectar anomalias.</li></ul>|
+|`FraudAnalysis.ReplyData.Score`|Score total calculado para o pedido|Número|---|Número|
+|`FraudAnalysis.ReplyData.BinCountry`|Sigla do país de origem da compra|Texto|2|us|
+|`FraudAnalysis.ReplyData.CardIssuer`|Nome do banco ou entidade emissora do cartão|Texto|128|Bradesco|
+|`FraudAnalysis.ReplyData.CardScheme`|Tipo da bandeira|Texto|20|<ul><li>MaestroInternational - Maestro International</li><li>MaestroUkDomestic - Maestro UK Domestic</li><li>MastercardCredit - MasterCard Credit</li><li>MastercardDebit - MasterCard Debit</li><li>VisaCredit - Visa Credit</li><li>VisaDebit - Visa Debit</li><li>VisaElectron - Visa Electron</li></ul>|
+|`FraudAnalysis.ReplyData.HostSeverity`|Nível de risco do domínio de e-mail do comprador, de 0 a 5, onde 0 é risco indeterminado e 5 representa o risco mais alto|Número|---|5|
+|`FraudAnalysis.ReplyData.InternetInfoCode`|Sequência de códigos que indicam que existe uma excessiva alteração de identidades do comprador. Os códigos são concatenados usando o caractere ^|Texto|255|Ex: <br /><ul><li>MORPH-B - O mesmo endereço de cobrança tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-C - O mesmo número de conta tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-E - O mesmo endereço de e-mail tem sido utilizado várias vezes com identidades de clientes múltiplos. MORPH-I O mesmo endereço IP tem sido utilizado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-P - O mesmo número de telefone tem sido usado várias vezes com identidades de clientes múltiplos.</li><li>MORPH-S - O mesmo endereço de entrega tem sido utilizado várias vezes com identidades de clientes múltiplos.</li></ul>|
+|`FraudAnalysis.ReplyData.IpRoutingMethod`|Tipo de roteamento de IP utilizado pelo computador|Texto|---|<ul><li>Anonymizer</li><li>AolBased</li><li>CacheProxy</li><li>Fixed</li><li>InternationalProxy</li><li>MobileGateway</li><li>Pop</li><li>RegionalProxy</li><li>Satellite</li><li>SuperPop</li></ul>|
+|`FraudAnalysis.ReplyData.ScoreModelUsed`|Nome do modelo de score utilizado|Texto|20|Ex: default_lac|
+|`FraudAnalysis.ReplyData.CasePriority`|Caso o lojista seja assinante do Enhanced Case Management, ele recebe este valor com o nível de prioridade, sendo 1 o mais alto e 5 o mais baixo|Número|---|3|
 
-## Criando uma venda com Card Token
+## Criando uma transação que salva o cartão
 
-Para criar uma venda de cartão de crédito com token do cartão protegido, é necessário fazer um POST para o recurso Payment conforme o exemplo.
+Caso você tenha contratado o Cartão Protegido, é possível salvar um cartão no formato de um Token, para substituir os dados do cartão numa próxima transação do mesmo comprador. É importante ressaltar que por questões de segurança, o CVV (Código de Segurança) não é tokenizado.
 
 ### Requisição
 
 <aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
-{  
-   "MerchantOrderId":"2014111706",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051104",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":100,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
-     "CreditCard":{  
-         "CardToken":"6e1bf77a-b28b-4660-b14f-455e2a1c95e9",
-         "SecurityCode":"262",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa",
+         "SaveCard":true
+     }
+   }
+}
+```
+
+```shell
+curl
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+   "MerchantOrderId":"2017051104",
+   "Customer":{
+      "Name":"Nome do Cliente"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa",
+         "SaveCard":true
+     }
+   }
+}
+--verbose
+```
+
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+|`CreditCard.SaveCard`|Booleano|10|Não |true se salva o cartão e false para não salvar|
+
+### Resposta
+
+```json
+{
+  "MerchantOrderId": "2017051104",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": true,
+      "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "3519928",
+    "AcquirerTransactionId": "0511023519928",
+    "AuthorizationCode": "536934",
+    "PaymentId": "3af00b2d-dbd0-42d6-a669-d4937f0881da",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 14:35:19",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
+      }
+    ]
+  }
+}
+```
+
+```shell
+curl
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+  "MerchantOrderId": "2017051104",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": true,
+      "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "3519928",
+    "AcquirerTransactionId": "0511023519928",
+    "AuthorizationCode": "536934",
+    "PaymentId": "3af00b2d-dbd0-42d6-a669-d4937f0881da",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 14:35:19",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/3af00b2d-dbd0-42d6-a669-d4937f0881da/void"
+      }
+    ]
+  }
+}
+--verbose
+```
+
+|Propriedade|Descrição|Tipo|Tamanho|Formato|
+|-----------|---------|----|-------|-------|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`CreditCard.CardToken`|Token no Cartão Protegido que representa os dados do cartão|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+
+
+## Criando uma transação com Card Token
+
+Este é um exemplo de como utilizar o Card Token, previamente salvo, para criar uma transação. Por questão de segurança, um Card Token não tem guardado o Código de Segurança. Desta forma, é preciso solicitar esta informação ao portador para cada nova transação (exceto em casos de transações recorrentes).
+
+### Requisição
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+
+```json
+{
+   "MerchantOrderId":"2017051105",
+   "Customer":{
+      "Name":"Nome do Cliente"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardToken":"250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+         "SecurityCode":"123",
          "Brand":"Visa"
      }
    }
@@ -1605,20 +1789,19 @@ curl
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014111706",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051105",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":100,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
-     "CreditCard":{  
-         "CardToken":"6e1bf77a-b28b-4660-b14f-455e2a1c95e9",
-         "SecurityCode":"262",
+     "CreditCard":{
+         "CardToken":"250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+         "SecurityCode":"123",
          "Brand":"Visa"
      }
    }
@@ -1626,74 +1809,74 @@ curl
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto | 40 | Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`MerchantOrderId`|Numero de identificação do Pedido. | Texto | 50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto | 255 |Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento. | Texto | 100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).| Número | 15 |Sim|
-|`Payment.Installments`|Número de Parcelas.| Número | 2 |Sim|
-|`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador| Texto | 13 |Não|
-|`Payment.ReturnUrl`|URI para onde o usuário será redirecionado após o fim do pagamento|Texto |1024 |Sim quando Authenticate = true|
-|`CreditCard.CardToken`|Token de identificação do Cartão. |Guid |36 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto |10 |Sim|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardToken`|Token no Cartão Protegido que representa os dados do cartão|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste"
+  "MerchantOrderId": "2017051105",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "SaveCard": false,
+      "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "SaveCard": false,
-            "CardToken": "6e1bf77a-b28b-4660-b14f-455e2a1c95e9",
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "5036294",
-        "AcquirerTransactionId": "0310025036294",
-        "AuthorizationCode": "319285",
-        "SoftDescriptor":"tst",
-        "PaymentId": "c3ec8ec4-1ed5-4f8d-afc3-19b18e5962a8",
-        "Type": "CreditCard",
-        "Amount": 100,
-        "ReceivedDate": "2015-06-25 09:07:45",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ExtraDataCollection": [],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "124305",
+    "AcquirerTransactionId": "0511030124305",
+    "AuthorizationCode": "065964",
+    "PaymentId": "23cd8bf5-2251-4991-9042-533ff5608788",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:01:24",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -1701,72 +1884,75 @@ curl
 --header "Content-Type: application/json"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-        {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste"
+{
+  "MerchantOrderId": "2017051105",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "SaveCard": false,
+      "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "SaveCard": false,
-            "CardToken": "6e1bf77a-b28b-4660-b14f-455e2a1c95e9",
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "5036294",
-        "AcquirerTransactionId": "0310025036294",
-        "AuthorizationCode": "319285",
-        "SoftDescriptor":"tst",
-        "PaymentId": "c3ec8ec4-1ed5-4f8d-afc3-19b18e5962a8",
-        "Type": "CreditCard",
-        "Amount": 100,
-        "ReceivedDate": "2015-06-25 09:07:45",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ExtraDataCollection": [],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "124305",
+    "AcquirerTransactionId": "0511030124305",
+    "AuthorizationCode": "065964",
+    "PaymentId": "23cd8bf5-2251-4991-9042-533ff5608788",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:01:24",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`ECI`|Eletronic Commerce Indicator. Representa o quão segura é uma transação.|Texto|2|Exemplos: 7|
-|`Status`|Status da Transação.|Byte|---|2|
-|`ReasonCode`|Código de retorno da Adquirência.|Texto|32|Texto alfanumérico|
-|`ReasonMessage`|Mensagem de retorno da Adquirência.|Texto|512|Texto alfanumérico|
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
 
-## Capturando uma venda
+## Capturando uma transação
 
-Para captura uma venda que utilizaou cartão de crédito, é necessário fazer um PUT para o recurso Payment conforme o exemplo.
+Uma transação pré-autorizada necessita de uma operação de "Captura" para confirmar a transação. Segue o exemplo.
 
 ### Requisição
 
@@ -1787,12 +1973,12 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. | Guid | 36 | Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. | Texto | 40 | Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API. | Guid | 36 | Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API. | Texto | 40 | Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Campo Identificador do Pedido. | Guid | 36 | Sim|
-|`Amount`|Valor do Pedido (ser enviado em centavos).| Número | 15 | Não|
-|`ServiceTaxAmount`|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização. | Número | 15 | Não|
+|`Amount`|Valor a ser capturado (em centavos). Verificar se a adquirente utilizada suporta uma captura parcial | Número | 15 | Não|
+|`ServiceTaxAmount`|Aplicável para companhias aéreas. Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização. | Número | 15 | Não|
 
 ### Resposta
 
@@ -1849,9 +2035,9 @@ curl
 |`ReasonCode`|Código de retorno da adquirente. | Texto | 32 | Texto alfanumérico |
 |`ReasonMessage`|Mensagem de retorno da adquirente. | Texto | 512 | Texto alfanumérico |
 
-## Cancelando uma venda
+## Cancelando/Estornando uma transação
 
-Para cancelar uma venda que utilizaou cartão de crédito, é necessário fazer um PUT para o recurso Payment conforme o exemplo.
+Para cancelar uma transação que utilizou cartão de crédito, é necessário fazer um PUT para o recurso Payment conforme o exemplo.
 
 ### Requisição
 
@@ -1872,11 +2058,11 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API. |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API. |Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |Sim|
-|`Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Não|
+|`Amount`|Valor a ser cancelado/estornado (ser enviado em centavos). Verifique se a adquirente contratada suporta a operação de cancelamento ou estorno|Número |15 |Não|
 
 ### Resposta
 
@@ -1920,37 +2106,526 @@ curl
 |`ReasonCode`|Código de retorno da Adquirência. |Texto |32 |Texto alfanumérico 
 |`ReasonMessage`|Mensagem de retorno da Adquirência. |Texto |512 |Texto alfanumérico 
 
+## Transação com Velocity Check
+
+O Velocity Check é um tipo de mecanismo de prevenção às tentativas de fraude, que analisa especificamente o conceito de "velocidade". Ele analisa a frequência de elementos de rastreabilidade tais como Número do Cartão, CPF, CEP de entrega, entre outros. A funcionalidade deve ser contratada à parte, e posteriormente habilitada em sua loja. Quando o Velocity está ativo, a resposta da transação trará um nó específico chamado "Velocity", com os datalhes da análise.
+
+No caso da rejeição pela regra de Velocity, o ProviderReasonCode será BP171 - Rejected by fraud risk (velocity, com ReasonCode 16 - AbortedByFraud 
+
+### Requisição
+
+<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+
+```json
+{
+   "MerchantOrderId":"2017051202",
+   "Customer":{
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
+      "IdentityType":"CPF",
+      "Email":"comprador@braspag.com.br",
+      "IpAdress":"127.0.01",
+      "Address":{  
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+      },
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+	    }
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2027",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+```
+
+```shell
+curl
+--request PUT "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void?amount=xxx"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+{
+   "MerchantOrderId":"2017051202",
+   "Customer":{
+      "Name":"Nome do Comprador",
+      "Identity":"12345678909",
+      "IdentityType":"CPF",
+      "Email":"comprador@braspag.com.br",
+      "IpAdress":"127.0.01",
+      "Address":{  
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+      },
+	  "DeliveryAddress": {
+         "Street":"Alameda Xingu",
+         "Number":"512",
+         "Complement":"27 andar",
+         "ZipCode":"12345987",
+         "City":"São Paulo",
+         "State":"SP",
+         "Country":"BRA"
+	    }
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2027",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+--verbose
+```
+
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Sim|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Sim|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Email`|Texto|255|Sim|Email do comprador|
+|`Customer.IpAddress`|Texto|255|Sim|Ip do comprador|
+|`Customer.Address.Street`|Texto|255|Não|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Não|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador|
+|`Customer.Address.ZipCode`|Texto|9|Sim|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Não|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Não|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Não|Pais do endereço de contato do comprador|
+|`Customer.Address.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Customer.DeliveryAddress.Street`|Texto|255|Não|Endereço do comprador|
+|`Customer.DeliveryAddress.Number`|Texto|15|Não|Número do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Complement`|Texto|50|Não|Complemento do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.ZipCode`|Texto|9|Sim|CEP do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.City`|Texto|50|Não|Cidade do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.State`|Texto|2|Não|Estado do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.Country`|Texto|35|Não|Pais do endereço de entrega do pedido|
+|`Customer.DeliveryAddress.District`|Texto |50 |Não|Bairro do Comprador. |
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+
+### Resposta
+
+```json
+{
+  "MerchantOrderId": "2017051202",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
+    },
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
+    }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2027",
+      "SaveCard": false,
+      "Brand": "Undefined"
+    },
+    "VelocityAnalysis": {
+      "Id": "2d5e0463-47be-4964-b8ac-622a16a2b6c4",
+      "ResultMessage": "Reject",
+      "Score": 100,
+      "RejectReasons": [
+        {
+          "RuleId": 49,
+          "Message": "Bloqueado pela regra CardNumber. Name: Máximo de 3 Hits de Cartão em 1 dia. HitsQuantity: 3. HitsTimeRangeInSeconds: 1440. ExpirationBlockTimeInSeconds: 1440"
+        }
+      ]
+    },
+    "PaymentId": "2d5e0463-47be-4964-b8ac-622a16a2b6c4",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 16,
+    "ReasonMessage": "AbortedByFraud",
+    "Status": 0,
+    "ProviderReturnCode": "BP171",
+    "ProviderReturnMessage": "Rejected by fraud risk (velocity)",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"
+      }
+    ]
+  }
+}
+```
+
+```shell
+{
+  "MerchantOrderId": "2017051202",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Email": "comprador@braspag.com.br",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
+    },
+    "DeliveryAddress": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
+    }
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2027",
+      "SaveCard": false,
+      "Brand": "Undefined"
+    },
+    "VelocityAnalysis": {
+      "Id": "2d5e0463-47be-4964-b8ac-622a16a2b6c4",
+      "ResultMessage": "Reject",
+      "Score": 100,
+      "RejectReasons": [
+        {
+          "RuleId": 49,
+          "Message": "Bloqueado pela regra CardNumber. Name: Máximo de 3 Hits de Cartão em 1 dia. HitsQuantity: 3. HitsTimeRangeInSeconds: 1440. ExpirationBlockTimeInSeconds: 1440"
+        }
+      ]
+    },
+    "PaymentId": "2d5e0463-47be-4964-b8ac-622a16a2b6c4",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 16,
+    "ReasonMessage": "AbortedByFraud",
+    "Status": 0,
+    "ProviderReturnCode": "BP171",
+    "ProviderReturnMessage": "Rejected by fraud risk (velocity)",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"
+      }
+    ]
+  }
+}
+```
+
+|Propriedade|Descrição|Tipo|Tamanho|Formato|
+|-----------|---------|----|-------|-------|
+|`VelocityAnalysis.Id`|Identificador da análise efetuada|GUID|36|
+|`VelocityAnalysis.ResultMessage`|Accept ou Reject|Texto|25|
+|`VelocityAnalysis.Score`|100|Número|10|
+|`VelocityAnalysis.RejectReasons.RuleId`|Código da Regra que rejeitou|Número|10|
+|`VelocityAnalysis.RejectReasons.Message`|Descrição da Regra que rejeitou|Texto|512|
+
+## Transação com Renova Fácil
+
+O Renova fácil é um mecanismo desenvolvido pela CIELO junto com os bancos, com o objetivo de aumentar a taxa de conversão de autorização, através da identificação de cartões vencidos e o retorno do novo cartão que
+substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasil, Santander, Panamericano, Citibank
+
+### Requisição
+
+<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+
+```json
+{
+   "MerchantOrderId":"2017051201",
+   "Customer":{
+      "Name":"Nome do Cliente"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardNumber":"4551870000000183",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2016",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+```
+
+```shell
+curl
+--request PUT "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void?amount=xxx"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+{
+   "MerchantOrderId":"2017051201",
+   "Customer":{
+      "Name":"Nome do Cliente"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "CardNumber":"4551870000000183",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2016",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+--verbose
+```
+
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
+
+### Resposta
+
+```json
+{
+  "MerchantOrderId": "2017051201",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0183",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2016",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AcquirerTransactionId": "0512105630844",
+    "NewCard": {
+      "CardNumber": "4551870000512353",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "05/2020",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "PaymentId": "ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-12 10:56:30",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 15,
+    "ReasonMessage": "CardExpired",
+    "Status": 3,
+    "ProviderReturnCode": "57",
+    "ProviderReturnMessage": "Card Expired",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"
+      }
+    ]
+  }
+}
+```
+
+```shell
+{
+  "MerchantOrderId": "2017051201",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0183",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2016",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AcquirerTransactionId": "0512105630844",
+    "NewCard": {
+      "CardNumber": "4551870000512353",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "05/2020",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "PaymentId": "ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-12 10:56:30",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 15,
+    "ReasonMessage": "CardExpired",
+    "Status": 3,
+    "ProviderReturnCode": "57",
+    "ProviderReturnMessage": "Card Expired",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"
+      }
+    ]
+  }
+}
+```
+
+|Propriedade|Descrição|Tipo|Tamanho|Formato|
+|-----------|---------|----|-------|-------|
+|`NewCard.CardNumber`|Novo Número do Cartão do comprador|Texto|16|
+|`NewCard.Holder`|Nome do portador impresso no novo cartão|Texto|25|
+|`NewCard.ExpirationDate`|Data de validade impresso no novo cartão|Texto|7|
+|`NewCard.SecurityCode`|Código de segurança impresso no verso do novo cartão|Texto|4|
+|`NewCard.Brand`|Bandeira do novo cartão|Texto|10 |
+
 # Pagamentos com Cartão de Débito
 
-## Criando uma venda simplificada
+## Criando uma transação
 
-Para criar uma venda que utilizará cartão de débito, é necessário fazer um POST para o recurso Payment conforme o exemplo. Esse exemplo contempla o mínimo de campos necessários a serem enviados para a autorização.
+Uma transação com um Cartão de Débito se efetua de uma forma semelhante a um Cartão de Crédito, porém, é obrigatório submetê-la ao processo de autenticação. <BR><BR>Atualmente, somente o Provider "Cielo" ou "Cielo30" suportam processamento desta modalidade.
 
 ### Requisição
 
 <aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
-{  
-   "MerchantOrderId":"2014121201",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051107",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
+   "Payment":{
+     "Provider":"Cielo",
      "Type":"DebitCard",
-     "Amount":15700,
-     "Provider":"Cielo",    
+     "Amount":10000,
+     "Installments":1,
      "ReturnUrl":"http://www.braspag.com.br",
-     "DebitCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+     "DebitCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
      }
    }
 }
---verbose
 ```
 
 ```shell
@@ -1961,19 +2636,20 @@ curl
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014121201",
-   "Customer":{  
-      "Name":"Comprador Teste"     
+{
+   "MerchantOrderId":"2017051107",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
+   "Payment":{
+     "Provider":"Cielo",
      "Type":"DebitCard",
-     "Amount":15700,
-     "Provider":"Cielo",    
+     "Amount":10000,
+     "Installments":1,
      "ReturnUrl":"http://www.braspag.com.br",
-     "DebitCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
+     "DebitCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa"
@@ -1983,61 +2659,67 @@ curl
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento.|Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.ReturnUrl`|Url de retorno do lojista.|Texto |1024 |Sim|
-|`Payment.ReturnUrl`|URI para onde o usuário será redirecionado após o fim do pagamento|Texto |1024 |Sim|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16 |Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25 |Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão. |Texto |10 |Sim|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento. Atualmente somente a "Cielo" suporta esta forma de pagamento via Pagador|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento. No caso do cartão de débito (DebitCard)|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.ReturnUrl`|URL para onde o usuário será redirecionado após o fim do pagamento|Texto |1024 |Sim|
+|`DebitCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`DebitCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`DebitCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`DebitCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`DebitCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014121201",
-    "Customer": {
-        "Name": "Paulo Henrique"
+  "MerchantOrderId": "2017051107",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "DebitCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "DebitCard": {
-            "CardNumber": "453211******3703",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2015",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "AuthenticationUrl": "https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?{PaymentId}",
-        "AcquirerTransactionId": "1006993069207A31A001",
-        "PaymentId": "0309f44f-fe5a-4de1-ba39-984f456130bd",
-        "Type": "DebitCard",
-        "Amount": 15700,
-        "ReceivedDate": "2015-03-25 09:36:20",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Cielo",
-        "ReturnUrl": "http://www.braspag.com.br",
-        "ReasonCode": 9,
-        "ReasonMessage": "Waiting",
-        "Status": 0,
-        "ProviderReasonCode": "0",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
-    }
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=13fda1da8e3d90d3d0c9df8820b96a7f",
+    "AcquirerTransactionId": "10069930690009D366FA",
+    "PaymentId": "21423fa4-6bcf-448a-97e0-e683fa2581ba",
+    "Type": "DebitCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:19:58",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -2046,56 +2728,67 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014121201",
-    "Customer": {
-        "Name": "Paulo Henrique"
+  "MerchantOrderId": "2017051107",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "DebitCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "DebitCard": {
-            "CardNumber": "453211******3703",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2015",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "AuthenticationUrl": "https://xxxxxxxxxxxx.xxxxx.xxx.xx/xxx/xxxxx.xxxx?{PaymentId}",
-        "AcquirerTransactionId": "1006993069207A31A001",
-        "PaymentId": "0309f44f-fe5a-4de1-ba39-984f456130bd",
-        "Type": "DebitCard",
-        "Amount": 15700,
-        "ReceivedDate": "2015-03-25 09:36:20",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Cielo",
-        "ReturnUrl": "http://www.braspag.com.br",
-        "ReasonCode": 9,
-        "ReasonMessage": "Waiting",
-        "Status": 0,
-        "ProviderReasonCode": "0",
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
-    }
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=13fda1da8e3d90d3d0c9df8820b96a7f",
+    "AcquirerTransactionId": "10069930690009D366FA",
+    "PaymentId": "21423fa4-6bcf-448a-97e0-e683fa2581ba",
+    "Type": "DebitCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:19:58",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/21423fa4-6bcf-448a-97e0-e683fa2581ba/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`AuthenticationUrl`|URL para qual o Lojista deve redirecionar o Cliente para o fluxo de Débito. |Texto |56 |Url de Autenticação |
-|`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
-|`ReturnUrl`|Url de retorno do lojista. URL para onde o lojista vai ser redirecionado no final do fluxo.|Texto |1024 |http://www.urllogista.com.br |
-|`Status`|Status da Transação. |Byte |--- |0|
-|`ReasonCode`|Código de retorno da Adquirência. |Texto |32 |Texto alfanumérico |
+|`AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`ReasonCode`|Código de retorno da Operação|Texto|32|Texto alfanumérico|
+|`ReasonMessage`|Mensagem de retorno da Operação|Texto|512|Texto alfanumérico|
+|`Status`|Status da Transação|Byte|2|1|
+|`ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`AuthenticationUrl`|URL para o qual o portador será redirecionado para autenticação |Texto |56 |https://qasecommerce.cielo.com.br/web/index.cbmp?id=13fda1da8e3d90d3d0c9df8820b96a7f|
 
-# Pagamentos com Transferência Eletronica
+# Pagamentos com Transferência Eletrônica
+	
+## Criando uma transação
 
-## Criando uma venda simplificada
-
-Para criar uma venda de transferência eletronica, é necessário fazer um POST para o recurso Payment conforme o exemplo. Esse exemplo contempla o mínimo de campos necessários a serem enviados para a autorização.
+Para criar uma venda de transferência eletrônica (conhecido como Débito Online), é necessário fazer um POST para o recurso Payment conforme o exemplo. 
 
 ### Requisição
 
@@ -2103,16 +2796,30 @@ Para criar uma venda de transferência eletronica, é necessário fazer um POST
 
 ```json
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051109",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador",
+        "Identity": "12345678909",
+        "IdentityType": "CPF",
+        "Email": "comprador@braspag.com.br",
+        "Address": 
+        {
+			 "Street":"Alameda Xingu",
+			 "Number":"512",
+			 "Complement":"27 andar",
+			 "ZipCode":"12345987",
+			 "City":"São Paulo",
+			 "State":"SP",
+			 "Country":"BRA",
+			 "District":"Alphaville"
+        }
     },
     "Payment":
     {  
-        "Type":"EletronicTransfer",
-        "Amount":15700,
         "Provider":"Bradesco",
+        "Type":"EletronicTransfer",
+        "Amount":10000,
         "ReturnUrl":"http://www.braspag.com.br"
     }
 }
@@ -2127,16 +2834,30 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051109",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador",
+        "Identity": "12345678909",
+        "IdentityType": "CPF",
+        "Email": "comprador@braspag.com.br",
+        "Address": 
+        {
+			 "Street":"Alameda Xingu",
+			 "Number":"512",
+			 "Complement":"27 andar",
+			 "ZipCode":"12345987",
+			 "City":"São Paulo",
+			 "State":"SP",
+			 "Country":"BRA",
+			 "District":"Alphaville"
+        }
     },
     "Payment":
     {  
-        "Type":"EletronicTransfer",
-        "Amount":15700,
         "Provider":"Bradesco",
+        "Type":"EletronicTransfer",
+        "Amount":10000,
         "ReturnUrl":"http://www.braspag.com.br"
     }
 }
@@ -2145,28 +2866,53 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API. |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API. |Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Não|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Email`|Texto|255|Não|Email do comprador|
+|`Customer.Address.Street`|Texto|255|Sim|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Sim|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Sim|Complemento do endereço de contato do Comprador|
+|`Customer.Address.ZipCode`|Texto|9|Sim|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Sim|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Sim|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Sim|Pais do endereço de contato do comprador|
+|`Customer.Address.District`|Texto|35|Sim|Bairro do endereço de contato do comprador|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto |15 |---|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
+    "MerchantOrderId": "2017051109",
     "Customer": {
-        "Name": "Comprador Teste",
+        "Name":"Nome do Comprador",
+        "Identity": "12345678909",
+        "IdentityType": "CPF",
+        "Email": "comprador@braspag.com.br",
+        "Address": 
+        {
+			 "Street":"Alameda Xingu",
+			 "Number":"512",
+			 "Complement":"27 andar",
+			 "ZipCode":"12345987",
+			 "City":"São Paulo",
+			 "State":"SP",
+			 "Country":"BRA",
+			 "District":"Alphaville"
+        }
     },
     "Payment": {
         "Url": "https://xxx.xxxxxxx.xxx.xx/post/EletronicTransfer/Redirect/{PaymentId}",
         "PaymentId": "765548b6-c4b8-4e2c-b9b9-6458dbd5da0a",
         "Type": "EletronicTransfer",
-        "Amount": 15700,
+        "Amount": 10000,
         "ReceivedDate": "2015-06-25 09:37:55",
         "Currency": "BRL",
         "Country": "BRA",
@@ -2191,7 +2937,7 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
+    "MerchantOrderId": "2017051109",
     "Customer": {
         "Name": "Comprador Teste",
     },
@@ -2199,7 +2945,7 @@ curl
         "Url": "https://xxx.xxxxxxx.xxx.xx/post/EletronicTransfer/Redirect/{PaymentId}",
         "PaymentId": "765548b6-c4b8-4e2c-b9b9-6458dbd5da0a",
         "Type": "EletronicTransfer",
-        "Amount": 15700,
+        "Amount": 10000,
         "ReceivedDate": "2015-06-25 09:37:55",
         "Currency": "BRL",
         "Country": "BRA",
@@ -2221,15 +2967,15 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
-|`Url`|URL para qual o Lojista deve redirecionar o Cliente para o fluxo de Transferência Eletronica. |Texto |256 |Url de Autenticação |
-|`Status`|Status da Transação. |Byte |--- |0|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`Url`|URL para a qual o comprador deverá ser redirecionado para autenticação da Transferência Eletrônica |Texto |256 |Url de Autenticação|
+|`Status`|Status da Transação|Byte|2|1|
 
 # Pagamentos com Boleto
 
-## Criando uma venda simplificada
+## Criando uma transação de Boleto sem Registro
 
-Para criar uma venda cuja a forma de pagamento é boleto, basta fazer um POST conforme o exemplo.
+Para criar uma transação de Boleto sem Registro, basta fazer um POST conforme o exemplo.
 
 ### Requisição
 
@@ -2237,19 +2983,23 @@ Para criar uma venda cuja a forma de pagamento é boleto, basta fazer um POST 
 
 ```json
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051110",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador"     
     },
     "Payment":
     {  
-        "Type":"Boleto",
-        "Amount":15700,
-        "Provider":"Simulado"
+        "Provider":"Simulado",
+		"Type":"Boleto",
+        "Amount":10000,
+		"Assignor": "Braspag Tecnologia de Pagamento Ltda",
+        "Demonstrative": "Texto para Demonstrativo",
+        "ExpirationDate": "2017-12-31",
+        "Identification": "01234567000189",
+        "Instructions": "Aceitar somente até a data de vencimento"		
     }
 }
---verbose
 ```
 
 ```shell
@@ -2261,67 +3011,80 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051110",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador"     
     },
     "Payment":
     {  
-        "Type":"Boleto",
-        "Amount":15700,
-        "Provider":"Simulado"
+        "Provider":"Simulado",
+		"Type":"Boleto",
+        "Amount":10000,
+		"Assignor": "Braspag Tecnologia de Pagamento Ltda",
+        "Demonstrative": "Texto para Demonstrativo",
+        "ExpirationDate": "2017-12-31",
+        "Identification": "01234567000189",
+        "Instructions": "Aceitar somente até a data de vencimento"
     }
 }
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento de Boleto|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento. No caso "Boleto"|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.BoletoNumber`|Texto |50 |Não| Número do Boleto ("Nosso Número"). Caso preenchido, sobrepõe o valor configurado no meio de pagamento |
+|`Payment.Assignor`|Texto |200|Não|Nome do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Demonstrative`|Texto |450|Não|Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.ExpirationDate`|Date |10 |Não|Dias para vencer o boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Identification`|Texto |14 |Não|CNPJ do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Instructions`|Texto |450|Não|Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer":
-    {
-        "Name": "Comprador Teste"
-    },
-    "Payment":
-    {
-        "ExpirationDate": "2014-12-25",
-        "Url": "https://apisandbox.braspag.com.br/post/pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d",
-        "BoletoNumber": "1000000012-8",
-        "BarCodeNumber": "00091628800000157000494250100000001200656560",
-        "DigitableLine": "00090.49420 50100.000004 12006.565605 1 62880000015700",
-        "Address": "Av. Marechal Câmara, 160",
-        "PaymentId": "8464a692-b4bd-41e7-8003-1611a2b8ef2d",
-        "Type": "Boleto",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 09:39:05",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
-    }
+  "MerchantOrderId": "2017051110",
+  "Customer": {
+    "Name": "Nome do Comprador"
+  },
+  "Payment": {
+    "Instructions": "Aceitar somente até a data de vencimento.",
+    "ExpirationDate": "2017-12-31",
+    "Demonstrative": "Desmonstrative Teste",
+    "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/f892e7bb-e27f-4e81-b23d-036f8ee272a9",
+    "BoletoNumber": "2633-2",
+    "BarCodeNumber": "00092739000000100000494250000000263300656560",
+    "DigitableLine": "00090.49420 50000.000260 33006.565601 2 73900000010000",
+    "Assignor": "Empresa Teste",
+    "Address": "Av. Brigadeiro Faria Lima, 160, Av. Brigadeiro Faria Lima",
+    "Identification": "12346578909",
+    "PaymentId": "f892e7bb-e27f-4e81-b23d-036f8ee272a9",
+    "Type": "Boleto",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:25:36",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
+      }
+    ]
+  }
 }
 ```
 
@@ -2330,37 +3093,39 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer":
-    {
-        "Name": "Comprador Teste"
-    },
-    "Payment":
-    {
-        "ExpirationDate": "2014-12-25",
-        "Url": "https://apisandbox.braspag.com.br/post/pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d",
-        "BoletoNumber": "1000000012-8",
-        "BarCodeNumber": "00091628800000157000494250100000001200656560",
-        "DigitableLine": "00090.49420 50100.000004 12006.565605 1 62880000015700",
-        "Address": "Av. Marechal Câmara, 160",
-        "PaymentId": "8464a692-b4bd-41e7-8003-1611a2b8ef2d",
-        "Type": "Boleto",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 09:39:05",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
-    }
+  "MerchantOrderId": "2017051110",
+  "Customer": {
+    "Name": "Nome do Comprador"
+  },
+  "Payment": {
+    "Instructions": "Aceitar somente até a data de vencimento.",
+    "ExpirationDate": "2017-12-31",
+    "Demonstrative": "Desmonstrative Teste",
+    "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/f892e7bb-e27f-4e81-b23d-036f8ee272a9",
+    "BoletoNumber": "2633-2",
+    "BarCodeNumber": "00092739000000100000494250000000263300656560",
+    "DigitableLine": "00090.49420 50000.000260 33006.565601 2 73900000010000",
+    "Assignor": "Empresa Teste",
+    "Address": "Av. Brigadeiro Faria Lima, 160, Av. Brigadeiro Faria Lima",
+    "Identification": "12346578909",
+    "PaymentId": "f892e7bb-e27f-4e81-b23d-036f8ee272a9",
+    "Type": "Boleto",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:25:36",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f892e7bb-e27f-4e81-b23d-036f8ee272a9"
+      }
+    ]
+  }
 }
 ```
 
@@ -2368,16 +3133,16 @@ curl
 |-----------|---------|----|-------|-------|
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
 |`ExpirationDate`|Data de expiração. |Texto |10 |2014-12-25 |
-|`Url`|Url do Boleto gerado. |string |256 |https://.../pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d |
+|`Url`|URL do Boleto gerado |string |256 |https://.../pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d |
 |`Number`|"NossoNumero" gerado. |Texto|50 |1000000012-8 |
 |`BarCodeNumber`|Representação numérica do código de barras. |Texto |44 |00091628800000157000494250100000001200656560 |
 |`DigitableLine`|Linha digitável. |Texto |256 |00090.49420 50100.000004 12006.565605 1 62880000015700 |
-|`Address`|Endereço do Loja. |Texto |256 |Av. Teste, 160 |
+|`Address`|Endereço do Loja cadastrada no banco |Texto |256 |Av. Teste, 160 |
 |`Status`|Status da Transação. |Byte |--- |1|
 
-## Criando uma venda completa de Boleto
+## Criando uma transação de Boleto com Registro
 
-Para criar uma venda cuja a forma de pagamento é boleto, basta fazer um POST conforme o exemplo.
+Para gerar um boleto registrado, é necessário fornecer alguns dados a mais do comprador como CPF e endereço.
 
 ### Requisição
 
@@ -2385,23 +3150,33 @@ Para criar uma venda cuja a forma de pagamento é boleto, basta fazer um POST 
 
 ```json
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051113",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador",
+        "Identity":"12345678909",
+		"IdentityType":"CPF",
+		"Address":{  
+			"Street":"Alameda Xingu",
+			"Number":"512",
+			"Complement":"27 andar",
+			"ZipCode":"12345987",
+			"City":"São Paulo",
+			"State":"SP",
+			"Country":"BRA",
+			"District":"Alphaville"
+		}	
     },
     "Payment":
     {  
-        "Type":"Boleto",
-        "Amount":15700,
         "Provider":"Simulado",
-        "Address": "Rua Teste",
-        "BoletoNumber": "123",
+		"Type":"Boleto",
+        "Amount":10000,
         "Assignor": "Empresa Teste",
         "Demonstrative": "Desmonstrative Teste",
-        "ExpirationDate": "2015-01-05",
-        "Identification": "11884926754",
-        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia."
+        "ExpirationDate": "2017-12-31",
+        "Identification": "12346578909",
+        "Instructions": "Aceitar somente até a data de vencimento."      
     }
 }
 ```
@@ -2415,84 +3190,112 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-    "MerchantOrderId":"2014111706",
+    "MerchantOrderId":"2017051113",
     "Customer":
     {  
-        "Name":"Comprador Teste"     
+        "Name":"Nome do Comprador",
+        "Identity":"12345678909",
+		"IdentityType":"CPF",
+		"Address":{  
+			"Street":"Alameda Xingu",
+			"Number":"512",
+			"Complement":"27 andar",
+			"ZipCode":"12345987",
+			"City":"São Paulo",
+			"State":"SP",
+			"Country":"BRA",
+			"District":"Alphaville"
+		}	
     },
     "Payment":
     {  
-        "Type":"Boleto",
-        "Amount":15700,
         "Provider":"Simulado",
-        "Address": "Rua Teste",
-        "BoletoNumber": "123",
+		"Type":"Boleto",
+        "Amount":10000,
         "Assignor": "Empresa Teste",
         "Demonstrative": "Desmonstrative Teste",
-        "ExpirationDate": "2015-01-05",
-        "Identification": "11884926754",
-        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia."
+        "ExpirationDate": "2017-12-31",
+        "Identification": "12346578909",
+        "Instructions": "Aceitar somente até a data de vencimento."      
     }
 }
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100|Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Provider`|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|Texto |15 |---|
-|`Payment.Adress`|Endereço do Cedente.|Texto |255|Não|
-|`Payment.BoletoNumber`|Número do Boleto ("NossoNumero").|Texto |50 |Não|
-|`Payment.Assignor`|Nome do Cedente.|Texto |200|Não|
-|`Payment.Demonstrative`|Texto de Demonstrativo.|Texto |450|Não|
-|`Payment.ExpirationDate`|Data de expiração do Boleto.|Date |10 |Não|
-|`Payment.Identification`|Documento de identificação do Cedente.|Texto |14 |Não|
-|`Payment.Instructions`|Instruções do Boleto.|Texto |450|Não|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Customer.Identity`|Texto |14 |Sim|Número do RG, CPF ou CNPJ do Cliente| 
+|`Customer.IdentityType`|Texto|255|Sim|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
+|`Customer.Address.Street`|Texto|255|Sim|Endereço de contato do comprador|
+|`Customer.Address.Number`|Texto|15|Sim|Número endereço de contato do comprador|
+|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador|
+|`Customer.Address.ZipCode`|Texto|9|Sim|CEP do endereço de contato do comprador|
+|`Customer.Address.City`|Texto|50|Sim|Cidade do endereço de contato do comprador|
+|`Customer.Address.State`|Texto|2|Sim|Estado do endereço de contato do comprador|
+|`Customer.Address.Country`|Texto|35|Sim|Pais do endereço de contato do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento de Boleto|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento. No caso "Boleto"|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (deve ser enviado em centavos)|
+|`Payment.BoletoNumber`|Texto |50 |Não| Número do Boleto ("Nosso Número"). Caso preenchido, sobrepõe o valor configurado no meio de pagamento |
+|`Payment.Assignor`|Texto |200|Não|Nome do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Demonstrative`|Texto |450|Não|Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.ExpirationDate`|Date |10 |Não|Dias para vencer o boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Identification`|Texto |14 |Não|CNPJ do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Instructions`|Texto |450|Não|Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer":
-    {
-        "Name": "Comprador Teste"
-    },
-    "Payment":
-    {
-        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia.",
-        "ExpirationDate": "2015-01-05",
-        "Url": "https://apisandbox.braspag.com.br/post/pagador/reenvia.asp/a5f3181d-c2e2-4df9-a5b4-d8f6edf6bd51",
-        "BoletoNumber": "123-2",
-        "BarCodeNumber": "00096629900000157000494250000000012300656560",
-        "DigitableLine": "00090.49420 50000.000013 23006.565602 6 62990000015700",
-        "Assignor": "Empresa Teste",
-        "Address": "Rua Teste",
-        "Identification": "11884926754",
-        "PaymentId": "a5f3181d-c2e2-4df9-a5b4-d8f6edf6bd51",
-        "Type": "Boleto",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 09:40:48",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
+  "MerchantOrderId": "2017051113",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA"
     }
+  },
+  "Payment": {
+    "Instructions": "Aceitar somente até a data de vencimento.",
+    "ExpirationDate": "2017-12-31",
+    "Demonstrative": "Desmonstrative Teste",
+    "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f",
+    "BoletoNumber": "2634-0",
+    "BarCodeNumber": "00091739000000100000494250000000263400656560",
+    "DigitableLine": "00090.49420 50000.000260 34006.565609 1 73900000010000",
+    "Assignor": "Empresa Teste",
+    "Address": "Av. Brigadeiro Faria Lima, 160",
+    "Identification": "12346578909",
+    "PaymentId": "d24b0aa4-21c9-449d-b85c-6279333f070f",
+    "Type": "Boleto",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:42:55",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
+      }
+    ]
+  }
 }
 ```
 
@@ -2501,91 +3304,100 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer":
-    {
-        "Name": "Comprador Teste"
-    },
-    "Payment":
-    {
-        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia.",
-        "ExpirationDate": "2015-01-05",
-        "Url": "https://apisandbox.braspag.com.br/post/pagador/reenvia.asp/a5f3181d-c2e2-4df9-a5b4-d8f6edf6bd51",
-        "BoletoNumber": "123-2",
-        "BarCodeNumber": "00096629900000157000494250000000012300656560",
-        "DigitableLine": "00090.49420 50000.000013 23006.565602 6 62990000015700",
-        "Assignor": "Empresa Teste",
-        "Address": "Rua Teste",
-        "Identification": "11884926754",
-        "PaymentId": "a5f3181d-c2e2-4df9-a5b4-d8f6edf6bd51",
-        "Type": "Boleto",
-        "Amount": 15700,
-        "ReceivedDate": "2015-06-25 09:40:48",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            }
-        ]
+  "MerchantOrderId": "2017051113",
+  "Customer": {
+    "Name": "Nome do Comprador",
+    "Identity": "12345678909",
+    "IdentityType": "CPF",
+    "Address": {
+      "Street": "Alameda Xingu",
+      "Number": "512",
+      "Complement": "27 andar",
+      "ZipCode": "12345987",
+      "City": "São Paulo",
+      "State": "SP",
+      "Country": "BRA",
+	  "District":"Alphaville"
     }
+  },
+  "Payment": {
+    "Instructions": "Aceitar somente até a data de vencimento.",
+    "ExpirationDate": "2017-12-31",
+    "Demonstrative": "Desmonstrative Teste",
+    "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f",
+    "BoletoNumber": "2634-0",
+    "BarCodeNumber": "00091739000000100000494250000000263400656560",
+    "DigitableLine": "00090.49420 50000.000260 34006.565609 1 73900000010000",
+    "Assignor": "Empresa Teste",
+    "Address": "Av. Brigadeiro Faria Lima, 160",
+    "Identification": "12346578909",
+    "PaymentId": "d24b0aa4-21c9-449d-b85c-6279333f070f",
+    "Type": "Boleto",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:42:55",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/d24b0aa4-21c9-449d-b85c-6279333f070f"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
-|`Instructions`|Instruções do Boleto. |Texto |450 |Ex: Aceitar somente até a data de vencimento, após essa data juros de 1% dia. |
 |`ExpirationDate`|Data de expiração. |Texto |10 |2014-12-25 |
-|`Url`|Url do Boleto gerado. |string |256 |Ex:https://.../pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d |
-|`Number`|"NossoNumero" gerado. |Texto|50 |Ex: 1000000012-8 |
-|`BarCodeNumber`|Representação numérica do código de barras. |Texto |44 |Ex: 00091628800000157000494250100000001200656560 |
-|`DigitableLine`|Linha digitável. |Texto |256 |Ex: 00090.49420 50100.000004 12006.565605 1 62880000015700 |
-|`Assignor`|Nome do Cedente. |Texto |256 |Ex: Loja Teste |
-|`Address`|Endereço do Cedente. |Texto |256 |Ex: Av. Teste, 160 |
-|`Identification`|Documento de identificação do Cedente. |Texto |14 |CPF ou CNPJ do Cedente sem os caracteres especiais (., /, -) |
+|`Url`|URL do Boleto gerado |string |256 |https://.../pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d |
+|`Number`|"NossoNumero" gerado. |Texto|50 |1000000012-8 |
+|`BarCodeNumber`|Representação numérica do código de barras. |Texto |44 |00091628800000157000494250100000001200656560 |
+|`DigitableLine`|Linha digitável. |Texto |256 |00090.49420 50100.000004 12006.565605 1 62880000015700 |
+|`Address`|Endereço do Loja cadastrada no banco |Texto |256 |Av. Teste, 160 |
 |`Status`|Status da Transação. |Byte |--- |1|
 
 # Pagamentos Recorrentes
 
-## Autorizando a primeira recorrência
+* **Recorrente**: A Recorrência Inteligente é um recurso indispensável para estabelicimentos que precisam cobrar regularmente por seus produtos/serviços.
+É muito utilizado para assinaturas de revistas, mensalidades, licenças de software, entre outros. Os lojistas contarão com recursos diferenciados para modelar sua cobrança de acordo com o seu negócio, pois toda parametrização é configurável, tais como: periodicidade, data de início e fim, quantidade de tentativas, intervalo entre elas, entre outros.
 
-Para criar uma venda recorrente cuja a primeira recorrência é autorizada com a forma de pagamento cartão de crédito, basta fazer um POST conforme o exemplo.
+## Autorizar uma transação e agendar as próximas recorrências
+
+Neste exemplo, uma transação é submetida para autorização, e quando aprovada, a recorrência é agendada conforme as regras especificadas na transação. Uma transação recorrente não poderá ser parcelada. 
 
 ### Requisição
 
 <aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
-{  
-   "MerchantOrderId":"2014113245231706",
-   "Customer":{  
-      "Name":"Comprador accept"
+{
+   "MerchantOrderId":"2017051113",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":1500,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     },
      "RecurrentPayment":{
        "AuthorizeNow":"true",
-       "EndDate":"2019-12-01",
-       "Interval":"SemiAnnual"
-     },
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"03/2019",
-         "SecurityCode":"262",
-         "SaveCard":"false",
-         "Brand":"Visa"
+       "EndDate":"2019-12-31",
+       "Interval":"Monthly"
      }
    }
 }
@@ -2599,124 +3411,122 @@ curl
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014113245231706",
-   "Customer":{  
-      "Name":"Comprador accept"
+{
+   "MerchantOrderId":"2017051113",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":1500,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     },
      "RecurrentPayment":{
        "AuthorizeNow":"true",
-       "EndDate":"2019-12-01",
-       "Interval":"SemiAnnual"
-     },
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"03/2019",
-         "SecurityCode":"262",
-         "SaveCard":"false",
-         "Brand":"Visa"
+       "EndDate":"2019-12-31",
+       "Interval":"Monthly"
      }
    }
 }
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |6 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API.|Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`MerchantOrderId`|Numero de identificação do Pedido. |Texto |50 |Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
-|`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100 |Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Installments`|Número de Parcelas.|Número |2 |Sim|
-|`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Texto |13 |Não|
-|`Payment.RecurrentPayment.EndDate`|Data para termino da recorrência.|Texto |10 |Não|
-|`Payment.RecurrentPayment.Interval`|Intervalo da recorrência.<br /><ul><li>Monthly (Default) </li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |Texto |10 |Não|
-|`Payment.RecurrentPayment.AuthorizeNow`|Booleano para saber se a primeira recorrência já vai ser Autorizada ou não.|Booleano |--- |Sim|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16 |Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25 |Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto |10 |Sim|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.RecurrentPayment.EndDate`|Texto |10 |Não|Data para termino da recorrência|
+|`Payment.RecurrentPayment.Interval`|Texto |10 |Não|Intervalo da recorrência.<br /><ul><li>Monthly (Default) </li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
+|`Payment.RecurrentPayment.AuthorizeNow`|Booleano |--- |Sim|Se true, autoriza no momento da requisição. false para agendamento futuro|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014113245231706",
-    "Customer": {
-        "Name": "Comprador accept"
+  "MerchantOrderId": "2017051113",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "03/2019",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "3827556",
-        "AcquirerTransactionId": "0504043827555",
-        "AuthorizationCode": "149867",
-        "SoftDescriptor":"tst",
-        "PaymentId": "737a8d9a-88fe-4f74-931f-acf81149f4a0",
-        "Type": "CreditCard",
-        "Amount": 1500,
-        "ReceivedDate": "2015-06-25 09:43:06",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "RecurrentPayment": {
-            "RecurrentPaymentId": "61e5bd30-ec11-44b3-ba0a-56fbbc8274c5",
-            "ReasonCode": 0,
-            "ReasonMessage": "Successful",
-            "NextRecurrency": "2015-11-04",
-            "EndDate": "2019-12-01",
-            "Interval": "SemiAnnual",
-            "Link": {
-                "Method": "GET",
-                "Rel": "recurrentPayment",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}"
-            },
-            "AuthorizeNow": true
-        },
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "5646418",
+    "AcquirerTransactionId": "0511045646418",
+    "AuthorizationCode": "100024",
+    "PaymentId": "067f73ce-62fb-4d76-871d-0bcbb88fbd22",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:56:46",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "RecurrentPayment": {
+      "RecurrentPaymentId": "808d3631-47ca-43b4-97f5-bd29ab06c271",
+      "ReasonCode": 0,
+      "ReasonMessage": "Successful",
+      "NextRecurrency": "2017-06-11",
+      "EndDate": "2019-12-31",
+      "Interval": "Monthly",
+      "Link": {
+        "Method": "GET",
+        "Rel": "recurrentPayment",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"
+      },
+      "AuthorizeNow": true
+    },
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -2725,115 +3535,113 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014113245231706",
-    "Customer": {
-        "Name": "Comprador accept"
+  "MerchantOrderId": "2017051113",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "03/2019",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "3827556",
-        "AcquirerTransactionId": "0504043827555",
-        "AuthorizationCode": "149867",
-        "SoftDescriptor":"tst",
-        "PaymentId": "737a8d9a-88fe-4f74-931f-acf81149f4a0",
-        "Type": "CreditCard",
-        "Amount": 1500,
-        "ReceivedDate": "2015-06-25 09:43:06",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "ProviderReasonCode": "4",
-        "ProviderReasonMessage": "Operation Successful",
-        "RecurrentPayment": {
-            "RecurrentPaymentId": "61e5bd30-ec11-44b3-ba0a-56fbbc8274c5",
-            "ReasonCode": 0,
-            "ReasonMessage": "Successful",
-            "NextRecurrency": "2015-11-04",
-            "EndDate": "2019-12-01",
-            "Interval": "SemiAnnual",
-            "Link": {
-                "Method": "GET",
-                "Rel": "recurrentPayment",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}"
-            },
-            "AuthorizeNow": true
-        },
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "5646418",
+    "AcquirerTransactionId": "0511045646418",
+    "AuthorizationCode": "100024",
+    "PaymentId": "067f73ce-62fb-4d76-871d-0bcbb88fbd22",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 16:56:46",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "RecurrentPayment": {
+      "RecurrentPaymentId": "808d3631-47ca-43b4-97f5-bd29ab06c271",
+      "ReasonCode": 0,
+      "ReasonMessage": "Successful",
+      "NextRecurrency": "2017-06-11",
+      "EndDate": "2019-12-31",
+      "Interval": "Monthly",
+      "Link": {
+        "Method": "GET",
+        "Rel": "recurrentPayment",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"
+      },
+      "AuthorizeNow": true
+    },
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/067f73ce-62fb-4d76-871d-0bcbb88fbd22/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`RecurrentPaymentId`|Campo Identificador da próxima recorrência. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
-|`NextRecurrency`|Data da próxima recorrência. |Texto |7 |05/2019 (MM/YYYY) |
-|`EndDate`|Data do fim da recorrência. |Texto |7 |05/2019 (MM/YYYY) |
+|`RecurrentPaymentId`|ID que representa a recorrência, utilizada para consultas e alterações futuras |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
+|`NextRecurrency`|Data de quando acontecerá a próxima recorrência |Texto |7 |05/2019 (MM/YYYY) |
+|`EndDate`|Data do fim da recorrência |Texto |7 |05/2019 (MM/YYYY) |
 |`Interval`|Intervalo entre as recorrência. |Texto |10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
 |`AuthorizeNow`|Booleano para saber se a primeira recorrencia já vai ser Autorizada ou não. |Booleano |--- |true ou false |
 
-## Agendamento de uma recorrência de crédito
+## Agendamento de uma Recorrência
 
-Para criar uma venda recorrente cuja a primeira recorrência não será autorizada na mesma data com a forma de pagamento cartão de crédito, basta fazer um POST conforme o exemplo.
+Diferentementemente da recorrência anterior, este exemplo não autoriza imediatamente, mas apenas agenda uma autorização futura. Quando esta autorização tiver sucesso, então o agendamento das próximas recorrências será efetivada.
 
 ### Requisição
 
 <aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
-{  
-   "MerchantOrderId":"2014113245231706",
-   "Customer":{  
-      "Name":"Comprador accept"
+{
+   "MerchantOrderId":"2017051114",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":1500,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     },
      "RecurrentPayment":{
        "AuthorizeNow":"false",
-       "EndDate":"2019-12-01",
-       "Interval":"SemiAnnual",
-       "StartDate":"2015-06-01"
-     },
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"03/2019",
-         "SecurityCode":"262",
-         "SaveCard":"false",
-         "Brand":"Visa"
+       "StartDate":"2017-12-31",
+       "EndDate":"2019-12-31",
+       "Interval":"Monthly"
      }
    }
 }
@@ -2847,108 +3655,99 @@ curl
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
-{  
-   "MerchantOrderId":"2014113245231706",
-   "Customer":{  
-      "Name":"Comprador accept"
+{
+   "MerchantOrderId":"2017051114",
+   "Customer":{
+      "Name":"Nome do Cliente"
    },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":1500,
+   "Payment":{
      "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
      "Installments":1,
-     "SoftDescriptor":"tst",
+     "CreditCard":{
+         "CardNumber":"4551870000000181",
+         "Holder":"Nome do Portador",
+         "ExpirationDate":"12/2021",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     },
      "RecurrentPayment":{
        "AuthorizeNow":"false",
-       "EndDate":"2019-12-01",
-       "Interval":"SemiAnnual",
-       "StartDate":"2015-06-01"
-     },
-     "CreditCard":{  
-         "CardNumber":"1234123412341231",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"03/2019",
-         "SecurityCode":"262",
-         "SaveCard":"false",
-         "Brand":"Visa"
+       "StartDate":"2017-12-31",
+       "EndDate":"2019-12-31",
+       "Interval":"Monthly"
      }
    }
 }
 --verbose
 ```
 
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API |Guid |36|Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API |Texto |40|Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50|Sim|
-|`Customer.Name`|Nome do Comprador. |Texto |255 |Sim|
-|`Customer.Email`|Email do Comprador. |Texto |255 |Não|
-|`Customer.Birthdate`|Data de nascimento do Comprador. |Date |10 |Não|
-|`Customer.Identity`|Número do RG, CPF ou CNPJ do Cliente. |Texto |14 |Não|
-|`Customer.Address.Street`|Endereço do Comprador. |Texto |255|Não|
-|`Customer.Address.Number`|Número do endereço do Comprador. |Texto |15 |Não|
-|`Customer.Address.Complement`|Complemento do endereço do Comprador.|Texto |50 |Não|
-|`Customer.Address.ZipCode`|CEP do endereço do Comprador. |Texto |9 |Não|
-|`Customer.Address.City`|Cidade do endereço do Comprador. |Texto |50|Não|
-|`Customer.Address.State`|Estado do endereço do Comprador. |Texto |2 |Não|
-|`Customer.Address.Country`|Pais do endereço do Comprador. |Texto |35|Não|
-|`Customer.Address.District`|Bairro do Comprador. |Texto |50|Não|
-|`Customer.DeliveryAddress.Street`|Endereço do Comprador. |Texto |255 |Não|
-|`Customer.DeliveryAddress.Number`|Número do endereço do Comprador. |Texto |15 |Não|
-|`Customer.DeliveryAddress.Complement`|Complemento do endereço do Comprador. |Texto |50 |Não|
-|`Customer.DeliveryAddress.ZipCode`|CEP do endereço do Comprador. |Texto |9 |Não|
-|`Customer.DeliveryAddress.City`|Cidade do endereço do Comprador. |Texto |50|Não|
-|`Customer.DeliveryAddress.State`|Estado do endereço do Comprador. |Texto |2 |Não|
-|`Customer.DeliveryAddress.Country`|Pais do endereço do Comprador. |Texto |35|Não|
-|`Customer.DeliveryAddress.District`|Bairro do Comprador. |Texto |50|Não|
+|Propriedade|Tipo|Tamanho|Obrigatório|Descrição|
+|-----------|----|-------|-----------|---------|
+|`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
+|`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
+|`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
+|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
+|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento|
+|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento|
+|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos)|
+|`Payment.Installments`|Número|2|Sim|Número de Parcelas|
+|`Payment.RecurrentPayment.StartDate`|Texto |10 |Não|Data para início da recorrência|
+|`Payment.RecurrentPayment.EndDate`|Texto |10 |Não|Data para termino da recorrência|
+|`Payment.RecurrentPayment.Interval`|Texto |10 |Não|Intervalo da recorrência.<br /><ul><li>Monthly (Default) </li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
+|`Payment.RecurrentPayment.AuthorizeNow`|Booleano |--- |Sim|Se true, autoriza no momento da requisição. false para agendamento futuro|
+|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do comprador|
+|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão|
+|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão, no formato MM/AAAA|
+|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão|
+|`CreditCard.Brand`|Texto|10|Sim |Bandeira do cartão|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014113245231706",
-    "Customer": {
-        "Name": "Comprador accept"
+  "MerchantOrderId": "2017051114",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Undefined"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "03/2019",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "SoftDescriptor": "tst",
-        "Type": "CreditCard",
-        "Amount": 1500,
-        "ReceivedDate": "0001-01-01 00:00:00",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "Status": 20,
-        "RecurrentPayment": {
-            "RecurrentPaymentId": "0d2ff85e-594c-47b9-ad27-bb645a103db4",
-            "ReasonCode": 0,
-            "ReasonMessage": "Successful",
-            "NextRecurrency": "2015-06-01",
-            "StartDate": "2015-06-01",
-            "EndDate": "2019-12-01",
-            "Interval": "SemiAnnual",
-            "Link": {
-                "Method": "GET",
-                "Rel": "recurrentPayment",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{PaymentId}"
-            },
-            "AuthorizeNow": false
-        }
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "Status": 20,
+    "RecurrentPayment": {
+      "RecurrentPaymentId": "32703035-7dfb-4369-ac53-34c7ff7b84e8",
+      "ReasonCode": 0,
+      "ReasonMessage": "Successful",
+      "NextRecurrency": "2017-12-31",
+      "StartDate": "2017-12-31",
+      "EndDate": "2019-12-31",
+      "Interval": "Monthly",
+      "Link": {
+        "Method": "GET",
+        "Rel": "recurrentPayment",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"
+      },
+      "AuthorizeNow": false
     }
+  }
 }
 ```
 
@@ -2957,47 +3756,46 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014113245231706",
-    "Customer": {
-        "Name": "Comprador accept"
+  "MerchantOrderId": "2017051114",
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "SaveCard": false,
+      "Brand": "Undefined"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "03/2019",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "SoftDescriptor": "tst",
-        "Type": "CreditCard",
-        "Amount": 1500,
-        "ReceivedDate": "0001-01-01 00:00:00",
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Simulado",
-        "Status": 20,
-        "RecurrentPayment": {
-            "RecurrentPaymentId": "0d2ff85e-594c-47b9-ad27-bb645a103db4",
-            "ReasonCode": 0,
-            "ReasonMessage": "Successful",
-            "NextRecurrency": "2015-06-01",
-            "StartDate": "2015-06-01",
-            "EndDate": "2019-12-01",
-            "Interval": "SemiAnnual",
-            "Link": {
-                "Method": "GET",
-                "Rel": "recurrentPayment",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{PaymentId}"
-            },
-            "AuthorizeNow": false
-        }
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "Status": 20,
+    "RecurrentPayment": {
+      "RecurrentPaymentId": "32703035-7dfb-4369-ac53-34c7ff7b84e8",
+      "ReasonCode": 0,
+      "ReasonMessage": "Successful",
+      "NextRecurrency": "2017-12-31",
+      "StartDate": "2017-12-31",
+      "EndDate": "2019-12-31",
+      "Interval": "Monthly",
+      "Link": {
+        "Method": "GET",
+        "Rel": "recurrentPayment",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"
+      },
+      "AuthorizeNow": false
     }
+  }
 }
 ```
 
@@ -3010,9 +3808,9 @@ curl
 |`Interval`|Intervalo entre as recorrência. |Texto |10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
 |`AuthorizeNow`|Booleano para saber se a primeira recorrencia já vai ser Autorizada ou não. |Booleano |--- |true ou false |
 
-## Modificando dados do comprador
+## Alterar dados do comprador
 
-Para alterar os dados do comprador da Recorrência, basta fazer um Put conforme o exemplo.
+Para alterar os dados do comprador em uma recorrência, basta fazer um PUT conforme o exemplo.
 
 ### Requisição
 
@@ -3020,84 +3818,86 @@ Para alterar os dados do comprador da Recorrência, basta fazer um Put conform
 
 ```json
 {  
-      "Name":"Customer",
-      "Email":"customer@teste.com",
-      "Birthdate":"1999-12-12",
-      "Identity":"22658954236",
-      "IdentityType":"CPF",
-      "Address":{  
-         "Street":"Rua Teste",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
-      },
-      "DeliveryAddress":{  
-         "Street":"Outra Rua Teste",
-         "Number":"123",
-         "Complement":"AP 111",
-         "ZipCode":"21241111",
-         "City":"Qualquer Lugar",
-         "State":"QL",
-         "Country":"BRA",
-        "District":"Teste"
-      }
-   }
+	"Name":"Outro nome do Comprador",
+	"Email":"outrocomprador@braspag.com.br",
+	"Birthdate":"1999-12-12",
+	"Identity":"0987654321",
+	"IdentityType":"CPF",
+	"Address":{  
+		"Street":"Avenida Brigadeiro Faria Lima",
+		"Number":"1500",
+		"Complement":"AP 201",
+		"ZipCode":"05426200",
+		"City":"São Paulo",
+		"State":"SP",
+		"Country":"BRA",
+		"District":"Pinheiros"
+	},
+	"DeliveryAddress":{  
+		"Street":"Avenida Brigadeiro Faria Lima",
+		"Number":"1500",
+		"Complement":"AP 201",
+		"ZipCode":"05426200",
+		"City":"São Paulo",
+		"State":"SP",
+		"Country":"BRA",
+		"District":"Pinheiros"
+	}
+}
 ```
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Customer"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Customer"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-      "Name":"Customer",
-      "Email":"customer@teste.com",
-      "Birthdate":"1999-12-12",
-      "Identity":"22658954236",
-      "IdentityType":"CPF",
-      "Address":{  
-         "Street":"Rua Teste",
-         "Number":"174",
-         "Complement":"AP 201",
-         "ZipCode":"21241140",
-         "City":"Rio de Janeiro",
-         "State":"RJ",
-         "Country":"BRA"
-      },
-      "DeliveryAddress":{  
-         "Street":"Outra Rua Teste",
-         "Number":"123",
-         "Complement":"AP 111",
-         "ZipCode":"21241111",
-         "City":"Qualquer Lugar",
-         "State":"QL",
-         "Country":"BRA",
-        "District":"Teste"
-      }
-   }
+	"Name":"Outro nome do Comprador",
+	"Email":"outrocomprador@braspag.com.br",
+	"Birthdate":"1999-12-12",
+	"Identity":"0987654321",
+	"IdentityType":"CPF",
+	"Address":{  
+		"Street":"Avenida Brigadeiro Faria Lima",
+		"Number":"1500",
+		"Complement":"AP 201",
+		"ZipCode":"05426200",
+		"City":"São Paulo",
+		"State":"SP",
+		"Country":"BRA",
+		"District":"Pinheiros"
+	},
+	"DeliveryAddress":{  
+		"Street":"Avenida Brigadeiro Faria Lima",
+		"Number":"1500",
+		"Complement":"AP 201",
+		"ZipCode":"05426200",
+		"City":"São Paulo",
+		"State":"SP",
+		"Country":"BRA",
+		"District":"Pinheiros"
+	}
+}
 --verbose
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API|Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Customer.Name`|Nome do Comprador. |Texto |255|Sim|
 |`Customer.Email`|Email do Comprador. |Texto |255|Não|
 |`Customer.Birthdate`|Data de nascimento do Comprador. |Date |10 |Não|
 |`Customer.Identity`|Número do RG, CPF ou CNPJ do Cliente. |Texto |14 |Não|
-|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ).|
+|`Customer.IdentityType`|Texto|255|Não|Tipo de documento de identificação do comprador (CFP/CNPJ)|
 |`Customer.Address.Street`|Endereço do Comprador. |Texto |255 |Não|
 |`Customer.Address.Number`|Número do endereço do Comprador. |Texto |15 |Não|
-|`Customer.Address.Complement`|Complemento do endereço do Comprador.|Texto |50 |Não|
+|`Customer.Address.Complement`|Complemento do endereço do comprador|Texto |50 |Não|
 |`Customer.Address.ZipCode`|CEP do endereço do Comprador. |Texto |9 |Não|
 |`Customer.Address.City`|Cidade do endereço do Comprador. |Texto |50 |Não|
 |`Customer.Address.State`|Estado do endereço do Comprador. |Texto |2 |Não|
@@ -3120,9 +3920,9 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificando data final da Recorrência
+## Alterar a data final da Recorrência
 
-Para alterar a data final da Recorrência, basta fazer um Put conforme o exemplo.
+Para alterar a data final da Recorrência, basta fazer um PUT conforme o exemplo.
 
 ### Requisição
 
@@ -3134,7 +3934,7 @@ Para alterar a data final da Recorrência, basta fazer um Put conforme o exemp
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/EndDate"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/EndDate"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3146,11 +3946,11 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`EndDate`|Data para termino da recorrência.|Texto |10 |Sim|
+|`EndDate`|Data para termino da recorrência|Texto |10 |Sim|
 
 ### Resposta
 
@@ -3160,49 +3960,9 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificando número de parcelas da Recorrência
+## Alterar o intevalo da Recorrência
 
-Para alterar o número de parcelas da Recorrência, basta fazer um Put conforme o exemplo.
-
-### Requisição
-
-<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/RecurrentPayment/{RecurrentPaymentId}/Installments</span></aside>
-
-```json
-3
-```
-
-```shell
-curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Installments"
---header "Content-Type: application/json"
---header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
---header "MerchantKey: 0123456789012345678901234567890123456789"
---header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
---data-binary
-3
---verbose
-```
-
-|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
-|-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`Installments`|Número de Parcelas.|Número |2 |Sim|
-
-### Resposta
-
-```shell
-HTTP Status 200
-```
-
-Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
-
-## Modificando intevalo da Recorrência
-
-Para alterar o Intervalo da Recorrência, basta fazer um Put conforme o exemplo.
+Para alterar o Intervalo da Recorrência, basta fazer um PUT conforme o exemplo.
 
 ### Requisição
 
@@ -3214,7 +3974,7 @@ Para alterar o Intervalo da Recorrência, basta fazer um Put conforme o exempl
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Interval"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Interval"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3226,9 +3986,9 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Interval`|Intervalo da recorrência. <ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul>|Número |2 |Sim|
 
@@ -3240,9 +4000,9 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificar dia da Recorrência
+## Alterar o dia da Recorrência
 
-Para modificar o dia da recorrência, basta fazer um Put conforme o exemplo.
+Para modificar o dia da recorrência, basta fazer um PUT conforme o exemplo.
 
 <aside class="notice"><strong>Regra:</strong> Se o novo dia informado for depois do dia atual, iremos atualizar o dia da recorrência com efeito na próxima recorrência Ex.: Hoje é dia 5, e a próxima recorrência é dia 25/05. Quando eu atualizar para o dia 10, a data da próxima recorrência será dia10/05. Se o novo dia informado for antes do dia atual, iremos atualizar o dia da recorrência, porém este só terá efeito depois que a próxima recorrência for executada com sucesso. Ex.: Hoje é dia 5, e a próxima recorrência é dia 25/05. Quando eu atualizar para o dia 3, a data da próxima recorrência permanecerá dia 25/05, e após ela ser executada, a próxima será agendada para o dia 03/06. Se o novo dia informado for antes do dia atual, mas a próxima recorrência for em outro mês, iremos atualizar o dia da recorrência com efeito na próxima recorrência. Ex.: Hoje é dia 5, e a próxima recorrência é dia 25/09. Quando eu atualizar para o dia 3, a data da próxima recorrência será 03/09</aside>
 
@@ -3256,7 +4016,7 @@ Para modificar o dia da recorrência, basta fazer um Put conforme o exemplo.
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/RecurrencyDay"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/RecurrencyDay"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3268,11 +4028,11 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`RecurrencyDay`|Dia da Recorrência.|Número |2 |Sim|
+|`RecurrencyDay`|Dia da Recorrência|Número |2 |Sim|
 
 ### Resposta
 
@@ -3282,9 +4042,9 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificando o valor da Recorrência
+## Alterar o valor da transação da Recorrência
 
-Para modificar o valor da recorrência, basta fazer um Put conforme o exemplo.
+Para modificar o valor da transação da recorrência, basta fazer um PUT conforme o exemplo.
 
 ### Requsição
 
@@ -3296,7 +4056,7 @@ Para modificar o valor da recorrência, basta fazer um Put conforme o exemplo.
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Amount"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Amount"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3308,10 +4068,10 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API.|Guid|36|Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API.|Texto|40|Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
-|`RecurrentPaymentId`|Numero de identificação da Recorrência.|Texto|50|Sim|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 |`Payment.Amount`|Valor do Pedido em centavos: 156 equivale a R$ 1,56|Número|15|Sim|
 
 <aside class="warning">Essa alteração só afeta a data de pagamento da próxima recorrência.</aside>
@@ -3324,21 +4084,21 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificando data do próximo Pagamento
+## Alterar a data do próximo Pagamento
 
-Para alterar a data do próximo Pagamento, basta fazer um Put conforme o exemplo.
+Para alterar a data do próximo Pagamento, basta fazer um PUT conforme o exemplo. Esta operação modifica somente a data do próximo pagamento, ou seja, a recorrências futuras a esta permanecerão com as carcaterísticas originais.
 
 ### Requisição
 
 <aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/RecurrentPayment/{RecurrentPaymentId}/NextPaymentDate</span></aside>
 
 ```json
-"2016-06-15"
+"2017-06-15"
 ```
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/NextPaymentDate"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/NextPaymentDate"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3350,11 +4110,11 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
-|`NextPaymentDate`|Data de pagamento da próxima recorrência.|Texto |10 |Sim|
+|`NextPaymentDate`|Data de pagamento da próxima recorrência|Texto |10 |Sim|
 
 ### Resposta
 
@@ -3364,9 +4124,9 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-## Modificando dados do Pagamento da Recorrência
+## Alterar os dados do Pagamento da Recorrência
 
-Para alterar os dados de pagamento da Recorrência, basta fazer um Put conforme o exemplo.
+Para alterar os dados de pagamento da Recorrência, basta fazer um PUT conforme o exemplo.
 
 <aside class="notice"><strong>Atenção:</strong> Essa alteração afeta a todos os dados do nó Payment. Então para manter os dados anteriores você deve informar os campos que não vão sofre alterações com os mesmos valores que já estavam salvos.</aside>
 
@@ -3377,16 +4137,16 @@ Para alterar os dados de pagamento da Recorrência, basta fazer um Put conform
 ```json
 {  
    "Type":"CreditCard",
-   "Amount":"123",
+   "Amount":"20000",
    "Installments":3,
    "Country":"USA",
    "Currency":"USD",
-   "SoftDescriptor":"test",
+   "SoftDescriptor":"Mensagem",
    "Provider":"Simulado",
    "CreditCard":{  
       "Brand":"Master",
-      "Holder":"Teset card",
-      "CardNumber":"1234123412341232",
+      "Holder":"Nome do Portador",
+      "CardNumber":"4111111111111111",
       "ExpirationDate":"05/2019"
    }
 }
@@ -3394,24 +4154,24 @@ Para alterar os dados de pagamento da Recorrência, basta fazer um Put conform
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Payment"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Payment"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
+   "Provider":"Simulado",
    "Type":"CreditCard",
-   "Amount":"123",
+   "Amount":"20000",
    "Installments":3,
    "Country":"USA",
    "Currency":"USD",
-   "SoftDescriptor":"test",
-   "Provider":"Simulado",
+   "SoftDescriptor":"Mensagem",
    "CreditCard":{  
       "Brand":"Master",
-      "Holder":"Teset card",
-      "CardNumber":"1234123412341232",
+      "Holder":"Nome do Portador",
+      "CardNumber":"4111111111111111",
       "ExpirationDate":"05/2019"
    }
 }
@@ -3420,19 +4180,20 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto|15|Sim|
 |`Payment.Type`|Tipo do Meio de Pagamento. |Texto |100|Sim|
-|`Payment.Amount`|Valor do Pedido (ser enviado em centavos).|Número |15 |Sim|
-|`Payment.Installments`|Número de Parcelas.|Número |2 |Sim|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número |15 |Sim|
+|`Payment.Installments`|Número de Parcelas|Número |2 |Sim|
 |`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Texto |13|Não|
-|`CreditCard.CardNumber`|Número do Cartão do Comprador.|Texto |16|Sim|
-|`CreditCard.Holder`|Nome do Comprador impresso no cartão.|Texto |25|Sim|
-|`CreditCard.ExpirationDate`|Data de validade impresso no cartão.|Texto |7 |Sim|
-|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão.|Texto |4 |Sim|
-|`CreditCard.Brand`|Bandeira do cartão.|Texto|10|Sim|
+|`CreditCard.CardNumber`|Número do Cartão do comprador|Texto |16|Sim|
+|`CreditCard.Holder`|Nome do Comprador impresso no cartão|Texto |25|Sim|
+|`CreditCard.ExpirationDate`|Data de validade impresso no cartão|Texto |7 |Sim|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto |4 |Sim|
+|`CreditCard.Brand`|Bandeira do cartão|Texto|10|Sim|
 
 ### Resposta
 
@@ -3444,7 +4205,7 @@ Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os có
 
 ## Desabilitando um Pedido Recorrente
 
-Para desabilitar um pedido recorrente, basta fazer um Put conforme o exemplo.
+Para desabilitar um pedido recorrente, basta fazer um PUT conforme o exemplo.
 
 ### Requisição
 
@@ -3452,7 +4213,7 @@ Para desabilitar um pedido recorrente, basta fazer um Put conforme o exemplo.
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Deactivate"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Deactivate"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3463,9 +4224,9 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 
 ### Resposta
@@ -3486,7 +4247,7 @@ Para Reabilitar um pedido recorrente, basta fazer um Put conforme o exemplo.
 
 ```shell
 curl
---request POST "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Reactivate"
+--request PUT "https://apisandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}/Reactivate"
 --header "Content-Type: application/json"
 --header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --header "MerchantKey: 0123456789012345678901234567890123456789"
@@ -3497,9 +4258,9 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Numero de identificação da Recorrência. |Texto |50 |Sim|
 
 ### Resposta
@@ -3510,11 +4271,11 @@ HTTP Status 200
 
 Veja o Anexo [HTTP Status Code](#http-status-code) para a lista com todos os códigos de status HTTP possivelmente retornados pela API.
 
-# Consultando Vendas
+# Consultas
 
-## Consultando uma venda
+## Consultando uma transação via PaymentID
 
-Para consultar uma venda de cartão de crédito, é necessário fazer um GET para o recurso Payment conforme o exemplo.
+Para consultar uma transação de cartão de crédito, é necessário fazer um GET para o recurso Payment conforme o exemplo.
 
 ### Requisição
 
@@ -3533,63 +4294,67 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`PaymentId`|Numero de identificação do Pagamento. |Texto |36 |Sim|
 
 ### Resposta
 
 ```json
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
-        "Address": {}
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente",
+    "Address": {}
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Cielo",
-        "ExtraDataCollection": [],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "VelocityAnalysis": {
+      "Id": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+      "ResultMessage": "Accept",
+      "Score": 0
+    },
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
@@ -3598,73 +4363,111 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "MerchantOrderId": "2014111706",
-    "Customer": {
-        "Name": "Comprador Teste",
-        "Address": {}
+  "MerchantOrderId": "2017051001",
+  "Customer": {
+    "Name": "Nome do Cliente",
+    "Address": {}
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": false,
+    "Authenticate": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2021",
+      "Brand": "Visa"
     },
-    "Payment": {
-        "ServiceTaxAmount": 0,
-        "Installments": 1,
-        "Interest": "ByMerchant",
-        "Capture": false,
-        "Authenticate": false,
-        "CreditCard": {
-            "CardNumber": "123412******1231",
-            "Holder": "Teste Holder",
-            "ExpirationDate": "12/2021",
-            "SaveCard": false,
-            "Brand": "Visa"
-        },
-        "ProofOfSale": "674532",
-        "AuthorizationCode": "123456",
-        "PaymentId": "24bc8366-fc31-4d6c-8555-17049a836a07",
-        "Type": "CreditCard",
-        "Amount": 15700,
-        "Currency": "BRL",
-        "Country": "BRA",
-        "Provider": "Cielo",
-        "ExtraDataCollection": [],
-        "ReasonCode": 0,
-        "ReasonMessage": "Successful",
-        "Status": 1,
-        "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/{PaymentId}"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "capture",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/capture"
-            },
-            {
-                "Method": "PUT",
-                "Rel": "void",
-                "Href": "https://apisandbox.braspag.com.br/v2/sales/{PaymentId}/void"
-            }
-        ]
-    }
+    "ProofOfSale": "2539492",
+    "AcquirerTransactionId": "0510042539492",
+    "AuthorizationCode": "759497",
+    "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-10 16:25:38",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "Status": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/f8078b32-be17-4c35-b164-ad74c3cd0725/void"
+      }
+    ]
+  }
 }
 ```
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`ProofOfSale`|Número do Comprovante de Venda.|Texto|20|Texto alfanumérico|
-|`AuthorizationCode`|Código de autorização.|Texto|300|Texto alfanumérico|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
-|`Status`|Status da Transação.|Byte|---|2|
-|`Customer.Name`|Texto|255|Sim|Nome do Comprador.|
-|`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento.|
-|`Payment.Amount`|Número|15|Sim|Valor do Pedido (ser enviado em centavos).|
-|`Payment.Provider`|Texto|15|---|Nome do Meio de Pagamento/NÃO OBRIGATÓRIO PARA CRÉDITO.|
-|`Payment.Installments`|Número|2|Sim|Número de Parcelas.|
-|`CreditCard.CardNumber`|Texto|16|Sim|Número do Cartão do Comprador.|
-|`CreditCard.Holder`|Texto|25|Sim|Nome do Comprador impresso no cartão.|
-|`CreditCard.ExpirationDate`|Texto|7|Sim|Data de validade impresso no cartão.|
-|`CreditCard.SecurityCode`|Texto|4|Sim|Código de segurança impresso no verso do cartão.|
-|`CreditCard.Brand`|Texto|10|Sim|Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover).|
+|`MerchantOrderId`|Numero de identificação do Pedido|Texto|50|Texto alfanumérico|
+|`Customer.Name`|Nome do comprador|Texto|255|Texto alfanumérico|
+|`Customer.Identity`|Número do RG, CPF ou CNPJ do Cliente|Texto |14 |Texto alfanumérico|
+|`Customer.IdentityType`|Tipo de documento de identificação do comprador (CPF ou CNPJ)|Texto|255|CPF ou CNPJ|
+|`Customer.Email`|Email do comprador|Texto|255|Texto alfanumérico|
+|`Customer.Birthdate`|Data de nascimento do Comprador|Date|10|formato AAAA-MM-DD|
+|`Customer.Address.Street`|Endereço de contato do comprador|Texto|255|Texto alfanumérico|
+|`Customer.Address.Number`|Número endereço de contato do comprador|Texto|15|Texto alfanumérico|
+|`Customer.Address.Complement`|Complemento do endereço de contato do Comprador|Texto|50|Texto alfanumérico|
+|`Customer.Address.ZipCode`|CEP do endereço de contato do comprador|Texto|9|Texto alfanumérico|
+|`Customer.Address.City`|Cidade do endereço de contato do comprador|Texto|50|Texto alfanumérico|
+|`Customer.Address.State`|Estado do endereço de contato do comprador|Texto|2|Texto alfanumérico|
+|`Customer.Address.Country`|Pais do endereço de contato do comprador|Texto|35|Texto alfanumérico|
+|`Customer.Address.District`|Bairro do Comprador|Texto |50 |Texto alfanumérico|
+|`Customer.DeliveryAddress.Street`|Endereço do comprador|Texto|255|Texto alfanumérico|
+|`Customer.DeliveryAddress.Number`|Número do endereço de entrega do pedido|Texto|15|Texto alfanumérico|
+|`Customer.DeliveryAddress.Complement`|Complemento do endereço de entrega do pedido|Texto|50|Texto alfanumérico|
+|`Customer.DeliveryAddress.ZipCode`|CEP do endereço de entrega do pedido|Texto|9|Texto alfanumérico|
+|`Customer.DeliveryAddress.City`|Cidade do endereço de entrega do pedido|Texto|50|Texto alfanumérico|
+|`Customer.DeliveryAddress.State`|Estado do endereço de entrega do pedido|Texto|2|Texto alfanumérico|
+|`Customer.DeliveryAddress.Country`|Pais do endereço de entrega do pedido|Texto|35|Texto alfanumérico|
+|`Customer.DeliveryAddress.District`|Bairro do Comprador. |Texto |50 |Texto alfanumérico|
+|`Payment.Provider`|Nome da provedora de Meio de Pagamento|Texto|15| Consulta os provedores disponíveis nos anexos|
+|`Payment.Type`|Tipo do Meio de Pagamento|Texto|100|Ex. CreditCard|
+|`Payment.Amount`|Valor do Pedido (ser enviado em centavos)|Número|15|10000|
+|`Payment.ServiceTaxAmount`|Montante do valor da autorização que deve ser destinado à taxa de serviço. Obs.: Esse valor não é adicionado ao valor da autorização|Número|15|10000|
+|`Payment.Currency`|Moeda na qual o pagamento será feito|Texto|3|BRL / USD / MXN / COP / CLP / ARS / PEN / EUR / PYN / UYU / VEB / VEF / GBP|
+|`Payment.Country`|País na qual o pagamento será feito|Texto|3|BRA|
+|`Payment.Installments`|Número de Parcelas|Número|2|6|
+|`Payment.Interest`|Tipo de parcelamento|Texto|10|Loja (ByMerchant) ou Emissor (ByIssuer)|
+|`Payment.Capture`|Booleano que indica se a autorização deve ser com captura automática (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|Booleano|--- (Default false)|Booleano|
+|`Payment.Authenticate`|Booleano que indica se a transação deve ser autenticada (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade|Booleano|--- (Default false)|Booleano|
+|`Payment.Recurrent`|Booleano que indica se a transação é do tipo recorrente (true) ou não (false). Este com valor true não originará uma nova Recorrência, apenas permitirá a realização de uma transação sem a necessidade de envio do CVV. Somente para transações Cielo. Authenticate deve ser false quando Recurrent é true|Booleano|--- (Default false)|Booleano|
+|`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Texto|13|Texto alfanumérico|
+|`Payment.ExtraDataCollection.Name`|Nome do campo que será gravado o Dado Extra|Texto|50|Texto alfanumérico|
+|`Payment.ExtraDataCollection.Value`|Valor do campo que será gravado o Dado Extra|Texto|1024|Texto alfanumérico|
+|`Payment.AcquirerTransactionId`|Id da transação no provedor de meio de pagamento|Texto|40|Texto alfanumérico|
+|`Payment.ProofOfSale`|Número do Comprovante de Venda|Texto|20|Texto alfanumérico|
+|`Payment.AuthorizationCode`|Código de autorização|Texto|300|Texto alfanumérico|
+|`Payment.PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`Payment.ReceivedDate`|Data em que a transação foi recebida pela Brapag|Texto|19|AAAA-MM-DD HH:mm:SS|
+|`Payment.ReasonCode`|Código de retorno da Adquirência|Texto|32|Texto alfanumérico|
+|`Payment.ReasonMessage`|Mensagem de retorno da Adquirência|Texto|512|Texto alfanumérico|
+|`Payment.Status`|Status da Transação|Byte|2|1|
+|`Payment.ProviderReturnCode`|Código retornado pelo provedor do meio de pagamento (adquirente e bancos)|Texto|32|57|
+|`Payment.ProviderReturnMessage`|Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)|Texto|512|Transação Aprovada|
+|`CreditCard.CardNumber`|Número do Cartão do comprador|Texto|16|
+|`CreditCard.Holder`|Nome do portador impresso no cartão|Texto|25|
+|`CreditCard.ExpirationDate`|Data de validade impresso no cartão|Texto|7|
+|`CreditCard.SecurityCode`|Código de segurança impresso no verso do cartão|Texto|4|
+|`CreditCard.Brand`|Bandeira do cartão|Texto|10 |
+|`CreditCard.SaveCard`|Booleano que identifica se o cartão será salvo para gerar o token (CardToken)|Booleano|--- (Default false)|
+
 
 ## Consultando uma venda pelo identificador da loja
 
@@ -3689,9 +4492,9 @@ curls
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`MerchantOrderId`|Campo Identificador do Pedido na Loja. |Texto |36 |Sim|
 
 ### Resposta
@@ -3733,11 +4536,11 @@ curls
 
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
-|`PaymentId`|Campo Identificador do Pedido.|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
 
-## Consultando uma venda Recorrente
+## Consultando um pedido Recorrente
 
-Para consultar uma Recorrência de cartão de crédito, é necessário fazer um GET conforme o exemplo.
+Para consultar um pedido de Recorrência, é necessário fazer um GET conforme o exemplo.
 
 ### Requisição
 
@@ -3756,43 +4559,58 @@ curl
 
 |Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
 |-----------|---------|----|-------|-----------|
-|`MerchantId`|Identificador da loja no API. |Guid |36 |Sim|
-|`MerchantKey`|Chave Publica para Autenticação Dupla no API. |Texto |40 |Sim|
-|`RequestId`|Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
+|`MerchantId`|Identificador da loja na API |Guid |36 |Sim|
+|`MerchantKey`|Chave Publica para Autenticação Dupla na API|Texto |40 |Sim|
+|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |Não|
 |`RecurrentPaymentId`|Campo Identificador da Recorrência. |Texto |36 |Sim|
 
 ### Resposta
 
 ```json
 {
-    "Customer":
-    {
-        "Name": "Comprador accept"
-    },
-    "RecurrentPayment": {
-        "RecurrentPaymentId": "6716406f-1cba-4c7a-8054-7e8988032b17",
-        "NextRecurrency": "2015-11-05",
-        "StartDate": "2015-05-05",
-        "EndDate": "2019-12-01",
-        "Interval": "SemiAnnual",
-        "Amount": 1500,
-        "Country": "BRA",
-        "CreateDate": "2015-06-25T00:00:00",
-        "Currency": "BRL",
-        "CurrentRecurrencyTry": 0,
-        "Provider": "Cielo",
-        "RecurrencyDay": 21,
-        "SuccessfulRecurrences": 0,
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "RecurrentPayment": {
+    "Installments": 1,
+    "RecurrentPaymentId": "f5a83c14-0254-4e73-bdd3-9afba1007266",
+    "NextRecurrency": "2017-06-11",
+    "StartDate": "2017-05-11",
+    "EndDate": "2019-12-31",
+    "Interval": "Monthly",
+    "Amount": 10000,
+    "Country": "BRA",
+    "CreateDate": "2017-05-11T00:00:00",
+    "Currency": "BRL",
+    "CurrentRecurrencyTry": 1,
+    "OrderNumber": "2017051120",
+    "Provider": "Simulado",
+    "RecurrencyDay": 11,
+    "SuccessfulRecurrences": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"
+      }
+    ],
+    "RecurrentTransactions": [
+      {
+        "PaymentNumber": 0,
+        "RecurrentPaymentId": "f5a83c14-0254-4e73-bdd3-9afba1007266",
+        "TransactionId": "cd694ffb-c0c4-47db-9390-737df70a2012",
+        "TryNumber": 1,
         "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}"
-            }
-        ],
-        "RecurrentTransactions": [],
-        "Status": 1
-    }
+          {
+            "Method": "GET",
+            "Rel": "self",
+            "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
+          }
+        ]
+      }
+    ],
+    "Status": 1
+  }
 }
 ```
 
@@ -3801,34 +4619,49 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-    "Customer":
-    {
-        "Name": "Comprador accept"
-    },
-    "RecurrentPayment": {
-        "RecurrentPaymentId": "6716406f-1cba-4c7a-8054-7e8988032b17",
-        "NextRecurrency": "2015-11-05",
-        "StartDate": "2015-05-05",
-        "EndDate": "2019-12-01",
-        "Interval": "SemiAnnual",
-        "Amount": 1500,
-        "Country": "BRA",
-        "CreateDate": "2015-06-25T00:00:00",
-        "Currency": "BRL",
-        "CurrentRecurrencyTry": 0,
-        "Provider": "Cielo",
-        "RecurrencyDay": 21,
-        "SuccessfulRecurrences": 0,
+  "Customer": {
+    "Name": "Nome do Cliente"
+  },
+  "RecurrentPayment": {
+    "Installments": 1,
+    "RecurrentPaymentId": "f5a83c14-0254-4e73-bdd3-9afba1007266",
+    "NextRecurrency": "2017-06-11",
+    "StartDate": "2017-05-11",
+    "EndDate": "2019-12-31",
+    "Interval": "Monthly",
+    "Amount": 10000,
+    "Country": "BRA",
+    "CreateDate": "2017-05-11T00:00:00",
+    "Currency": "BRL",
+    "CurrentRecurrencyTry": 1,
+    "OrderNumber": "2017051120",
+    "Provider": "Simulado",
+    "RecurrencyDay": 11,
+    "SuccessfulRecurrences": 1,
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"
+      }
+    ],
+    "RecurrentTransactions": [
+      {
+        "PaymentNumber": 0,
+        "RecurrentPaymentId": "f5a83c14-0254-4e73-bdd3-9afba1007266",
+        "TransactionId": "cd694ffb-c0c4-47db-9390-737df70a2012",
+        "TryNumber": 1,
         "Links": [
-            {
-                "Method": "GET",
-                "Rel": "self",
-                "Href": "https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/{RecurrentPaymentId}"
-            }
-        ],
-        "RecurrentTransactions": [],
-        "Status": 1
-    }
+          {
+            "Method": "GET",
+            "Rel": "self",
+            "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/cd694ffb-c0c4-47db-9390-737df70a2012"
+          }
+        ]
+      }
+    ],
+    "Status": 1
+  }
 }
 ```
 
@@ -3839,73 +4672,19 @@ curl
 |`StartDate`|Data do inicio da recorrência. |Texto |7 |05/2019 (MM/YYYY) |
 |`EndDate`|Data do fim da recorrência. |Texto |7 |05/2019 (MM/YYYY) |
 |`Interval`|Intervalo entre as recorrência. |Texto |10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
+|`CurrentRecurrencyTry`|Indica o número de tentativa da recorrência atual |Número|1|1|
+|`OrderNumber`|Identificado do Pedido na loja |Texto|50 |2017051101|
+|`Status`|Status do pedido recorrente |Número|1 |<UL><LI>1 - Ativo</LI><LI>3 - Inativo</LI></UL> |
+|`RecurrencyDay`|O dia da recorrência |Número|2 |22 |
+|`SuccessfulRecurrences`|Quantidade de recorrência realizada com sucesso|Número|2 |5|
+|`RecurrentTransactions.RecurrentPaymentId`|Id da Recorrência|Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
+|`RecurrentTransactions.TransactionId`|Payment ID da transação gerada na recorrência|Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
+|`RecurrentTransactions.PaymentNumber`|Número da Recorrência. A primeira é zero |Número|2 |3 |
+|`RecurrentTransactions.TryNumber`|Número da tentativa atual na recorrência específica |Número|2 |1 |
 
-# Anexos
+# Post de Notificação
 
-## Lista de Providers
-
-### Providers para Crédito
-
-* Simulado
-* Cielo
-    * Visa
-    * Master
-    * Amex
-    * Elo
-    * Aura
-    * Jcb
-    * Diners
-    * Discover
-* Redecard
-    * Visa
-    * Master
-    * Hipercard
-    * Hiper
-    * Diners
-* RedeSitef
-    * Visa
-    * Master
-    * Hipercard
-    * Diners
-* CieloSitef
-    * Visa
-    * Master
-    * Amex
-    * Elo
-    * Aura
-    * Jcb
-    * Diners
-    * Discover
-* SantanderSitef
-    * Visa
-    * Master)
-
-### Providers pra Débito
-
-* Cielo
-
-### Providers para Boleto
-
-* Bradesco
-* BancoDoBrasil
-* CitiBank
-* Itau
-* Brb
-* Caixa
-* Santander
-* HSBC
-* Simulado
-
-### Providers para Transferência Eletronica
-
-* Bradesco
-* BancoDoBrasil
-* SafetyPay
-* Itau
-
-## Post de Notificação
-
-Para receber a notificação de modificação de status deve-se ter configurado no admin o campo URL Status Pagamento para receber os parametros conforme o exemplo ao lado.
+Para receber a notificação de alteração de status deve-se ter configurado no cadastro de sua loja na Braspag, o campo URL Status Pagamento para receber os parametros conforme o exemplo ao lado.
 
 Resposta esperada da Loja: HTTP Status Code 200 OK
 
@@ -3913,18 +4692,105 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 
 ```json
 {
+   "RecurrentPaymentId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
    "PaymentId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-   "ChangeType": "1"
+   "ChangeType": "2"
 }
 ```
+
+|Propriedade|Descrição|Tipo|Tamanho|Obrigatório|
+|-----------|---------|----|-------|-----------|
+|`RecurrentPaymentId`|Identificador que representa o pedido Recorrente (aplicável somente para ChangeType 2 ou 4|GUID|36|Não|
+|`PaymentId`|Identificador que representa a transação|GUID|36|Sim|
+|`ChangeType`|Especifica o tipo de notificação. Vide tabela abaixo | Número | 1 |Sim|
 
 |ChangeType|Descrição|
 |----------|---------|
 |1|Mudança de status do pagamento|
 |2|Recorrência criada|
-|3|Mudança de status do antiFraud|
+|3|Mudança de status do Antifraude|
+|4|Mudança de status do pagamento recorrente (Ex. desativação automática)|
+|5|Estorno negado (aplicável para Rede)|
 
-## ReasonCode e ReasonMessage
+# Anexos
+
+## Lista de Providers
+
+### Providers para Crédito
+
+|Provider|Brand|
+|--------|-----|
+|Simulado|---|
+|Cielo|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|Cielo30 (Cielo 3.0)|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|Redecard (Komerci)|Visa, Master, Hipercard, Hiper, Diners|
+|Rede (e-Rede)|Visa, Master, Hipercard, Hiper, Diners|
+|RedeSitef|Visa, Master, Hipercard, Diners|
+|CieloSitef|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
+|SantanderSitef|Visa, Master|
+|Banorte|Visa, Master|
+|DMCard|---|
+
+### Providers pra Débito
+
+|Provider|Brand|
+|--------|-----|
+|Cielo|Visa, Master|
+|
+### Providers para Boleto sem Registro
+
+|Provider|
+|--------|
+|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Brb, Caixa, Santander, HSBC|
+
+### Providers para Boleto com Registro
+
+|Provider|
+|--------|
+|Bradesco2, BancoDoBrasil2, ItauShopline|
+
+### Providers para Transferência Eletronica (Débito Online)
+
+|Provider|
+|--------|
+|Bradesco, BancoDoBrasil, SafetyPay, Itau|
+
+## Lista de Status da Transação
+
+Status retornados pela API
+
+|Código|Status do Pagamento|Meio de pagamento|Descrição|
+|------|-------------------|-----------------|---------|
+|0|NotFinished|Todos|Falha ao processar o pagamento|
+|1|Authorized|Todos|Meio de pagamento apto a ser capturado ou pago(Boleto)|
+|2|PaymentConfirmed|Todos|Pagamento confirmado e finalizado|
+|3|Denied|Cartão de Crédito e Débito / Transferência eletrônica|
+|10|Voided|Todos|Pagamento cancelado|
+|11|Refunded|Cartão de crédito e Débito|Pagamento Cancelado/Estornado|
+|12|Pending|Cartão de Crédito e Débito / Transferência eletrônica |Esperando retorno da instituição financeira|
+|13|Aborted|Todos|Pagamento cancelado por falha no processamento|
+|20|Scheduled|Cartão de crédito|Recorrência agendada|
+
+## Lista de HTTP Status Code
+
+|HTTP Status Code|Descrição|
+|----------------|---------|
+|200|OK|
+|400|Bad Request|
+|404|Resource Not Found|
+|500|Internal Server Error|
+
+## Lista de Status da Recorrência
+
+|Código|Descrição|
+|------|---------|
+|1|	Active|
+|2|	Finished|
+|3|	DisabledByMerchant|
+|4|	DisabledMaxAttempts|
+|5|	DisabledExpiredCreditCard|
+
+## Lista de ReasonCode/ReasonMessage
 
 |Reason Code|Reason Message|
 |-----------|--------------|
@@ -3955,41 +4821,6 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 |24|	PaymentMethodIsNotEnabled|
 |98|	InvalidRequest|
 |99|	InternalError|
-
-## Status
-
-Status retornados pela API
-
-|Código|Status do Pagamento|Meio de pagamento|Descrição|
-|------|-------------------|-----------------|---------|
-|0|NotFinished|Todos|Falha ao processar o pagamento|
-|1|Authorized|Todos|Meio de pagamento apto a ser capturado ou pago(Boleto|
-|2|PaymentConfirmed|Todos|Pagamento confirmado e finalizado|
-|3|Denied|Cartão de Crédito e Débito / Transferência eletrônica|
-|10|Voided|Todos|Pagamento cancelado|
-|11|Refunded|Cartão de crédito e Débito|Pagamento Cancelado/Estornado|
-|12|Pending|Cartão de Crédito e Débito / Transferência eletrônica |Esperando retorno da instituição financeira|
-|13|Aborted|Todos|Pagamento cancelado por falha no processamento|
-|20|Scheduled|Cartão de crédito|Recorrência agendada|
-
-## Status da Recorrência
-
-|Código|Descrição|
-|------|---------|
-|1|	Active|
-|2|	Finished|
-|3|	DisabledByMerchant|
-|4|	DisabledMaxAttempts|
-|5|	DisabledExpiredCreditCard|
-
-## HTTP Status Code
-
-|HTTP Status Code|Descrição|
-|----------------|---------|
-|200|OK|
-|400|Bad Request|
-|404|Resource Not Found|
-|500|Internal Server Error|
 
 ## Códigos de Erros da API
 
@@ -4120,7 +4951,7 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 |303|Sent OrderId does not exist|---|
 |304|Customer Identity is required|---|
 |306|Merchant is blocked|---|
-|307|Transaction not found|Transação não encontrada ou não existente no ambiente.|
+|307|Transaction not found|Transação não encontrada ou não existente no ambiente|
 |308|Transaction not available to capture|Transação não pode ser capturada - Entre em contato com o suporte Braspag|
 |309|Transaction not available to void|Transação não pode ser Cancelada - Entre em contato com o suporte Braspag|
 |310|Payment method doest not support this operation|Comando enviado não suportado pelo meio de pagamento|
@@ -4134,118 +4965,97 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 |318|No transaction found|---|
 |319|Smart recurrency is not enabled|Recorrencia não vinculada ao cadastro do lojista|
 |320|Can not Update Affiliation Because this Recurrency not Affiliation saved|---|
-|321|Can not set EndDate to before next recurrency.|---|
+|321|Can not set EndDate to before next recurrency|---|
 |322|Zero Dollar Auth is not enabled|Zero Dollar não vinculado ao cadastro do lojista|
 |323|Bin Query is not enabled|Consulta de Bins não vinculada ao cadastro do lojista|
 
-## Códigos de Retorno das Vendas
+## Cartões para Teste (Simulado)
 
-Códigos retornados pelo autorizador e que descrevem a autorização ou não da venda e, em caso negativo, os cenários onde o lojista pode retentar enviar a transação.
+O Simulado é um meio de pagamento que emula a utilizaçao de pagamentos com Cartão de Crétido. Com esse meio de pagamento é possivel simular todos os fluxos de Autorização, Captura e Cancelamento.
 
-|Código Resposta|Definição|Significado|Ação|Permite Retentativa|
-|---------------|---------|-----------|----|-------------------|
-|00|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|000|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|01|Transação não autorizada. Transação referida.|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|02|Transação não autorizada. Transação referida.|Transação não autorizada. Referida (suspeita de fraude) pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|03|Transação não permitida. Erro no cadastramento do código do estabelecimento no arquivo de configuração do TEF|Transação não permitida. Estabelecimento inválido. Entre com contato com a Braspag.|Não foi possível processar a transação. Entre com contato com a Loja Virtual.|Não|
-|04|Transação não autorizada. Cartão bloqueado pelo banco emissor.|Transação não autorizada. Cartão bloqueado pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|05|Transação não autorizada. Cartão inadimplente (Do not honor).|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|06|Transação não autorizada. Cartão cancelado.|Transação não autorizada. Não foi possível processar a transação. Cartão cancelado permanentemente pelo banco emissor.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|07|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|08|Transação não autorizada. Código de segurança inválido.|Transação não autorizada. Código de segurança inválido. Oriente o portador a corrigir os dados e tentar novamente.|Transação não autorizada. Dados incorretos. Reveja os dados e informe novamente.|Não|
-|11|Transação autorizada com sucesso para cartão emitido no exterior|Transação autorizada com sucesso.|Transação autorizada com sucesso.|Não|
-|12|Transação inválida, erro no cartão.|Não foi possível processar a transação. Solicite ao portador que verifique os dados do cartão e tente novamente.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|13|Transação não permitida. Valor da transação Inválido.|Transação não permitida. Valor inválido. Solicite ao portador que reveja os dados e novamente. Se o erro persistir, entre em contato com a Braspag.|Transação não autorizada. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|14|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor, dados incorretos ou tentativas de testes de cartão. Use o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo. Consulte www.Braspag.com.br/desenvolvedores para implantar o Algoritmo de Lhum.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|15|Banco emissor indisponível ou inexistente.|Transação não autorizada. Banco emissor indisponível.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|19|Refaça a transação ou tente novamente mais tarde.|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Refaça a transação ou tente novamente mais tarde. Se o erro persistir entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|21|Cancelamento não efetuado. Transação não localizada.|Não foi possível processar o cancelamento. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar o cancelamento. Tente novamente mais tarde. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|22|Parcelamento inválido. Número de parcelas inválidas.|Não foi possível processar a transação. Número de parcelas inválidas. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Valor inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|23|Transação não autorizada. Valor da prestação inválido.|Não foi possível processar a transação. Valor da prestação inválido. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Valor da prestação inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|24|Quantidade de parcelas inválido.|Não foi possível processar a transação. Quantidade de parcelas inválido. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Quantidade de parcelas inválido. Refazer a transação confirmando os dados informados. Persistindo o erro, entrar em contato com a loja virtual.|Não|
-|25|Pedido de autorização não enviou número do cartão|Não foi possível processar a transação. Solicitação de autorização não enviou o número do cartão. Se o erro persistir, verifique a comunicação entre loja virtual e Braspag.|Não foi possível processar a transação. reveja os dados informados e tente novamente. Persistindo o erro, entrar em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|28|Arquivo temporariamente indisponível.|Não foi possível processar a transação. Arquivo temporariamente indisponível. Reveja a comunicação entre Loja Virtual e Braspag. Se o erro persistir, entre em contato com a Braspag.|Não foi possível processar a transação. Entre com contato com a Loja Virtual.|Apenas 4 vezes em 16 dias.|
-|39|Transação não autorizada. Erro no banco emissor.|Transação não autorizada. Erro no banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|41|Transação não autorizada. Cartão bloqueado por perda.|Transação não autorizada. Cartão bloqueado por perda.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|43|Transação não autorizada. Cartão bloqueado por roubo.|Transação não autorizada. Cartão bloqueado por roubo.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|51|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|52|Cartão com dígito de controle inválido.|Não foi possível processar a transação. Cartão com dígito de controle inválido.|Transação não autorizada. Reveja os dados informados e tente novamente.|Não|
-|53|Transação não permitida. Cartão poupança inválido|Transação não permitida. Cartão poupança inválido.|Não foi possível processar a transação. Entre em contato com seu banco emissor.|Não|
-|54|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|55|Transação não autorizada. Senha inválida|Transação não autorizada. Senha inválida.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|57|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|58|Transação não permitida. Opção de pagamento inválida.|Transação não permitida. Opção de pagamento inválida. Reveja se a opção de pagamento escolhida está habilitada no cadastro|Transação não autorizada. Entre em contato com sua loja virtual.|Não|
-|59|Transação não autorizada. Suspeita de fraude.|Transação não autorizada. Suspeita de fraude.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|60|Transação não autorizada.|Transação não autorizada. Tente novamente. Se o erro persistir o portador deve entrar em contato com o banco emissor.|Não foi possível processar a transação. Tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|61|Banco emissor Visa indisponível.|Transação não autorizada. Banco emissor Visa indisponível.|Transação não autorizada. Tente novamente. Se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|62|Transação não autorizada. Cartão restrito para uso doméstico|Transação não autorizada. Cartão restrito para uso doméstico.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|63|Transação não autorizada. Violação de segurança|Transação não autorizada. Violação de segurança.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|64|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Transação não autorizada. Valor abaixo do mínimo exigido pelo banco emissor.|Não|
-|65|Transação não autorizada. Excedida a quantidade de transações para o cartão.|Transação não autorizada. Excedida a quantidade de transações para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|67|Transação não autorizada. Cartão bloqueado para compras hoje.|Transação não autorizada. Cartão bloqueado para compras hoje. Bloqueio pode ter ocorrido por excesso de tentativas inválidas. O cartão será desbloqueado automaticamente à meia noite.|Transação não autorizada. Cartão bloqueado temporariamente. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|70|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|72|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente.|Cancelamento não efetuado. Saldo disponível para cancelamento insuficiente. Se o erro persistir, entre em contato com a Braspag.|Cancelamento não efetuado. Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|74|Transação não autorizada. A senha está vencida.|Transação não autorizada. A senha está vencida.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|75|Senha bloqueada. Excedeu tentativas de cartão.|Transação não autorizada.|Sua Transação não pode ser processada. Entre em contato com o Emissor do seu cartão.|Não|
-|76|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Banco emissor não localizou a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual.|Não|
-|77|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Não foi localizado a transação original|Cancelamento não efetuado. Entre em contato com a loja virtual.|Não|
-|78|Transação não autorizada. Cartão bloqueado primeiro uso.|Transação não autorizada. Cartão bloqueado primeiro uso. Solicite ao portador que desbloqueie o cartão diretamente com seu banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor e solicite o desbloqueio do cartão.|Não|
-|80|Transação não autorizada. Divergencia na data de transação/pagamento.|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|82|Transação não autorizada. Cartão inválido.|Transação não autorizada. Cartão Inválido. Solicite ao portador que reveja os dados e tente novamente.|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|83|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Erro no controle de senhas|Transação não autorizada. Refazer a transação confirmando os dados. Se o erro persistir, entre em contato com seu banco emissor.|Não|
-|85|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|86|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|89|Erro na transação.|Transação não autorizada. Erro na transação. O portador deve tentar novamente e se o erro persistir, entrar em contato com o banco emissor.|Transação não autorizada. Erro na transação. Tente novamente e se o erro persistir, entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|90|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|91|Transação não autorizada. Banco emissor temporariamente indisponível.|Transação não autorizada. Banco emissor temporariamente indisponível.|Transação não autorizada. Banco emissor temporariamente indisponível. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|92|Transação não autorizada. Tempo de comunicação excedido.|Transação não autorizada. Tempo de comunicação excedido.|Transação não autorizada. Comunicação temporariamente indisponível. Entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|93|Transação não autorizada. Violação de regra - Possível erro no cadastro.|Transação não autorizada. Violação de regra - Possível erro no cadastro.|Sua transação não pode ser processada. Entre em contato com a loja virtual.|Não|
-|96|Falha no processamento.|Não foi possível processar a transação. Falha no sistema da Braspag. Se o erro persistir, entre em contato com a Braspag.|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|97|Valor não permitido para essa transação.|Transação não autorizada. Valor não permitido para essa transação.|Transação não autorizada. Valor não permitido para essa transação.|Não|
-|98|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Se for geral, verificar SITEF, GATEWAY e/ou Conectividade.|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|Apenas 4 vezes em 16 dias.|
-|99|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|999|Sistema/comunicação indisponível.|Transação não autorizada. Sistema do emissor sem comunicação. Tente mais tarde.  Pode ser erro no SITEF, favor verificar !|Sua Transação não pode ser processada, Tente novamente mais tarde. Se o erro persistir, entre em contato com a loja virtual.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|AA|Tempo Excedido|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor.|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco.|Apenas 4 vezes em 16 dias.|
-|AC|Transação não permitida. Cartão de débito sendo usado com crédito. Use a função débito.|Transação não permitida. Cartão de débito sendo usado com crédito. Solicite ao portador que selecione a opção de pagamento Cartão de Débito.|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de débito.|Não|
-|AE|Tente Mais Tarde|Tempo excedido na comunicação com o banco emissor. Oriente o portador a tentar novamente, se o erro persistir será necessário que o portador contate seu banco emissor.|Tempo excedido na sua comunicação com o banco emissor, tente novamente mais tarde. Se o erro persistir, entre em contato com seu banco.|Apenas 4 vezes em 16 dias.|
-|AF|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|AG|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|AH|Transação não permitida. Cartão de crédito sendo usado com débito. Use a função crédito.|Transação não permitida. Cartão de crédito sendo usado com débito. Solicite ao portador que selecione a opção de pagamento Cartão de Crédito.|Transação não autorizada. Tente novamente selecionando a opção de pagamento cartão de crédito.|Não|
-|AI|Transação não autorizada. Autenticação não foi realizada.|Transação não autorizada. Autenticação não foi realizada. O portador não concluiu a autenticação. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir, entre em contato com a Braspag informando o BIN (6 primeiros dígitos do cartão)|Transação não autorizada. Autenticação não foi realizada com sucesso. Tente novamente e informe corretamente os dados solicitado. Se o erro persistir, entre em contato com o lojista.|Não|
-|AJ|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente selecionando a opção Private Label.|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Solicite ao portador que tente novamente selecionando a opção Private Label. Caso não disponibilize a opção Private Label verifique na Braspag se o seu estabelecimento permite essa operação.|Transação não permitida. Transação de crédito ou débito em uma operação que permite apenas Private Label. Tente novamente e selecione a opção Private Label. Em caso de um novo erro entre em contato com a loja virtual.|Não|
-|AV|Transação não autorizada. Dados Inválidos|Falha na validação dos dados da transação. Oriente o portador a rever os dados e tentar novamente.|Falha na validação dos dados. Reveja os dados informados e tente novamente.|Apenas 4 vezes em 16 dias.|
-|BD|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento.Solicite ao portador que digite novamente os dados do cartão, se o erro persistir pode haver um problema no terminal do lojista, nesse caso o lojista deve entrar em contato com a Braspag.|Transação não permitida. Informe os dados do cartão novamente. Se o erro persistir, entre em contato com a loja virtual.|Não|
-|BL|Transação não autorizada. Limite diário excedido.|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor.|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|BM|Transação não autorizada. Cartão Inválido|Transação não autorizada. Cartão inválido. Pode ser bloqueio do cartão no banco emissor ou dados incorretos. Tente usar o Algoritmo de Lhum (Mod 10) para evitar transações não autorizadas por esse motivo.|Transação não autorizada. Cartão inválido.  Refaça a transação confirmando os dados informados.|Não|
-|BN|Transação não autorizada. Cartão ou conta bloqueado.|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Solicite ao portador que entre em contato com  seu banco emissor.|Transação não autorizada. O cartão ou a conta do portador está bloqueada. Entre em contato com  seu banco emissor.|Não|
-|BO|Transação não permitida. Falha da operação.|Transação não permitida. Houve um erro no processamento. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor.|Transação não permitida. Houve um erro no processamento. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco emissor.|Apenas 4 vezes em 16 dias.|
-|BP|Transação não autorizada. Conta corrente inexistente.|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Não possível processar a transação por um erro relacionado ao cartão ou conta do portador. Entre em contato com o banco emissor.|Não|
-|BV|Transação não autorizada. Cartão vencido|Transação não autorizada. Cartão vencido.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|CF|Transação não autorizada.C79:J79 Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|CG|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DA|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DF|Transação não permitida. Falha no cartão ou cartão inválido.|Transação não permitida. Falha no cartão ou cartão inválido. Solicite ao portador que digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Transação não permitida. Falha no cartão ou cartão inválido. Digite novamente os dados do cartão, se o erro persistir, entre em contato com o banco |Apenas 4 vezes em 16 dias.|
-|DM|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Limite excedido/sem saldo.|Transação não autorizada. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|DQ|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Solicite ao portador que entre em contato com o banco emissor.|Transação não autorizada. Falha na validação dos dados. Entre em contato com o banco emissor.|Não|
-|DS|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|EB|Transação não autorizada. Limite diário excedido.|Transação não autorizada. Limite diário excedido. Solicite ao portador que entre em contato com seu banco emissor.|Transação não autorizada. Limite diário excedido. Entre em contato com seu banco emissor.|A partir do dia seguinte, apenas 4 vezes em 16 dias.|
-|EE|Transação não permitida. Valor da parcela inferior ao mínimo permitido.|Transação não permitida. Valor da parcela inferior ao mínimo permitido. Não é permitido parcelas inferiores a R$ 5,00. Necessário rever calculo para parcelas.|Transação não permitida. O valor da parcela está abaixo do mínimo permitido. Entre em contato com a loja virtual.|Não|
-|EK|Transação não permitida para o cartão|Transação não autorizada. Transação não permitida para o cartão.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|FA|Transação não autorizada. |Transação não autorizada AmEx.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|FC|Transação não autorizada. Ligue Emissor|Transação não autorizada. Oriente o portador a entrar em contato com o banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor.|Não|
-|FD|Transação negada. Reter cartão condição especial|Transação não autorizada por regras do banco emissor.|Transação não autorizada. Entre em contato com seu banco emissor|Não|
-|FE|Transação não autorizada. Divergencia na data de transação/pagamento.|Transação não autorizada. Data da transação ou data do primeiro pagamento inválida.|Transação não autorizada. Refazer a transação confirmando os dados.|Não|
-|FF|Cancelamento OK|Transação de cancelamento autorizada com sucesso. ATENÇÂO: Esse retorno é para casos de cancelamentos e não para casos de autorizações.|Transação de cancelamento autorizada com sucesso|Não|
-|FG|Transação não autorizada. Ligue AmEx.|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx.|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|FG|Ligue 08007285090|Transação não autorizada. Oriente o portador a entrar em contato com a Central de Atendimento AmEx.|Transação não autorizada. Entre em contato com a Central de Atendimento AmEx no telefone 08007285090|Não|
-|GA|Aguarde Contato|Transação não autorizada. Referida pelo Lynx Online de forma preventiva. A Braspag entrará em contato com o lojista sobre esse caso.|Transação não autorizada. Entre em contato com o lojista.|Não|
-|HJ|Transação não permitida. Código da operação inválido.|Transação não permitida. Código da operação Coban inválido.|Transação não permitida. Código da operação Coban inválido. Entre em contato com o lojista.|Não|
-|IA|Transação não permitida. Indicador da operação inválido.|Transação não permitida. Indicador da operação Coban inválido.|Transação não permitida. Indicador da operação Coban inválido. Entre em contato com o lojista.|Não|
-|JB|Transação não permitida. Valor da operação inválido.|Transação não permitida. Valor da operação Coban inválido.|Transação não permitida. Valor da operação Coban inválido. Entre em contato com o lojista.|Não|
-|KA|Transação não permitida. Falha na validação dos dados.|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag.|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
-|KB|Transação não permitida. Selecionado a opção incorrente.|Transação não permitida. Selecionado a opção incorreta. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir deve ser verificado a comunicação entre loja virtual e Braspag.|Transação não permitida. Selecionado a opção incorreta. Tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
-|KE|Transação não autorizada. Falha na validação dos dados.|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Verifique as opções disponíveis para o portador.|Transação não autorizada. Falha na validação dos dados. Opção selecionada não está habilitada. Entre em contato com a loja virtual.|Não|
-|N7|Transação não autorizada. Código de segurança inválido.|Transação não autorizada. Código de segurança inválido. Oriente o portador corrigir os dados e tentar novamente.|Transação não autorizada. Reveja os dados e informe novamente.|Não|
-|R1|Transação não autorizada. Cartão inadimplente (Do not honor).|Transação não autorizada. Não foi possível processar a transação. Questão relacionada a segurança, inadimplencia ou limite do portador.|Transação não autorizada. Entre em contato com seu banco emissor.|Apenas 4 vezes em 16 dias.|
-|U3|Transação não permitida. Falha na validação dos dados.|Transação não permitida. Houve uma falha na validação dos dados. Solicite ao portador que reveja os dados e tente novamente. Se o erro persistir verifique a comunicação entre loja virtual e Braspag.|Transação não permitida. Houve uma falha na validação dos dados. reveja os dados informados e tente novamente. Se o erro persistir entre em contato com a Loja Virtual.|Não|
+Para melhor utilização do Meio de Pagamento Simulado, estamos disponibilizando cartões de testes na tabela abaixo.
+
+Os status das transações serão conforme a utilização de cada cartão.
+
+|Status da Transação|Cartões para realização dos testes|Código de Retorno|Mensagem de Retorno|
+|-------------------|----------------------------------|-----------------|-------------------|
+|Autorizado|0000.0000.0000.0001 / 0000.0000.0000.0004|4|Operação realizada com sucesso|
+|Não Autorizado|0000.0000.0000.0002|2|Não Autorizada|
+|Autorização Aleatória|0000.0000.0000.0009|4 / 99|Operation Successful / Time Out|
+|Não Autorizado|0000.0000.0000.0007|77|Cartão Cancelado|
+|Não Autorizado|0000.0000.0000.0008|70|Problemas com o Cartão de Crédito|
+|Não Autorizado|0000.0000.0000.0005|78|Cartão Bloqueado|
+|Não Autorizado|0000.0000.0000.0003|57|Cartão Expirado|
+|Não Autorizado|0000.0000.0000.0006|99|Time Out|
+
+As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).
+
+##Device Finger Print
+
+Você precisará adicionar uma imagem de 1-pixel, que não é mostrada na tela, e 2 segmentos de código à tag ‹Body› da sua página de checkout, se certificando que serão necessários de 10 segundos entre a execução do código e a submissão da página para o servidor.
+
+OBS: Se os 3 segmentos de código não forem colocados na página de checkout, seus resultados podem não serprecisos.
+
+Colocando os Segmentos de Código
+Coloque os segmentos de código imediatamente acima da tag ‹/Body› para garantir que a página Web será renderizada corretamente. Nunca adicione os segmentos de código em elementos HTML visíveis. Os segmentos de código precisam ser carregados antes que o comprador finalize o pedido de compra, caso contrário um erro será gerado.
+
+Substituindo as variáveis
+Copie os trechos de código abaixo.
+Em cada segmento, substitua as variáveis abaixo com os valores referentes à sua loja/pedido:
+
+Domain: Testing - Use h.online-metrix.net, que é o DNS do servidor de fingerprint, como apresentado no exemplo de HTML abaixo; 
+Production - Altere o domínio para uma URL local, e configure seu servidor Web para redirecionar esta URL para h.online-metrix.net.
+‹org id›: Para obter esse valor entre em contato com a Braspag
+‹merchant ID›: Para obter esse valor entre em contato com a Braspag
+‹session ID›: Use o mesmo valor passado no parametro “DeviceFingerprintID”, do serviço de requisição de análise de fraude.
+Certifique-se de copiar todos os dados corretamente e de remover os sinais de tag (<>) ao substituir as variáveis.
+
+###PNG image
+```html
+‹p style="background:url(https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›&session_id=‹merchant id›‹session ID›&m=1)"›‹/p›
+‹img src="https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›&session_id=‹merchant id›‹session ID›&m=2" alt=""›
+```
+
+```html
+<!-- EXEMPLO -->
+‹p style="background:url(https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID&session_id=sample_merchantIDsample_sessionID&m=1)"›‹/p›
+‹img src="https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID&session_\id=sample_merchantIDsample_sessionID&m=2" alt=""›
+```
+
+###Flash code
+
+```html
+‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=‹org ID›&session_id=‹merchant id›‹session ID›" width="1" height="1"id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=‹orgID›&session_id=‹merchant id›‹session ID›" /›
+‹div›‹/div›
+‹/object› 
+```
+
+```html
+<!-- EXEMPLO -->
+‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&session_id=sample_merchantIDsample_sessionID"width="1" height="1" id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&session_id=sample_merchantIDsample_sessionID" /›
+‹div›‹/div›
+‹/object› 
+```
+
+###JavaScript code
+
+```html
+‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+```
+
+```html
+<!-- EXEMPLO -->
+‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+```
+
+#FAQ
+
+|Perguntas|Respostas|Tema|
+|---------|---------|----|
+|Qual é a diferença entre Status, ReasonCode e ProviderReturnCode?|A explicação conforme a seguir:<BR><UL><LI>Status: representa o status atual da transação.</LI><LI>ReasonCode: representa o status da requisição.</LI><LI>ProviderReturnCode: representa o código de resposta da transação da adquirente.</LI></UL>Por exemplo, uma requisição de autorização poderá ter o retorno com ReasonCode=0 (Sucessfull), ou seja, a requisição finalizou com sucesso, porém, o Status poderá ser 0-Denied, por ter a transação não autorizada pela adquirente, por exemplo, ProviderReturnCode 57 (um dos códigos de negada da Cielo)|Integração|
