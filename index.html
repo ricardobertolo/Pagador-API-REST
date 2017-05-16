@@ -182,10 +182,10 @@
 
 <h2 id="arquitetura">Arquitetura</h2>
 
-<p>A integração é realizada através de serviços disponibilizados como Web Services. O modelo empregado é bastante simples: Existem duas URLs (endpoint), uma específica operações que causam efeitos colaterais - como autorização, captura e cancelamento de transações, e uma URL específica para operações que não causam efeitos colaterais, como pesquisa de transações. Essas duas URLs receberão as mensagens HTTP através dos métodos POST, GET ou PUT. Cada tipo de mensagem deve ser enviada para um recurso identificado através do path.</p>
+<p>A integração é realizada através de serviços disponibilizados como Web Services. O modelo empregado é bastante simples: Existem duas URLs (endpoints), uma específica para autorização, captura e cancelamento de transações, e uma outra para operações como pesquisa de transações. Essas duas URLs receberão as mensagens HTTP através dos métodos POST, GET ou PUT. Cada tipo de mensagem deve ser enviada para um endereço identificado através do &ldquo;path&rdquo;.</p>
 
 <ul>
-<li><strong>POST</strong> - O método HTTP POST é utilizado na criação dos recursos ou no envio de informações que serão processadas. Por exemplo, criação de uma transação.</li>
+<li><strong>POST</strong> - O método HTTP POST é utilizado na criação de uma transação.</li>
 <li><strong>PUT</strong> - O método HTTP PUT é utilizado para atualização de um recurso já existente. Por exemplo, captura ou cancelamento de uma transação previamente autorizada.</li>
 <li><strong>GET</strong> - O método HTTP GET é utilizado para consultas de recursos já existentes. Por exemplo, consulta de transações.</li>
 </ul>
@@ -539,14 +539,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -942,7 +942,7 @@
 <td>Texto</td>
 <td>10</td>
 <td>Não</td>
-<td>Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer)</td>
+<td>Tipo de parcelamento - Loja (ByMerchant) ou Emissor (ByIssuer)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Payment.Capture</code></td>
@@ -1276,14 +1276,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -1633,14 +1633,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -2006,7 +2006,7 @@
 <td>Texto</td>
 <td>50</td>
 <td>Não</td>
-<td>Complemento do endereço de contato do Comprador.br</td>
+<td>Complemento do endereço de contato do Comprador</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.ZipCode</code></td>
@@ -2153,7 +2153,7 @@
 <td>Texto</td>
 <td>10</td>
 <td>Não</td>
-<td>Tipo de parcelamento - Loja (ByMerchant) ou Cartão (ByIssuer)</td>
+<td>Tipo de parcelamento - Loja (ByMerchant) ou Emissor (ByIssuer)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Payment.Capture</code></td>
@@ -2328,7 +2328,7 @@
 <td>Texto</td>
 <td>9</td>
 <td>Não</td>
-<td>Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países<BR><UL><LI>Yes (Em caso de divergência entre endereços de cobrança e entrega, marca com risco pequeno)</LI><LI>No (Em caso de divergência entre endereços de cobrança e entrega, marca com risco alto)</LI><LI>Off (Ignora a análise de risco para endereços divergentes)</LI></UL></td>
+<td>Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países<BR><UL><LI>Yes (Em caso de divergência entre endereços de cobrança e entrega, marca como risco pequeno)</LI><LI>No (Em caso de divergência entre endereços de cobrança e entrega, marca com risco alto)</LI><LI>Off (Ignora a análise de risco para endereços divergentes)</LI></UL></td>
 </tr>
 <tr>
 <td><code class="prettyprint">FraudAnalysis.Items.HostHedge</code></td>
@@ -2349,7 +2349,7 @@
 <td>Texto</td>
 <td>6</td>
 <td>Não</td>
-<td>Nível de obscenidade dos pedidos recebedidos. <BR><UL><LI>Low (Baixa importância da verificação sobre obscenidades do pedido do comprador, na análise de risc0)</LI><LI>Normal (Média importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Off (Verificação de obscenidade no pedido do comprador não afeta a análise de risco)</LI></UL></td>
+<td>Nível de obscenidade dos pedidos recebedidos. <BR><UL><LI>Low (Baixa importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Normal (Média importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Off (Verificação de obscenidade no pedido do comprador não afeta a análise de risco)</LI></UL></td>
 </tr>
 <tr>
 <td><code class="prettyprint">FraudAnalysis.Items.PhoneHedge</code></td>
@@ -2447,7 +2447,7 @@
 <td>Texto</td>
 <td>15</td>
 <td>Não</td>
-<td>Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país. 552133665599 (Ex. Código do Pais 55, Código da Cidade 21, Telefonme 33665599)</td>
+<td>Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país. 552133665599 (Ex. Código do Pais 55, Código da Cidade 21, Telefone 33665599)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">FraudAnalysis.Items.Passenger.Status</code></td>
@@ -2489,7 +2489,7 @@
 <td>Texto</td>
 <td>15</td>
 <td>Não</td>
-<td>Telefone do destinatário da entrega. Ex. 552133665599 (Código do Pais 55, Código da Cidade 21, Telefonme 33665599)</td>
+<td>Telefone do destinatário da entrega. Ex. 552133665599 (Código do Pais 55, Código da Cidade 21, Telefone 33665599)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">FraudAnalysis.Travel.DepartureTime</code></td>
@@ -2874,14 +2874,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -3347,14 +3347,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -3691,14 +3691,14 @@
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -4417,7 +4417,7 @@
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -4489,7 +4489,7 @@
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/2d5e0463-47be-4964-b8ac-622a16a2b6c4"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -4751,7 +4751,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -4800,7 +4800,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/ca81c3c9-2dfa-4e6e-9c77-37e33a77ac84"</span>
       <span class="o">}</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -5164,14 +5164,14 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonCode</code></td>
-<td>Código de retorno da Adquirência</td>
+<td>Código de retorno da Operação</td>
 <td>Texto</td>
 <td>32</td>
 <td>Texto alfanumérico</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ReasonMessage</code></td>
-<td>Mensagem de retorno da Adquirência</td>
+<td>Mensagem de retorno da Operação</td>
 <td>Texto</td>
 <td>512</td>
 <td>Texto alfanumérico</td>
@@ -5210,8 +5210,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 
 <h2 id="criando-uma-transação">Criando uma transação</h2>
 
-<p>Para criar uma venda de transferência eletrônica (conhecido como Débito Online), é necessário fazer um POST para o recurso Payment conforme o exemplo. 
-Para criar uma venda de transferência eletrônica (conhecido como Débito Online), é necessário fazer um POST para o recurso Payment conforme o exemplo. </p>
+<p>Para criar uma venda de transferência eletrônica (conhecido como Débito Online), é necessário fazer um POST para o recurso Payment conforme o exemplo. </p>
 
 <h3 id="requisição">Requisição</h3>
 
@@ -5367,7 +5366,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
 <td>Texto</td>
 <td>50</td>
 <td>Sim</td>
-<td>Complemento do endereço de contato do Comprador.br</td>
+<td>Complemento do endereço de contato do Comprador</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.ZipCode</code></td>
@@ -6508,7 +6507,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       </span><span class="s2">"Link"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recurrentPayment"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="s2">"AuthorizeNow"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
@@ -6579,7 +6578,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       <span class="s2">"Link"</span>: <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"recurrentPayment"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/808d3631-47ca-43b4-97f5-bd29ab06c271"</span>
       <span class="o">}</span>,
       <span class="s2">"AuthorizeNow"</span>: <span class="nb">true</span>
     <span class="o">}</span>,
@@ -6892,7 +6891,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       </span><span class="s2">"Link"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recurrentPayment"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="s2">"AuthorizeNow"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
@@ -6938,7 +6937,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       <span class="s2">"Link"</span>: <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"recurrentPayment"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/32703035-7dfb-4369-ac53-34c7ff7b84e8"</span>
       <span class="o">}</span>,
       <span class="s2">"AuthorizeNow"</span>: <span class="nb">false</span>
     <span class="o">}</span>
@@ -8301,7 +8300,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
 <td>Tipo de parcelamento</td>
 <td>Texto</td>
 <td>10</td>
-<td>Loja (ByMerchant) ou Cartão (ByIssuer)</td>
+<td>Loja (ByMerchant) ou Emissor (ByIssuer)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Payment.Capture</code></td>
@@ -8649,7 +8648,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="s2">"RecurrentTransactions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -8698,7 +8697,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
       <span class="o">{</span>
         <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
         <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
-        <span class="s2">"Href"</span>: <span class="s2">"https://apiqueryhomolog.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"</span>
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/RecurrentPayment/f5a83c14-0254-4e73-bdd3-9afba1007266"</span>
       <span class="o">}</span>
     <span class="o">]</span>,
     <span class="s2">"RecurrentTransactions"</span>: <span class="o">[</span>
@@ -10035,7 +10034,7 @@ Para criar uma venda de transferência eletrônica (conhecido como Débito Onlin
 
 <p>As informações de Cód.Segurança (CVV) e validade podem ser aleatórias, mantendo o formato - CVV (3 dígitos) Validade (MM/YYYY).</p>
 
-<h1 id="device-finger-print">Device Finger Print</h1>
+<h2 id="device-finger-print">Device Finger Print</h2>
 
 <p>Você precisará adicionar uma imagem de 1-pixel, que não é mostrada na tela, e 2 segmentos de código à tag ‹Body› da sua página de checkout, se certificando que serão necessários de 10 segundos entre a execução do código e a submissão da página para o servidor.</p>
 
@@ -10055,47 +10054,38 @@ Production - Altere o domínio para uma URL local, e configure seu servidor Web 
 ‹session ID›: Use o mesmo valor passado no parametro “DeviceFingerprintID”, do serviço de requisição de análise de fraude.
 Certifique-se de copiar todos os dados corretamente e de remover os sinais de tag (&lt;&gt;) ao substituir as variáveis.</p>
 
-<h2 id="png-image">PNG image</h2>
+<h3 id="png-image">PNG image</h3>
+<pre><code class="highlight html">‹p style="background:url(https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›<span class="err">&amp;</span>session_id=‹merchant id›‹session ID›<span class="err">&amp;</span>m=1)"›‹/p›
+‹img src="https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›<span class="err">&amp;</span>session_id=‹merchant id›‹session ID›<span class="err">&amp;</span>m=2" alt=""›
+</code></pre>
+<pre><code class="highlight html"><span class="c">&lt;!-- EXEMPLO --&gt;</span>
+‹p style="background:url(https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID<span class="err">&amp;</span>session_id=sample_merchantIDsample_sessionID<span class="err">&amp;</span>m=1)"›‹/p›
+‹img src="https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID<span class="err">&amp;</span>session_\id=sample_merchantIDsample_sessionID<span class="err">&amp;</span>m=2" alt=""›
+</code></pre>
 
-<h3 id="especificação">Especificação</h3>
-<pre><code class="highlight json"><span class="err">‹p</span><span class="w"> </span><span class="err">style=</span><span class="s2">"background:url(https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›&amp;session_id=‹merchant id›‹session ID›&amp;m=1)"</span><span class="err">›‹/p›</span><span class="w">
-</span><span class="err">‹img</span><span class="w"> </span><span class="err">src=</span><span class="s2">"https://h.online-metrix.net/fp/clear.png?org_id=‹org ID›&amp;session_id=‹merchant id›‹session ID›&amp;m=2"</span><span class="w"> </span><span class="err">alt=</span><span class="s2">""</span><span class="err">›</span><span class="w">
-</span></code></pre>
+<h3 id="flash-code">Flash code</h3>
+<pre><code class="highlight html">‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=‹org ID›<span class="err">&amp;</span>session_id=‹merchant id›‹session ID›" width="1" height="1"id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=‹orgID›<span class="err">&amp;</span>session_id=‹merchant id›‹session ID›" /›
+‹div›‹/div›
+‹/object› 
+</code></pre>
+<pre><code class="highlight html"><span class="c">&lt;!-- EXEMPLO --&gt;</span>
+‹object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID<span class="err">&amp;</span>session_id=sample_merchantIDsample_sessionID"width="1" height="1" id="thm_fp"›
+‹param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID<span class="err">&amp;</span>session_id=sample_merchantIDsample_sessionID" /›
+‹div›‹/div›
+‹/object› 
+</code></pre>
 
-<h3 id="exemplo">Exemplo</h3>
-<pre><code class="highlight json"><span class="err">‹p</span><span class="w"> </span><span class="err">style=</span><span class="s2">"background:url(https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID&amp;session_id=sample_merchantIDsample_sessionID&amp;m=1)"</span><span class="err">›‹/p›</span><span class="w">
-</span><span class="err">‹img</span><span class="w"> </span><span class="err">src=</span><span class="s2">"https://h.online-metrix.net/fp/clear.png?org_id=sample_orgID&amp;session_\id=sample_merchantIDsample_sessionID&amp;m=2"</span><span class="w"> </span><span class="err">alt=</span><span class="s2">""</span><span class="err">›</span><span class="w">
-</span></code></pre>
-
-<h2 id="flash-code">Flash code</h2>
-
-<h3 id="especificação">Especificação</h3>
-<pre><code class="highlight json"><span class="err">‹object</span><span class="w"> </span><span class="err">type=</span><span class="s2">"application/x-shockwave-flash"</span><span class="w"> </span><span class="err">data=</span><span class="s2">"https://h.online-metrix.net/fp/fp.swf?org_id=‹org ID›&amp;session_id=‹merchant id›‹session ID›"</span><span class="w"> </span><span class="err">width=</span><span class="s2">"1"</span><span class="w"> </span><span class="err">height=</span><span class="s2">"1"</span><span class="err">id=</span><span class="s2">"thm_fp"</span><span class="err">›</span><span class="w">
-</span><span class="err">‹param</span><span class="w"> </span><span class="err">name=</span><span class="s2">"movie"</span><span class="w"> </span><span class="err">value=</span><span class="s2">"https://h.online-metrix.net/fp/fp.swf?org_id=‹orgID›&amp;session_id=‹merchant id›‹session ID›"</span><span class="w"> </span><span class="err">/›</span><span class="w">
-</span><span class="err">‹div›‹/div›</span><span class="w">
-</span><span class="err">‹/object›</span><span class="w"> 
-</span></code></pre>
-
-<h3 id="exemplo">Exemplo</h3>
-<pre><code class="highlight json"><span class="err">‹object</span><span class="w"> </span><span class="err">type=</span><span class="s2">"application/x-shockwave-flash"</span><span class="w"> </span><span class="err">data=</span><span class="s2">"https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&amp;session_id=sample_merchantIDsample_sessionID"</span><span class="err">width=</span><span class="s2">"1"</span><span class="w"> </span><span class="err">height=</span><span class="s2">"1"</span><span class="w"> </span><span class="err">id=</span><span class="s2">"thm_fp"</span><span class="err">›</span><span class="w">
-</span><span class="err">‹param</span><span class="w"> </span><span class="err">name=</span><span class="s2">"movie"</span><span class="w"> </span><span class="err">value=</span><span class="s2">"https://h.online-metrix.net/fp/fp.swf?org_id=sample_orgID&amp;session_id=sample_merchantIDsample_sessionID"</span><span class="w"> </span><span class="err">/›</span><span class="w">
-</span><span class="err">‹div›‹/div›</span><span class="w">
-</span><span class="err">‹/object›</span><span class="w"> 
-</span></code></pre>
-
-<h2 id="javascript-code">JavaScript code</h2>
-
-<h3 id="especificação">Especificação</h3>
-<pre><code class="highlight json"><span class="err">‹script</span><span class="w"> </span><span class="err">src=</span><span class="s2">"https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&amp;session_
-id=‹merchant id›‹session ID›"</span><span class="w"> </span><span class="err">type=</span><span class="s2">"text/javascript"</span><span class="err">›</span><span class="w">
-</span><span class="err">‹/script›</span><span class="w"> 
-</span></code></pre>
-
-<h3 id="exemplo">Exemplo</h3>
-<pre><code class="highlight json"><span class="err">‹script</span><span class="w"> </span><span class="err">src=</span><span class="s2">"https://h.online-metrix.net/fp/check.js?org_id=‹org ID›&amp;session_
-id=‹merchant id›‹session ID›"</span><span class="w"> </span><span class="err">type=</span><span class="s2">"text/javascript"</span><span class="err">›</span><span class="w">
-</span><span class="err">‹/script›</span><span class="w"> 
-</span></code></pre>
+<h3 id="javascript-code">JavaScript code</h3>
+<pre><code class="highlight html">‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›<span class="err">&amp;</span>session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+</code></pre>
+<pre><code class="highlight html"><span class="c">&lt;!-- EXEMPLO --&gt;</span>
+‹script src="https://h.online-metrix.net/fp/check.js?org_id=‹org ID›<span class="err">&amp;</span>session_
+id=‹merchant id›‹session ID›" type="text/javascript"›
+‹/script› 
+</code></pre>
 
 <h1 id="faq">FAQ</h1>
 
