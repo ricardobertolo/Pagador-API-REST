@@ -1,5 +1,5 @@
 ---
-title: API Integration
+title: Pagador API REST
 
 language_tabs:
   - json: JSON
@@ -2081,9 +2081,9 @@ curl
 |`ReasonCode`|Código de retorno da adquirente. | Texto | 32 | Texto alfanumérico |
 |`ReasonMessage`|Mensagem de retorno da adquirente. | Texto | 512 | Texto alfanumérico |
 
-## Cancelando/Estornando uma transação
+## Void/Refund Operation
 
-Para cancelar uma transação que utilizou cartão de crédito, é necessário fazer um PUT para o recurso Payment conforme o exemplo.
+To void or refund a transaction, follow the example bellow
 
 ### Request
 
@@ -2104,11 +2104,11 @@ curl
 
 |Property|Description|Type|Size|Mandatory|
 |--------|-----------|----|----|---------|
-|`MerchantId`|Identificador da loja na API. |Guid |36 |Yes|
-|`MerchantKey`|Chave Publica para Autenticação Dupla na API. |Text|40 |Yes|
-|`RequestId`|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT | Guid | 36 |No|
+|`MerchantId`|Merchant Identifier|Guid|3|Yes|
+|`MerchantKey`|Merchant Key need to access the API|Text|40|Yes|
+|`RequestId`|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|Guid|36|No|
 |`PaymentId`|Braspag's Transaction ID. |Guid |36 |Yes|
-|`Amount`|Valor a ser cancelado/estornado (ser enviado em centavos). Verifique se a adquirente contratada suporta a operação de cancelamento ou estorno|Number|15 |No|
+|`Amount`|Amount to be voided or refunded (in cents)|Number|15 |No|
 
 ### Response
 
@@ -4739,7 +4739,7 @@ curl
 |`Interval`|Interval between recurrences |Text|10 |
 |`CurrentRecurrencyTry`|Indentify the number of attempts |Number|1|1|
 |`OrderNumber`|Merchant's order number|Text|50 |2017051101|
-|`Status`|Recurrence Status|Number|1 |<UL><LI>1 - Ativo</LI><LI>3 - Inativo</LI></UL> |
+|`Status`|Recurrence Status|Number|1 |<UL><LI>1 - Active</LI><LI>2 - Finished</LI><LI>3,4,5 - Disabled</LI></UL> |
 |`RecurrencyDay`|Recurrent Day |Number|2 |22 |
 |`SuccessfulRecurrences`|Number of successful recurrences|Number|2 |5|
 |`RecurrentTransactions.RecurrentPaymentId`|Recurrence ID to further queries|Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
