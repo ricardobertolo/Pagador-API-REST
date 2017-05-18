@@ -1,5 +1,5 @@
 ---
-title: Integração API
+title: Pagador API REST
 
 language_tabs:
   - json: JSON
@@ -4674,7 +4674,7 @@ curl
 |`Interval`|Intervalo entre as recorrência. |Texto |10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
 |`CurrentRecurrencyTry`|Indica o número de tentativa da recorrência atual |Número|1|1|
 |`OrderNumber`|Identificado do Pedido na loja |Texto|50 |2017051101|
-|`Status`|Status do pedido recorrente |Número|1 |<UL><LI>1 - Ativo</LI><LI>3 - Inativo</LI></UL> |
+|`Status`|Status do pedido recorrente |Número|1 |<UL><LI>1 - Ativo</LI><LI>2 - Finalizado</LI><LI>3,4,5 - Inativo</LI></UL> |
 |`RecurrencyDay`|O dia da recorrência |Número|2 |22 |
 |`SuccessfulRecurrences`|Quantidade de recorrência realizada com sucesso|Número|2 |5|
 |`RecurrentTransactions.RecurrentPaymentId`|Id da Recorrência|Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
