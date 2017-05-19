@@ -252,7 +252,7 @@ curl
       "SaveCard": false,
       "Brand": "Visa"
     },
-    "ProofOfSale": "2539492",
+    "ProofOfSale": "2539493",
     "AcquirerTransactionId": "0510042539492",
     "AuthorizationCode": "759497",
     "PaymentId": "f8078b32-be17-4c35-b164-ad74c3cd0725",
