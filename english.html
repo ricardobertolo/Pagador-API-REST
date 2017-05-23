@@ -5,7 +5,7 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>API Integration</title>
+    <title>Pagador API REST</title>
 
     <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
@@ -3854,9 +3854,9 @@
 </tr>
 </tbody></table>
 
-<h2 id="cancelando/estornando-uma-transação">Cancelando/Estornando uma transação</h2>
+<h2 id="void/refund-operation">Void/Refund Operation</h2>
 
-<p>Para cancelar uma transação que utilizou cartão de crédito, é necessário fazer um PUT para o recurso Payment conforme o exemplo.</p>
+<p>To void or refund a transaction, follow the example bellow</p>
 
 <h3 id="request">Request</h3>
 
@@ -3882,23 +3882,23 @@
 </thead><tbody>
 <tr>
 <td><code class="prettyprint">MerchantId</code></td>
-<td>Identificador da loja na API. </td>
-<td>Guid </td>
-<td>36 </td>
+<td>Merchant Identifier</td>
+<td>Guid</td>
+<td>3</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code class="prettyprint">MerchantKey</code></td>
-<td>Chave Publica para Autenticação Dupla na API. </td>
+<td>Merchant Key need to access the API</td>
 <td>Text</td>
-<td>40 </td>
+<td>40</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code class="prettyprint">RequestId</code></td>
-<td>Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT </td>
-<td> Guid </td>
-<td> 36 </td>
+<td>Request Identifier defined by merchant, applicable to any operation GET/POST/PUT</td>
+<td>Guid</td>
+<td>36</td>
 <td>No</td>
 </tr>
 <tr>
@@ -3910,7 +3910,7 @@
 </tr>
 <tr>
 <td><code class="prettyprint">Amount</code></td>
-<td>Valor a ser cancelado/estornado (ser enviado em centavos). Verifique se a adquirente contratada suporta a operação de cancelamento ou estorno</td>
+<td>Amount to be voided or refunded (in cents)</td>
 <td>Number</td>
 <td>15 </td>
 <td>No</td>
@@ -8795,7 +8795,7 @@ New Next scheduled recurrence date: Oct 2th <BR>
 <td>Recurrence Status</td>
 <td>Number</td>
 <td>1 </td>
-<td><UL><LI>1 - Ativo</LI><LI>3 - Inativo</LI></UL> </td>
+<td><UL><LI>1 - Active</LI><LI>2 - Finished</LI><LI>3,4,5 - Disabled</LI></UL> </td>
 </tr>
 <tr>
 <td><code class="prettyprint">RecurrencyDay</code></td>
