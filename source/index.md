@@ -48,7 +48,7 @@ Já estou pronto para entrar em Produção!
 
 ## Suporte Braspag
 
-<aside class="notice">A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web. Contamos com a equipe que poderá atender em português, inglês e espanhol.</aside>
+<aside class="notice">A Braspag oferece suporte de alta disponibilidade, com atendimento de segunda à sexta, das 9h às 19h, e telefone de emergência 24×7, através de ferramenta via web. Contamos com a equipe que poderá atender em português, inglês e espanhol</aside>
 
 * Atendimento Web: [Suporte Braspag via Portal](http://suporte.braspag.com.br/)
 * E-mail: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
