@@ -52,7 +52,7 @@ Já estou pronto para entrar em Produção!
 
 * Atendimento Web: [Suporte Braspag via Portal](http://suporte.braspag.com.br/)
 * E-mail: [mailto:suporte@braspag.com.br](suporte@braspag.com.br)
-* Telefone: (11)2184-0550
+* Telefone: (11) 2184-0550
 
 ## Características da Solução
 
