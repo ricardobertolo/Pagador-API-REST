@@ -183,7 +183,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -242,7 +242,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -779,7 +779,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": true,
     "Recurrent": false,
     "CreditCard": {
@@ -827,7 +827,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": true,
     "Recurrent": false,
     "CreditCard": {
@@ -1511,7 +1511,7 @@ curl
 |`AcquirerTransactionId`|Provider's Transaction ID |Text|40|Alphanumeric Text|
 |`ProofOfSale`|Provider's Proof of Sale Code|Text|20|Alphanumeric Text|
 |`AuthorizationCode`|Provider's Authorization Code|Text|300|Alphanumeric Text|
-|`SoftDescriptor`|Texto que será impresso na fatura do portador|Text|13|Alphanumeric Text|
+|`SoftDescriptor`|Text que será impresso na fatura do portador|Text|13|Alphanumeric Text|
 |`PaymentId`|Braspag's Transaction ID|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
 |`ReceivedDate`|Transaction's received date|Text|19|YYYY-MM-DD HH:mm:SS|
 |`ReasonCode`|Operation's Reason Code|Text|32|Alphanumeric Text|
@@ -1580,6 +1580,851 @@ curl
 |`FraudAnalysis.ReplyData.ScoreModelUsed`|Name score of model used|Text|20|Ex: default_lac|
 |`FraudAnalysis.ReplyData.CasePriority`|If the merchant is subscriber Enhanced Case Management, you receive this value with the level of priority, with 1 being the highest and 5 the lowest|Number|---|3|
 
+## Credit Card Payment with ReD Shield Fraud Prevention
+
+The Fraud Prevention requires the "FraudAnalysis" node filled. 
+
+### Request
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+
+```json
+{
+    "MerchantOrderId": "201411170314344356",
+    "Customer": {
+        "Name": "Customer's Name",
+        "Identity": "46286005030",
+        "IdentityType": "CPF",
+        "Email": "comprador_teste@live.com",
+        "Birthdate": "1986-08-01",
+        "WorkPhone": "552121544788",
+        "Mobile": "5521995760078",
+        "Phone": "552125553669",
+        "Address": {
+            "Street": "Rua Teste",
+            "Number": "500",
+            "Complement": "AP 205",
+            "District": "Tijuca",
+            "ZipCode": "21002320",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR"
+        },
+        "DeliveryAddress": {
+            "Street": "Av Marechal Camara",
+            "Number": "160",
+            "Complement": "Sala 934",
+            "District": "Centro",
+            "ZipCode": "20020080",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "Comment": "Ao lado do banco Santander"
+        },
+        "Status": "New"
+    },
+    "Payment": {
+        "Type": "CreditCard",
+        "Amount": 15700,
+        "Provider": "Simulado",
+        "Installments": 1,
+        "CreditCard": {
+            "CardNumber": "****6310",
+            "Holder": "Teste Holder",
+            "ExpirationDate": "12/2021",
+            "SecurityCode": "***",
+            "Brand": "visa"
+        },
+        "FraudAnalysis": {
+            "Sequence": "AnalyseFirst",
+            "SequenceCriteria": "Always",
+            "Provider": "RedShield",
+            "CaptureOnLowRisk": true,
+            "VoidOnHighRisk": true,
+            "TotalOrderAmount": 16700,
+            "OrderDate": "2016-12-09T19:16:38",
+            "IsRetryTransaction": false,
+            "FingerPrintId": "04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw==",
+            "Browser": {
+                "IpAddress": "187.32.163.105"
+            },
+            "Cart": {
+                "Items": [{
+                    "Name": "Product's name",
+                    "Sku": "201411170235",
+                    "UnitPrice": 10950,
+                    "OriginalPrice": 11490,
+                    "Quantity": 1,
+                    "MerchantItemId": "45584",
+                    "GiftMessage": "Gift message",
+                    "Description": "product description",
+                    "ShippingInstructions": "Proximo ao 546",
+                    "ShippingMethod": "SameDay",
+                    "ShippingTrackingNumber": "123456",
+                    "Passenger": {
+                        "Name": "Passenger's name",
+                        "Identity": "1234567891",
+                        "Status": "Platinum",
+                        "Rating": "Student",
+                        "Email": "passageiro_teste1@live.com",
+                        "Phone": "55999993333",
+                        "DateOfBirth": "1988-01-06"
+                    }
+                }, {
+                    "Name": "Nome do produto",
+                    "Sku": "20141117023",
+                    "UnitPrice": 10950,
+                    "OriginalPrice": 11490,
+                    "Quantity": 2,
+                    "MerchantItemId": "45585",
+                    "GiftMessage": "Gift message",
+                    "Description": "Product description",
+                    "ShippingInstructions": "Proximo ao 160",
+                    "ShippingMethod": "NextDay",
+                    "ShippingTrackingNumber": "654321",
+                    "Passenger": {
+                        "Name": "Passageiro Teste2",
+                        "Identity": "1234567892",
+                        "Status": "Gold",
+                        "Rating": "Adult",
+                        "Email": "passageiro_teste2@live.com",
+                        "Phone": "5521999994444",
+                        "DateOfBirth": "1958-07-06"
+                    }
+                }]
+            },
+            "MerchantDefinedFields": [{
+                "Id": "95",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }, {
+                "Id": "96",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }],
+            "Shipping": {
+                "Addressee": "Destinatario Teste",
+                "Email": "destinatario_teste@live.com",
+                "Method": "LowCost",
+                "Phone": "5521995950277"
+            },
+            "CustomConfiguration": {
+                "MerchantWebsite": "http://www.test.com"
+            },
+            "Travel": {
+                "Route": "GIG-CGH-EZE",
+                "DepartureTime": "2016-12-10T15:10:15",
+                "JourneyType": "OneWayTrip",
+                "Legs": [{
+                    "Origin": "GIG",
+                    "Destination": "CGH"
+                }, {
+                    "Origin": "CGH",
+                    "Destination": "EZE"
+                }]
+            }
+        }
+    }
+}
+```
+
+```shell
+curl
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+    "MerchantOrderId": "201411170314344356",
+    "Customer": {
+        "Name": "Customer's Name",
+        "Identity": "46286005030",
+        "IdentityType": "CPF",
+        "Email": "comprador_teste@live.com",
+        "Birthdate": "1986-08-01",
+        "WorkPhone": "552121544788",
+        "Mobile": "5521995760078",
+        "Phone": "552125553669",
+        "Address": {
+            "Street": "Rua Teste",
+            "Number": "500",
+            "Complement": "AP 205",
+            "District": "Tijuca",
+            "ZipCode": "21002320",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR"
+        },
+        "DeliveryAddress": {
+            "Street": "Av Marechal Camara",
+            "Number": "160",
+            "Complement": "Sala 934",
+            "District": "Centro",
+            "ZipCode": "20020080",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "Comment": "Ao lado do banco Santander"
+        },
+        "Status": "New"
+    },
+    "Payment": {
+        "Type": "CreditCard",
+        "Amount": 15700,
+        "Provider": "Simulado",
+        "Installments": 1,
+        "CreditCard": {
+            "CardNumber": "****6310",
+            "Holder": "Teste Holder",
+            "ExpirationDate": "12/2021",
+            "SecurityCode": "***",
+            "Brand": "visa"
+        },
+        "FraudAnalysis": {
+            "Sequence": "AnalyseFirst",
+            "SequenceCriteria": "Always",
+            "Provider": "RedShield",
+            "CaptureOnLowRisk": true,
+            "VoidOnHighRisk": true,
+            "TotalOrderAmount": 16700,
+            "OrderDate": "2016-12-09T19:16:38",
+            "IsRetryTransaction": false,
+            "FingerPrintId": "04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw==",
+            "Browser": {
+                "IpAddress": "187.32.163.105"
+            },
+            "Cart": {
+                "Items": [{
+                    "Name": "Product's name",
+                    "Sku": "201411170235",
+                    "UnitPrice": 10950,
+                    "OriginalPrice": 11490,
+                    "Quantity": 1,
+                    "MerchantItemId": "45584",
+                    "GiftMessage": "Gift message",
+                    "Description": "product description",
+                    "ShippingInstructions": "Proximo ao 546",
+                    "ShippingMethod": "SameDay",
+                    "ShippingTrackingNumber": "123456",
+                    "Passenger": {
+                        "Name": "Passenger's name",
+                        "Identity": "1234567891",
+                        "Status": "Platinum",
+                        "Rating": "Student",
+                        "Email": "passageiro_teste1@live.com",
+                        "Phone": "55999993333",
+                        "DateOfBirth": "1988-01-06"
+                    }
+                }, {
+                    "Name": "Nome do produto",
+                    "Sku": "20141117023",
+                    "UnitPrice": 10950,
+                    "OriginalPrice": 11490,
+                    "Quantity": 2,
+                    "MerchantItemId": "45585",
+                    "GiftMessage": "Gift message",
+                    "Description": "Product description",
+                    "ShippingInstructions": "Proximo ao 160",
+                    "ShippingMethod": "NextDay",
+                    "ShippingTrackingNumber": "654321",
+                    "Passenger": {
+                        "Name": "Passageiro Teste2",
+                        "Identity": "1234567892",
+                        "Status": "Gold",
+                        "Rating": "Adult",
+                        "Email": "passageiro_teste2@live.com",
+                        "Phone": "5521999994444",
+                        "DateOfBirth": "1958-07-06"
+                    }
+                }]
+            },
+            "MerchantDefinedFields": [{
+                "Id": "95",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }, {
+                "Id": "96",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }],
+            "Shipping": {
+                "Addressee": "Destinatario Teste",
+                "Email": "destinatario_teste@live.com",
+                "Method": "LowCost",
+                "Phone": "5521995950277"
+            },
+            "CustomConfiguration": {
+                "MerchantWebsite": "http://www.test.com"
+            },
+            "Travel": {
+                "Route": "GIG-CGH-EZE",
+                "DepartureTime": "2016-12-10T15:10:15",
+                "JourneyType": "OneWayTrip",
+                "Legs": [{
+                    "Origin": "GIG",
+                    "Destination": "CGH"
+                }, {
+                    "Origin": "CGH",
+                    "Destination": "EZE"
+                }]
+            }
+        }
+    }
+}
+--verbose
+```
+
+|Property|Type|Size|Mandatory|Description|
+|--------|----|----|---------|-----------|
+|`MerchantId`|Guid|36|Yes|Merchant Identifier|
+|`MerchantKey`|Text|40|Yes|Merchant Key need to access the API|
+|`RequestId`|Guid|36|No|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|
+|`MerchantOrderId`|Text|50|Yes|Merchant Order ID|
+|`Customer.Name`|Text|61|Yes|Customer's Name|
+|`Customer.Identity`|Number|14|Yes|Customer's RG, CPF or CNPJ| 
+|`Customer.IdentityType`|Text|25|Yes|Customer Identification Type (CPF or CNPJ)|
+|`Customer.Email`|Text|60|Yes|Customer's e-mail address|
+|`Customer.Birthdate`|Date|10|No|Customer's birth date YYYY-MM-DD|
+|`Customer.WorkPhone`|Number|19|No|Customer's work phone|
+|`Customer.Mobile`|Number|19|No|Customer's mobile phone|
+|`Customer.Phone`|Number|19|No|Customer's phone|
+|`Customer.Address.Street`|Text|24|Yes|Customer's main contact address|
+|`Customer.Address.Number`|Text|5|Yes|Customer's main contact address building number|
+|`Customer.Address.Complement`|Text|14|Yes|Customer's main contact address' additional data|
+|`Customer.Address.District`|Text|15|Yes|Customer's main contact address' district name|
+|`Customer.Address.ZipCode`|Text|9|Yes|Customer's main contact address ZIP code|
+|`Customer.Address.City`|Text|20|Yes|Customer's main contact address' City|
+|`Customer.Address.State`|Text|2|Yes|Customer's main contact address' State|
+|`Customer.Address.Country`|Text|2|Yes|Customer's main contact address' Country|
+|`Customer.DeliveryAddress.Street`|Text|24|Yes|Customer's delivery address|
+|`Customer.DeliveryAddress.Number`|Text|5|Yes|Customer's delivery address building number|
+|`Customer.DeliveryAddress.Complement`|Text|14|No|Customer's delivery address additional data|
+|`Customer.DeliveryAddress.District`|Text|15|Yes|Customer's delivery address' district name|
+|`Customer.DeliveryAddress.ZipCode`|Text|9|Yes|Customer's delivery address ZIP code|
+|`Customer.DeliveryAddress.City`|Text|20|Yes|Customer's delivery address' City|
+|`Customer.DeliveryAddress.State`|Text|2|Yes|Customer's delivery address' State|
+|`Customer.DeliveryAddress.Country`|Text|2|Yes|Customer's delivery address' Country|
+|`Customer.Status`|Text|8|No|Customer status. New -> Customer never bought in the store, it means a new customer. Existing -> Customer already bought in the store.|
+|`Payment.Type`|Text|100|Yes|Payment Method's Type|
+|`Payment.Amount`|Number|15|Yes|Transaction Amount (must be sent in cents)|
+|`Payment.Provider`|Text|15|Yes|Payment Method Provider's name|
+|`Payment.Installments`|Number|2|Yes|Number of Installments|
+|`CreditCard.CardNumber`|Text|16|Yes|Credit Card number|
+|`CreditCard.Holder`|Text|25|Yes|Cardholder name|
+|`CreditCard.ExpirationDate`|Text|7|Yes|Expiration Date (MM/YYYY)|
+|`CreditCard.SecurityCode`|Text|4|Yes|Security Code (CVV2)|
+|`CreditCard.Brand`|Text|10|Sim |Card's brand|
+|`Payment.Interest`|Text|10|No|Installment Type - if by merchant (ByMerchant) and if by Issuer (ByIssuer)|
+|`Payment.Capture`Boolean|---|No (Default false)|If automatic capture behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|
+|`Payment.Authenticate`Boolean|---|No (Default false)|If authentication behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|
+|`Payment.Recurrent`Boolean|---|No (Default false)|If recurrent behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|
+|`Payment.SoftDescriptor`|Text|13|No|Message that will be presented into cardholder's billing|
+|`Payment.ExtraDataCollection.Name`|Text|50|No|Extra Data field's name|
+|`Payment.ExtraDataCollection.Value`|Text|1024|No|Extra Data field's value|
+|`CreditCard.SaveCard`Boolean|---|No (Default false)|If the card must be saved, then true. Else false|
+|`FraudAnalysis.Sequence`|Text|14|Yes|Possible values:<UL><LI>AnalyseFirst</LI><LI>AuthorizeFirst</LI></UL>|
+|`FraudAnalysis.SequenceCriteria`|Text|9|Yes|Flow criteria.<BR><UL><LI>OnSuccess - on success of chosen sequence</LI><LI>Always - analyse independently the result of chosen sequence</LI></UL>|
+|`FraudAnalysis.Provider`|Text|15|Yes|Fraud Prevention provider's name (Ex.: RedShield, Cybersource, etc)|
+|`FraudAnalysis.CaptureOnLowRisk`Boolean|---|When true, the capture process will occur automaticlly when the fraud risk is low (Accept). In case of hight risk or review state, the flow will be the default. To use this flow, the Sequence must be "AuthorizeFirst"|
+|`FraudAnalysis.VoidOnHighRisk`Boolean|---|No|When true, the void process will occur automaticlly when the fraud risk is hiht (Reject). In case of low risk or review state, the flow will be the default. To use this flow, the Sequence must be "AuthorizeFirst|
+|`FraudAnalysis.TotalOrderAmount`|Number|15|Yes|Total order amount|
+|`FraudAnalysis.OrderDate`|Datetime|---|Yes|Order date|
+|`FraudAnalysis.IsRetryTransaction`Boolean|---|No|Identifies a new fraud analysis attempt. This field must be "true" when the return code is equal to BP900 (this code means there was a timeout between Braspag and Fraud Prevention Provider). Applies only to provider ReDShield)|
+|`FraudAnalysis.FingerPrintId`|Text|6005|Yes|The id that indentifies the user’s browser. This ID must be used in the SESSIONID field in the script|
+|`FraudAnalysis.Browser.IpAddress`|Text|15|Yes|Client’s IP Address. It is strongly recommended to send this field|
+|`Cart.Items[n].Name`|Text|50|Yes|Product's name|
+|`Cart.Items[n].Sku`|Text|12|Yes|Product identifier code|
+|`Cart.Items[n].UnitPrice`|Number|15|Yes|Product unit price|
+|`Cart.Items[n].OriginalPrice`|Number|50|Yes|Original price|
+|`Cart.Items[n].Quantity`|Number|15|Yes|Number of products|
+|`Cart.Items[n].MerchantItemId`|Text|30|No|Product identifier|
+|`Cart.Items[n].GiftMessage`|Text|160|No|Gift message|
+|`Cart.Items[n].Description`|Text|76|No|Product description|
+|`Cart.Items[n].ShippingInstructions`|Text|160|No|Product delivery instructions|
+|`Cart.Items[n].ShippingMethod`|Text|27|No|Shipping Method. Ex.: SameDay = Same day delivery method, NextDay = Delivery method the next day, TwoDay = Delivery method in two days, ThreeDay = Delivery method in three days, LowCost = Low cost delivery method, Pickup = Pickup store, CarrierDesignatedByCustomer = Customer designated delivery method, International = International delivery method, Military = Military delivery method, Other = Another type of delivery method, None = No delivery method, because it is a service or subscription|
+|`Cart.Items[n].ShippingTrackingNumber`|Text|19|No|Shipping tracking number|
+|`Cart.Items[n].Passenger.Name`|Text|61|Yes|Passenger's name|
+|`Cart.Items[n].Passenger.Identity`|Number|14|Yes|Passenger's RG, CPF or CNPJ|
+|`Cart.Items[n].Passenger.IdentityType`|Number|14|Yes|Passenger identification type  (CPF or CNPJ)|
+|`Cart.Items[n].Passenger.Status`|Text|15|No|Airline classification. Ex.: Gold, Platinum|
+|`Cart.Items[n].Passenger.Rating`|Text|15|Yes|Passenger classification|
+|`Cart.Items[n].Passenger.Email`|Text|60|Yes|Passenger email|
+|`Cart.Items[n].Passenger.Phone`|Number|14|No|Passenger phone|
+|`Cart.Items[n].Passenger.DateOfBirth`|Date|10|No|Passenger's birth date|
+|`FraudAnalysis.MerchantDefinedFields.Id`|Text|---|No|Additional information id|
+|`FraudAnalysis.MerchantDefinedFields.Value`|Text|255|No|Additional information field values|
+|`FraudAnalysis.Items.GiftCategory`|Text|9|No|Yes - In case of conflict between billing and delivery addresses, mark as low risk. No - In case of conflict between billing and delivery addresses, mark as high risk. Off - Ignores risk assessment for conflicting addresses|
+|`FraudAnalysis.Items.HostHedge`|Text|9|No|Low - Low significance of email and IP address in risk assessment. Normal - Medium significance of email and IP address in risk assessment. High - High significance of email and IP address in risk assessment.
+Off Email and IP address do not impact risk assessment|
+|`FraudAnalysis.Items.NonSensicalHedge`|Text|6|No|Low - Low significance of the purchaser's order verification in risk
+assessment. Normal - Medium significance of the purchaser's order verification in risk assessment. High - High significance of the purchaser's order verification in risk assessment. Off - Purchaser's order verification does not affect risk assessment.|
+|`FraudAnalysis.Items.ObscenitiesHedge`|Text|6|No|Low - Low significance of the purchaser's order obscenities verification in risk assessment. Normal - Medium significance of the purchaser's order obscenities verification
+in risk assessment. High - High significance of the purchaser's order obscenities verification in risk assessment. Off - Purchaser's order obscenities verification does not affect risk assessment|
+|`FraudAnalysis.Items.PhoneHedge`|Text|6|No|Low - Low significance of tests performed with the phone numbers. Normal - Medium significance of tests performed with the phone numbers. High - High significance of tests performed with the phone numbers. Off - Tests with phone numbers do not affect risk assessment|
+|`FraudAnalysis.Items.Name`|Text|255|Yes|Product's name|
+|`FraudAnalysis.Items.Quantity`|Number|15|Yes|Iten's quantity|
+|`FraudAnalysis.Items.Sku`|Text|255|Yes|Product's SKU Code|
+|`FraudAnalysis.Items.UnitPrice`|Number|15|Yes|Unit Price|
+|`FraudAnalysis.Items.Risk`|Text|6|No|Product risk level <BR><UL><LI>Low (lowr risk)</LI><LI>Normal (medium risk)</LI><LI>High (hight risk)</LI></UL>|
+|`FraudAnalysis.Items.TimeHedge`|Text||No|Importance level of customer order per time of day <BR><UL><LI>Low (lowr risk)</LI><LI>Normal (medium risk)</LI><LI>High (hight risk)</LI><Off (ignore this criteria)</LI></UL>|
+|`FraudAnalysis.Items.Type`|Text||No|Product Type<BR><UL><LI>AdultContent</LI><LI>Coupon</LI><LI>Default</LI><LI>EletronicGood</LI><LI>EletronicSoftware</LI><LI>GiftCertificate</LI><LI>HandlingOnly</LI><LI>Service</LI><LI>ShippingAndHandling</LI><LI>ShippingOnly</LI><LI>Subscription</LI></UL>|
+|`FraudAnalysis.Items.VelocityHedge`|Text|6|No|Importance level of customer purchase frequency<BR><UL><LI>Low (low relevance for last 15 minutes)</LI><LI>Normal (medium relevance for last 15 minutes)</LI><LI>High (hight relevance for last 15 minutes)</LI><LI>Off (ignore this criteria)</LI></UL>|
+|`FraudAnalysis.Items.Passenger.Email`|Text|255|No|Passagen's E-mail Address|
+|`FraudAnalysis.Items.Passenger.Identity`|Text|32|No|Passenger Id to whom the ticket was issued|
+|`FraudAnalysis.Items.Passenger.Name`|Text|120|No|Passenger's name|
+|`FraudAnalysis.Items.Passenger.Rating`|Text||No|Passenger classification<BR><UL><LI>Adult</LI><LI>Child</LI><LI>Infant</LI><LI>Youth</LI><LI>Student)</LI><LI>SeniorCitizen</LI><LI>Military</LI></UL>|
+|`FraudAnalysis.Items.Passenger.Phone`|Text|15|No|Delivery recipient’s phone. Ex. 552133665599 (Country Code 55, City Code 21, phone number 33665599)|
+|`FraudAnalysis.Items.Passenger.Status`|Text|32|No|Airline ranking. One can use values such as Gold or Platinum|
+|`FraudAnalysis.Shipping.Addressee`|Text|61|No|Delivery recipient’s name|
+|`FraudAnalysis.Shipping.Email`|Text|60|No|Delivery recipient’s email|
+|`FraudAnalysis.Shipping.Method`|Text|16|No|Shippint type<BR><UL><LI>SameDay</LI><LI>OneDay</LI><LI>TwoDay</LI><LI>ThreeDay</LI><LI>LowCost(</LI><LI>Pickup</LI><LI>Other</LI><LI>None</LI></UL>|
+|`FraudAnalysis.Shipping.Phone`|Text|15|No|Delivery recipient’s phone. Ex. 552133665599 (Country Code 55, City Code 21, phone number 33665599)|
+|`FraudAnalysis.CustomConfiguration.MerchantWebsite`|Text|60|No|Merchant website|
+|`FraudAnalysis.Travel.Route`|Text|255|No|Route trip. Concatenation of flight connections in ORIG1- DEST1 format|
+|`FraudAnalysis.Travel.DepartureTime`|DateTime|23|No|Date, hour and minute of flight departure AAAA-MM-DD HH:mm:SS|
+|`FraudAnalysis.Travel.JourneyType`|Text|32|No|Trip type. Ex. "Só Ida", "Só Volta", "Ida e Volta"|
+|`FraudAnalysis.Travel.Legs.Origin`|Text|3|No|Airport code of the origin|
+|`FraudAnalysis.Travel.Legs.Destination`|Text|3|No|Airport code of the destination|
+
+### Response
+
+```json
+{
+    "MerchantOrderId": "201411170314344356",
+    "Customer": {
+        "Name": "Comprador Teste",
+        "Identity": "46286005030",
+        "IdentityType": "CPF",
+        "Email": "comprador_teste@live.com",
+        "Phone": "552125553669",
+        "Birthdate": "1986-08-01",
+        "Address": {
+            "Street": "Rua Teste",
+            "Number": "500",
+            "Complement": "AP 205",
+            "ZipCode": "21002320",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "District": "Tijuca"
+        },
+        "DeliveryAddress": {
+            "Street": "Av Marechal Camara",
+            "Number": "160",
+            "Complement": "Sala 934",
+            "ZipCode": "20020080",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "District": "Centro",
+            "Comment": "Ao lado do banco Santander"
+        },
+        "Status": "New",
+        "WorkPhone": "552121544788",
+        "Mobile": "5521995760078"
+    },
+    "Payment": {
+        "ServiceTaxAmount": 0,
+        "Installments": 1,
+        "Interest": "ByMerchant",
+        "Capture": true,
+        "Authenticate": false,
+        "Recurrent": false,
+        "CreditCard": {
+            "CardNumber": "471622******6310",
+            "Holder": "Teste Holder",
+            "ExpirationDate": "12/2021",
+            "SaveCard": false,
+            "Brand": "Visa"
+        },
+        "ProofOfSale": "2110886",
+        "AcquirerTransactionId": "0619022110886",
+        "AuthorizationCode": "595071",
+        "FraudAnalysis": {
+            "Sequence": "AnalyseFirst",
+            "SequenceCriteria": "Always",
+            "FingerPrintId": "04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw==",
+            "Provider": "RedShield",
+            "CaptureOnLowRisk": true,
+            "VoidOnHighRisk": true,
+            "TotalOrderAmount": 16700,
+            "IsRetryTransaction": false,
+            "CustomConfiguration": {
+                "RiskAmount": 0,
+                "MerchantWebsite": "http://www.test.com"
+            },
+            "MerchantDefinedFields": [{
+                "Id": "95",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }, {
+                "Id": "96",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }],
+            "Cart": {
+                "IsGift": false,
+                "ReturnsAccepted": false,
+                "Items": [{
+                    "Type": "Undefined",
+                    "Name": "Nome do produto",
+                    "Risk": "Undefined",
+                    "Sku": "201411170235",
+                    "UnitPrice": 10950,
+                    "Quantity": 1,
+                    "HostHedge": "Undefined",
+                    "NonSensicalHedge": "Undefined",
+                    "ObscenitiesHedge": "Undefined",
+                    "PhoneHedge": "Undefined",
+                    "TimeHedge": "Undefined",
+                    "VelocityHedge": "Undefined",
+                    "GiftCategory": "Undefined",
+                    "Passenger": {
+                        "Name": "Passageiro Teste1",
+                        "Identity": "1234567891",
+                        "Status": "Platinum",
+                        "Rating": "Student",
+                        "Email": "passageiro_teste1@live.com",
+                        "Phone": "55999993333",
+                        "DateOfBirth": "1988-01-06"
+                    },
+                    "OriginalPrice": 11490,
+                    "Description": "Descricao do produto",
+                    "Weight": 0,
+                    "GiftMessage": "Mensagem para presente",
+                    "ShippingInstructions": "Proximo ao 546",
+                    "ShippingMethod": "SameDay",
+                    "ShippingTrackingNumber": "123456",
+                    "CartType": 0,
+                    "MerchantItemId": "45584"
+                }, {
+                    "Type": "Undefined",
+                    "Name": "Nome do produto",
+                    "Risk": "Undefined",
+                    "Sku": "20141117023",
+                    "UnitPrice": 10950,
+                    "Quantity": 2,
+                    "HostHedge": "Undefined",
+                    "NonSensicalHedge": "Undefined",
+                    "ObscenitiesHedge": "Undefined",
+                    "PhoneHedge": "Undefined",
+                    "TimeHedge": "Undefined",
+                    "VelocityHedge": "Undefined",
+                    "GiftCategory": "Undefined",
+                    "Passenger": {
+                        "Name": "Passageiro Teste2",
+                        "Identity": "1234567892",
+                        "Status": "Gold",
+                        "Rating": "Adult",
+                        "Email": "passageiro_teste2@live.com",
+                        "Phone": "5521999994444",
+                        "DateOfBirth": "1958-07-06"
+                    },
+                    "OriginalPrice": 11490,
+                    "Description": "Descricao do produto",
+                    "Weight": 0,
+                    "GiftMessage": "Mensagem para presente",
+                    "ShippingInstructions": "Proximo ao 160",
+                    "ShippingMethod": "NextDay",
+                    "ShippingTrackingNumber": "654321",
+                    "CartType": 0,
+                    "MerchantItemId": "45585"
+                }]
+            },
+            "Travel": {
+                "Route": "GIG-CGH-EZE",
+                "DepartureTime": "2016-12-10T15:10:15",
+                "JourneyType": "OneWayTrip",
+                "Legs": [{
+                    "Destination": "CGH",
+                    "Origin": "GIG"
+                }, {
+                    "Destination": "EZE",
+                    "Origin": "CGH"
+                }]
+            },
+            "Browser": {
+                "CookiesAccepted": false,
+                "IpAddress": "187.32.163.105"
+            },
+            "Shipping": {
+                "Addressee": "Destinatario Teste",
+                "Phone": "5521995950277",
+                "Method": "LowCost",
+                "Email": "destinatario_teste@live.com"
+            },
+            "Id": "a97eb2ae-1355-e711-93ff-000d3ac03bed",
+            "Status": 0,
+            "StatusDescription": "Unknown",
+            "ReplyData": {
+                "FactorCode": "200.300.404",
+                "ReturnMessage": "invalid or missing parameter"
+            }
+        },
+        "PaymentId": "949e33e4-d410-4212-b111-d9c8fdc0580d",
+        "Type": "CreditCard",
+        "Amount": 15700,
+        "ReceivedDate": "2017-06-19 14:21:07",
+        "Currency": "BRL",
+        "Country": "BRA",
+        "Provider": "Simulado",
+        "ReasonCode": 0,
+        "ReasonMessage": "Successful",
+        "Status": 1,
+        "ProviderReturnCode": "4",
+        "ProviderReturnMessage": "Operation Successful",
+        "Links": [{
+            "Method": "GET",
+            "Rel": "self",
+            "Href": "https://apiquerydev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d"
+        }, {
+            "Method": "PUT",
+            "Rel": "capture",
+            "Href": "https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/capture"
+        }, {
+            "Method": "PUT",
+            "Rel": "void",
+            "Href": "https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/void"
+        }]
+    }
+}
+```
+
+```shell
+--header "Content-Type: application/json"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+    "MerchantOrderId": "201411170314344356",
+    "Customer": {
+        "Name": "Comprador Teste",
+        "Identity": "46286005030",
+        "IdentityType": "CPF",
+        "Email": "comprador_teste@live.com",
+        "Phone": "552125553669",
+        "Birthdate": "1986-08-01",
+        "Address": {
+            "Street": "Rua Teste",
+            "Number": "500",
+            "Complement": "AP 205",
+            "ZipCode": "21002320",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "District": "Tijuca"
+        },
+        "DeliveryAddress": {
+            "Street": "Av Marechal Camara",
+            "Number": "160",
+            "Complement": "Sala 934",
+            "ZipCode": "20020080",
+            "City": "Rio de Janeiro",
+            "State": "RJ",
+            "Country": "BR",
+            "District": "Centro",
+            "Comment": "Ao lado do banco Santander"
+        },
+        "Status": "New",
+        "WorkPhone": "552121544788",
+        "Mobile": "5521995760078"
+    },
+    "Payment": {
+        "ServiceTaxAmount": 0,
+        "Installments": 1,
+        "Interest": "ByMerchant",
+        "Capture": true,
+        "Authenticate": false,
+        "Recurrent": false,
+        "CreditCard": {
+            "CardNumber": "471622******6310",
+            "Holder": "Teste Holder",
+            "ExpirationDate": "12/2021",
+            "SaveCard": false,
+            "Brand": "Visa"
+        },
+        "ProofOfSale": "2110886",
+        "AcquirerTransactionId": "0619022110886",
+        "AuthorizationCode": "595071",
+        "FraudAnalysis": {
+            "Sequence": "AnalyseFirst",
+            "SequenceCriteria": "Always",
+            "FingerPrintId": "04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw==",
+            "Provider": "RedShield",
+            "CaptureOnLowRisk": true,
+            "VoidOnHighRisk": true,
+            "TotalOrderAmount": 16700,
+            "IsRetryTransaction": false,
+            "CustomConfiguration": {
+                "RiskAmount": 0,
+                "MerchantWebsite": "http://www.test.com"
+            },
+            "MerchantDefinedFields": [{
+                "Id": "95",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }, {
+                "Id": "96",
+                "Value": "Definido pelo cliente junto ao provedor"
+            }],
+            "Cart": {
+                "IsGift": false,
+                "ReturnsAccepted": false,
+                "Items": [{
+                    "Type": "Undefined",
+                    "Name": "Nome do produto",
+                    "Risk": "Undefined",
+                    "Sku": "201411170235",
+                    "UnitPrice": 10950,
+                    "Quantity": 1,
+                    "HostHedge": "Undefined",
+                    "NonSensicalHedge": "Undefined",
+                    "ObscenitiesHedge": "Undefined",
+                    "PhoneHedge": "Undefined",
+                    "TimeHedge": "Undefined",
+                    "VelocityHedge": "Undefined",
+                    "GiftCategory": "Undefined",
+                    "Passenger": {
+                        "Name": "Passageiro Teste1",
+                        "Identity": "1234567891",
+                        "Status": "Platinum",
+                        "Rating": "Student",
+                        "Email": "passageiro_teste1@live.com",
+                        "Phone": "55999993333",
+                        "DateOfBirth": "1988-01-06"
+                    },
+                    "OriginalPrice": 11490,
+                    "Description": "Descricao do produto",
+                    "Weight": 0,
+                    "GiftMessage": "Mensagem para presente",
+                    "ShippingInstructions": "Proximo ao 546",
+                    "ShippingMethod": "SameDay",
+                    "ShippingTrackingNumber": "123456",
+                    "CartType": 0,
+                    "MerchantItemId": "45584"
+                }, {
+                    "Type": "Undefined",
+                    "Name": "Nome do produto",
+                    "Risk": "Undefined",
+                    "Sku": "20141117023",
+                    "UnitPrice": 10950,
+                    "Quantity": 2,
+                    "HostHedge": "Undefined",
+                    "NonSensicalHedge": "Undefined",
+                    "ObscenitiesHedge": "Undefined",
+                    "PhoneHedge": "Undefined",
+                    "TimeHedge": "Undefined",
+                    "VelocityHedge": "Undefined",
+                    "GiftCategory": "Undefined",
+                    "Passenger": {
+                        "Name": "Passageiro Teste2",
+                        "Identity": "1234567892",
+                        "Status": "Gold",
+                        "Rating": "Adult",
+                        "Email": "passageiro_teste2@live.com",
+                        "Phone": "5521999994444",
+                        "DateOfBirth": "1958-07-06"
+                    },
+                    "OriginalPrice": 11490,
+                    "Description": "Descricao do produto",
+                    "Weight": 0,
+                    "GiftMessage": "Mensagem para presente",
+                    "ShippingInstructions": "Proximo ao 160",
+                    "ShippingMethod": "NextDay",
+                    "ShippingTrackingNumber": "654321",
+                    "CartType": 0,
+                    "MerchantItemId": "45585"
+                }]
+            },
+            "Travel": {
+                "Route": "GIG-CGH-EZE",
+                "DepartureTime": "2016-12-10T15:10:15",
+                "JourneyType": "OneWayTrip",
+                "Legs": [{
+                    "Destination": "CGH",
+                    "Origin": "GIG"
+                }, {
+                    "Destination": "EZE",
+                    "Origin": "CGH"
+                }]
+            },
+            "Browser": {
+                "CookiesAccepted": false,
+                "IpAddress": "187.32.163.105"
+            },
+            "Shipping": {
+                "Addressee": "Destinatario Teste",
+                "Phone": "5521995950277",
+                "Method": "LowCost",
+                "Email": "destinatario_teste@live.com"
+            },
+            "Id": "a97eb2ae-1355-e711-93ff-000d3ac03bed",
+            "Status": 0,
+            "StatusDescription": "Unknown",
+            "ReplyData": {
+                "FactorCode": "200.300.404",
+                "ReturnMessage": "invalid or missing parameter"
+            }
+        },
+        "PaymentId": "949e33e4-d410-4212-b111-d9c8fdc0580d",
+        "Type": "CreditCard",
+        "Amount": 15700,
+        "ReceivedDate": "2017-06-19 14:21:07",
+        "Currency": "BRL",
+        "Country": "BRA",
+        "Provider": "Simulado",
+        "ReasonCode": 0,
+        "ReasonMessage": "Successful",
+        "Status": 1,
+        "ProviderReturnCode": "4",
+        "ProviderReturnMessage": "Operation Successful",
+        "Links": [{
+            "Method": "GET",
+            "Rel": "self",
+            "Href": "https://apiquerydev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d"
+        }, {
+            "Method": "PUT",
+            "Rel": "capture",
+            "Href": "https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/capture"
+        }, {
+            "Method": "PUT",
+            "Rel": "void",
+            "Href": "https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/void"
+        }]
+    }
+}
+```
+
+|Property|Description|Type|Size|Format|
+|--------|-----------|----|----|------|
+|`AcquirerTransactionId`|Provider's Transaction ID |Text|40|Alphanumeric Text|
+|`ProofOfSale`|Provider's Proof of Sale Code|Text|20|Alphanumeric Text|
+|`AuthorizationCode`|Provider's Authorization Code|Text|300|Alphanumeric Text|
+|`SoftDescriptor`|Texto que será impresso na fatura do portador|Text|13|Alphanumeric Text|
+|`PaymentId`|Braspag's Transaction ID|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Transaction's received date|Text|19|YYYY-MM-DD HH:mm:SS|
+|`ReasonCode`|Operation's Reason Code|Text|32|Alphanumeric Text|
+|`ReasonMessage`|Operation's Reason Message|Text|512|Alphanumeric Text|
+|`Status`|Transaction's Status|Byte|2|1|
+|`ProviderReturnCode`|Acquirer or Bank’s return code.|Text|32|57|
+|`ProviderReturnMessage`|Acquirer or Issuer’s return message|Text|32|57||Text|512|Transação Aprovada|
+|`FraudAnalysis.Id`|Indentificação da Transação no Antifraud|Text|300|Alphanumeric Text|
+|`FraudAnalysis.Status`|Transaction status|Byte|---|2|
+|`FraudAnalysis.ReplyData.FactorCode`|Codes that identifies the score level of an order|Text|100|Ex: B^D^R^Z<br /><UL><LI>A - Excessive Change of Address.The customer has changed the billing address two or more times in the last six months.</LI>
+<LI>B - BIN card or risk authorization. Risk factors are related to credit card and BIN / or card authorization checks.</LI>
+<LI>C - High numbers of credit cards.The customer has used more than six numbers of credit cards in the past six months.</LI>
+<LI>D - Impact of the e-mail address.The customer uses a free email provider or e-mail address is risky.</LI>
+<LI>E - Positive list. The customer is in its positive list.</LI>
+<LI>F - Negative list. The account number, address, email address or IP address for this purpose appears in its negative list.</LI>
+<LI>G - geolocation inconsistencies.The email client domain, phone number, billing address, shipping address or IP address is suspect.</LI>
+<LI>H - excessive name changes.The customer changed its name twice or more in the past six months.</LI>
+<LI>I - Internet inconsistencies.The IP address and e-mail domain are not consistent with the billing address.</LI>
+<LI>N - Entrance meaningless.The customer name and address fields contain meaningless words or language.</LI>
+<LI>The - obscenities.Customer data contains obscene words.</LI>
+<LI>P - morphing identity. Various amounts of an identity element are attached to a different value of an identity element. For example, various telephone numbers are connected to a single account number.</LI>
+<LI>Q - Inconsistencies phone. The customer’s phone number is suspect.</LI>
+<LI>R - risky Order.The transaction, the customer and the merchant show information correlated high risk.</LI>
+<LI>T - Time Coverage. The client is attempting a purchase outside the expected time.</LI>
+<LI>U - unverifiable address. The billing address or delivery can not be verified.</LI>
+<LI>V - Velocity.The account number was used many times in the last 15 minutes.</LI>
+<LI>W - marked as suspect. The billing address and delivery is similar to an address previously marked suspect.</LI>
+<LI>Y - The address, city, state or country of billing and shipping addresses do not correlate.</LI>
+<LI>Z - Invalid value. As the request it contains an unexpected value, a default value has been replaced. Although the transaction can still be processed, examine the application carefully to detect abnormalities.</LI></UL>|
+
 ## Saving a Credit Card
 
 Using the "Cartão Protegido), it is possible to save a card in the form of a Token. This token can be provided in place of the card data in a transaction from the same customer. It is important to note that due to security issues, the CVV (Security Code) never be tokenized.
@@ -1605,7 +2450,8 @@ Using the "Cartão Protegido), it is possible to save a card in the form of a To
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa",
-         "SaveCard":true
+         "SaveCard":true,
+		 "Alias": "Cliente1"
      }
    }
 }
@@ -1635,7 +2481,8 @@ curl
          "ExpirationDate":"12/2021",
          "SecurityCode":"123",
          "Brand":"Visa",
-         "SaveCard":true
+         "SaveCard":true,
+		 "Alias": "Cliente1"
      }
    }
 }
@@ -1659,6 +2506,7 @@ curl
 |`CreditCard.SecurityCode`|Text|4|Yes|Security Code (CVV2)|
 |`CreditCard.Brand`|Text|10|Yes|Card's Brand|
 |`CreditCard.SaveCard`|Boolean|10|No|No (Default false)|If the card must be saved, then true. Else false.|
+|`CreditCard.Alias`|Text|64|Não |Alias (Nickname) of the credit card|
 
 ### Response
 
@@ -1672,7 +2520,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -1681,7 +2529,8 @@ curl
       "ExpirationDate": "12/2021",
       "SaveCard": true,
       "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
-      "Brand": "Visa"
+      "Brand": "Visa",
+	  "Alias": "Cliente1"
     },
     "ProofOfSale": "3519928",
     "AcquirerTransactionId": "0511023519928",
@@ -1736,7 +2585,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -1745,7 +2594,8 @@ curl
       "ExpirationDate": "12/2021",
       "SaveCard": true,
       "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
-      "Brand": "Visa"
+      "Brand": "Visa",
+	  "Alias": "Cliente1"
     },
     "ProofOfSale": "3519928",
     "AcquirerTransactionId": "0511023519928",
@@ -1882,7 +2732,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -1939,12 +2789,210 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
       "SaveCard": false,
       "CardToken": "250e7c7c-5501-4a7c-aa42-a33d7ad61167",
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "124305",
+    "AcquirerTransactionId": "0511030124305",
+    "AuthorizationCode": "065964",
+    "PaymentId": "23cd8bf5-2251-4991-9042-533ff5608788",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:01:24",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+      }
+    ]
+  }
+}
+```
+
+|Property|Description|Type|Size|Format|
+|--------|-----------|----|----|------|
+|`AcquirerTransactionId`|Provider's Transaction ID |Text|40|Alphanumeric Text|
+|`ProofOfSale`|Provider's Proof of Sale Code|Text|20|Alphanumeric Text|
+|`AuthorizationCode`|Provider's Authorization Code|Text|300|Alphanumeric Text|
+|`PaymentId`|Braspag's Transaction ID|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Transaction's received date|Text|19|YYYY-MM-DD HH:mm:SS|
+|`ReasonCode`|Operation's Reason Code|Text|32|Alphanumeric Text|
+|`ReasonMessage`|Operation's Reason Message|Text|512|Alphanumeric Text|
+|`Status`|Transaction's Status|Byte|2|1|
+|`ProviderReturnCode`|Acquirer or Bank’s return code.|Text|32|57|
+|`ProviderReturnMessage`|Acquirer or Issuer’s return message|Text|32|57||Text|512|Transação Aprovada|
+
+## Credit Card Payment with Alias
+
+This is an example of how to use the previously saved Alias to create a new transaction. For security reasons, a Alias has not stored the Security Code. In this case, you need to request this information from the customer for each new transaction (except in cases of recurring transactions).
+
+### Request
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+
+```json
+{
+   "MerchantOrderId":"2017051105",
+   "Customer":{
+      "Name":"Customer's Name"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "Alias":"Cliente1",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+```
+
+```shell
+curl
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+   "MerchantOrderId":"2017051105",
+   "Customer":{
+      "Name":"Customer's Name"
+   },
+   "Payment":{
+     "Provider":"Simulado",
+     "Type":"CreditCard",
+     "Amount":10000,
+     "Installments":1,
+     "CreditCard":{
+         "Alias":"Cliente1",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+--verbose
+```
+
+|Property|Type|Size|Mandatory|Description|
+|--------|----|----|---------|-----------|
+|`MerchantId`|Guid|36|Yes|Merchant Identifier|
+|`MerchantKey`|Text|40|Yes|Merchant Key need to access the API|
+|`RequestId`|Guid|36|No|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|
+|`MerchantOrderId`|Text|50|Yes|Merchant Order ID|
+|`Customer.Name`|Text|255|Yes|Customer's Name|
+|`Payment.Provider`|Text|15|Yes|Payment Method Provider's name|
+|`Payment.Type`|Text|100|Yes|Payment Method's Type|
+|`Payment.Amount`|Number|15|Yes|Transaction Amount (must be sent in cents)|
+|`Payment.Installments`|Number|2|Yes|Number of Installments|
+|`CreditCard.CardToken`|Token no Cartão Protegido que representa os dados do cartão|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`CreditCard.SecurityCode`|Text|4|Yes|Security Code (CVV2)|
+|`CreditCard.Brand`|Text|10|Yes|Card's Brand|
+|`CreditCard.Alias`|Text|64|Não |Alias (Nickname) of the credit card|
+
+### Response
+
+```json
+{
+  "MerchantOrderId": "2017051105",
+  "Customer": {
+    "Name": "Customer's Name"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "SaveCard": false,
+      "Alias":"Cliente1",
+      "Brand": "Visa"
+    },
+    "ProofOfSale": "124305",
+    "AcquirerTransactionId": "0511030124305",
+    "AuthorizationCode": "065964",
+    "PaymentId": "23cd8bf5-2251-4991-9042-533ff5608788",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 15:01:24",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Simulado",
+    "ReasonCode": 0,
+    "ReasonMessage": "Successful",
+    "Status": 1,
+    "ProviderReturnCode": "4",
+    "ProviderReturnMessage": "Operation Successful",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "capture",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"
+      },
+      {
+        "Method": "PUT",
+        "Rel": "void",
+        "Href": "https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"
+      }
+    ]
+  }
+}
+```
+
+```shell
+--header "Content-Type: application/json"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+  "MerchantOrderId": "2017051105",
+  "Customer": {
+    "Name": "Customer's Name"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true
+    "Authenticate": false,
+    "Recurrent": false,
+    "CreditCard": {
+      "SaveCard": false,
+      "Alias":"Cliente1",
       "Brand": "Visa"
     },
     "ProofOfSale": "124305",
@@ -2327,7 +3375,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2401,7 +3449,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2540,7 +3588,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2591,7 +3639,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3514,7 +4562,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3587,7 +4635,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3653,7 +4701,7 @@ curl
 |`NextRecurrency`|The next payment date|Text|7 |05/2019 (MM/YYYY) |
 |`EndDate`|Recurrency end date |Text|7 |05/2019 (MM/YYYY) |
 |`Interval`|Recurrency Interval |Text|10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
-|`AuthorizeNow`|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transaction|Booleano |--- |true ou false |
+|`AuthorizeNow`|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transactionBoolean |--- |true ou false |
 
 ## Scheduling a Recurrent Payment
 
@@ -3741,7 +4789,7 @@ curl
 |`Payment.RecurrentPayment.StartDate`|Text|10 |No|Recurrency start date|
 |`Payment.RecurrentPayment.EndDate`|Text|10 |No|Recurrency end date|
 |`Payment.RecurrentPayment.Interval`|Text|10 |No|Interval between recurrencies.<br /><ul><li>Monthly (Default) </li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
-|`Payment.RecurrentPayment.AuthorizeNow`|Booleano |--- |Yes|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transaction|
+|`Payment.RecurrentPayment.AuthorizeNow`Boolean |--- |Yes|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transaction|
 |`CreditCard.CardNumber`|Text|16|Yes|Credit Card number|
 |`CreditCard.Holder`|Text|25|Yes|Cardholder name|
 |`CreditCard.ExpirationDate`|Text|7|Yes|Expiration Date (MM/YYYY)|
@@ -3760,7 +4808,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3808,7 +4856,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3850,7 +4898,7 @@ curl
 |`StartDate`|Recurrency start date |Text|7 |05/2019 (MM/YYYY) |
 |`EndDate`|Recurrency end date |Text|7 |05/2019 (MM/YYYY) |
 |`Interval`|Interval between recurrences |Text|10 |<ul><li>Monthly</li><li>Bimonthly </li><li>Quarterly </li><li>SemiAnnual </li><li>Annual</li></ul> |
-|`AuthorizeNow`|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transaction|Booleano |--- |true ou false |
+|`AuthorizeNow`|If set true, the transaction will be authorized at the same time of request. If false, it will be just a scheduled transactionBoolean |--- |true ou false |
 
 ## Change customer's data
 
@@ -3933,7 +4981,7 @@ curl
 |`MerchantId`|Merchant Identifier|Guid|3|Yes|
 |`MerchantKey`|Merchant Key need to access the API|Text|40|Yes|
 |`RequestId`|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|Guid|36|No|
-|`RecurrentPaymentId`|Numero de identificação da Recorrência. |Text|50 |Yes|
+|`RecurrentPaymentId`|Number de identificação da Recorrência. |Text|50 |Yes|
 |`MerchantOrderId`|Merchant Order ID|Text|50|Yes|
 |`Customer.Name`|Customer's Name|Text|255|Yes|
 |`Customer.Identity`|No|Customer's RG, CPF or CNPJ|Text|14|
@@ -4379,7 +5427,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "CreditCard": {
       "CardNumber": "455187******0181",
@@ -4439,7 +5487,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": false,
+    "Capture": true
     "Authenticate": false,
     "CreditCard": {
       "CardNumber": "455187******0181",
@@ -4515,7 +5563,7 @@ curl
 |`Payment.Capture`|If automatic capture behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|Boolean|--- (Default false)|Boolean|
 |`Payment.Authenticate`|If authentication behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|Boolean|--- (Default false)|Boolean|
 |`Payment.Recurrent`|If recurrent behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|Boolean|--- (Default false)|Boolean|
-|`Payment.SoftDescriptor`|Texto que será impresso na fatura do portador|Text|13|Alphanumeric Text|
+|`Payment.SoftDescriptor`|Text que será impresso na fatura do portador|Text|13|Alphanumeric Text|
 |`Payment.ExtraDataCollection.Name`|Extra Data field's name|Text|50|Alphanumeric Text|
 |`Payment.ExtraDataCollection.Value`|Extra Data field's value|Text|1024|Alphanumeric Text|
 |`Payment.AcquirerTransactionId`|Provider's Transaction ID |Text|40|Alphanumeric Text|
