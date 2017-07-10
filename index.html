@@ -390,7 +390,7 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -447,7 +447,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -1506,7 +1506,7 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -1552,7 +1552,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">true</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -3007,6 +3007,1575 @@
 </tr>
 </tbody></table>
 
+<h2 id="criando-uma-transação-com-análise-de-fraude-red-shield">Criando uma transação com Análise de Fraude ReD Shield</h2>
+
+<p>Para que a análise de fraude seja efetuada em tempo de transação, é necessário complementar a mensagem com os dados mencionados no nó &ldquo;FraudAnalysis&rdquo;. </p>
+
+<h3 id="requisição">Requisição</h3>
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"201411170314344356"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comprador Teste"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46286005030"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"IdentityType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CPF"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comprador_teste@live.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Birthdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1986-08-01"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"WorkPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"552121544788"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521995760078"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"552125553669"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rua Teste"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Complement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AP 205"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"District"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tijuca"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ZipCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21002320"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"City"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rio de Janeiro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"State"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RJ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BR"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"DeliveryAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Av Marechal Camara"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"160"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Complement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sala 934"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"District"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Centro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ZipCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20020080"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"City"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rio de Janeiro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"State"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RJ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BR"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ao lado do banco Santander"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"Payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15700</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"****6310"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Teste Holder"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12/2021"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SecurityCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"***"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"visa"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"FraudAnalysis"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Sequence"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AnalyseFirst"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SequenceCriteria"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Always"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RedShield"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"CaptureOnLowRisk"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"VoidOnHighRisk"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"TotalOrderAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">16700</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"OrderDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-09T19:16:38"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IsRetryTransaction"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SplitingPaymentMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"FingerPrintId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw=="</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Browser"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"IpAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"187.32.163.105"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Cart"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Items"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"201411170235"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"UnitPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">10950</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"OriginalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">11490</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MerchantItemId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"45584"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mensagem para presente"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descricao do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingInstructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Proximo ao 546"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SameDay"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingTrackingNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Passenger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passageiro Teste1"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234567891"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Platinum"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Rating"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Student"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passageiro_teste1@live.com"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55999993333"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1988-01-06"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20141117023"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"UnitPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">10950</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"OriginalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">11490</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MerchantItemId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"45585"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mensagem para presente"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descricao do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingInstructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Proximo ao 160"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NextDay"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingTrackingNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"654321"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Passenger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passageiro Teste2"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234567892"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Rating"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Adult"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passageiro_teste2@live.com"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521999994444"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1958-07-06"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">}]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"MerchantDefinedFields"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Definido pelo cliente junto ao provedor"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"96"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Definido pelo cliente junto ao provedor"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"Shipping"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Destinatario Teste"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destinatario_teste@live.com"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowCost"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521995950277"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"CustomConfiguration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"MerchantWebsite"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.test.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Travel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Route"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GIG-CGH-EZE"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-10T15:10:15"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"JourneyType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OneWayTrip"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Legs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"Origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GIG"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CGH"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"Origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CGH"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EZE"</span><span class="w">
+                </span><span class="p">}]</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">curl
+--request POST <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/"</span>
+--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--header <span class="s2">"MerchantKey: 0123456789012345678901234567890123456789"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>
+    <span class="s2">"MerchantOrderId"</span>: <span class="s2">"201411170314344356"</span>,
+    <span class="s2">"Customer"</span>: <span class="o">{</span>
+        <span class="s2">"Name"</span>: <span class="s2">"Comprador Teste"</span>,
+        <span class="s2">"Identity"</span>: <span class="s2">"46286005030"</span>,
+        <span class="s2">"IdentityType"</span>: <span class="s2">"CPF"</span>,
+        <span class="s2">"Email"</span>: <span class="s2">"comprador_teste@live.com"</span>,
+        <span class="s2">"Birthdate"</span>: <span class="s2">"1986-08-01"</span>,
+        <span class="s2">"WorkPhone"</span>: <span class="s2">"552121544788"</span>,
+        <span class="s2">"Mobile"</span>: <span class="s2">"5521995760078"</span>,
+        <span class="s2">"Phone"</span>: <span class="s2">"552125553669"</span>,
+        <span class="s2">"Address"</span>: <span class="o">{</span>
+            <span class="s2">"Street"</span>: <span class="s2">"Rua Teste"</span>,
+            <span class="s2">"Number"</span>: <span class="s2">"500"</span>,
+            <span class="s2">"Complement"</span>: <span class="s2">"AP 205"</span>,
+            <span class="s2">"District"</span>: <span class="s2">"Tijuca"</span>,
+            <span class="s2">"ZipCode"</span>: <span class="s2">"21002320"</span>,
+            <span class="s2">"City"</span>: <span class="s2">"Rio de Janeiro"</span>,
+            <span class="s2">"State"</span>: <span class="s2">"RJ"</span>,
+            <span class="s2">"Country"</span>: <span class="s2">"BR"</span>
+        <span class="o">}</span>,
+        <span class="s2">"DeliveryAddress"</span>: <span class="o">{</span>
+            <span class="s2">"Street"</span>: <span class="s2">"Av Marechal Camara"</span>,
+            <span class="s2">"Number"</span>: <span class="s2">"160"</span>,
+            <span class="s2">"Complement"</span>: <span class="s2">"Sala 934"</span>,
+            <span class="s2">"District"</span>: <span class="s2">"Centro"</span>,
+            <span class="s2">"ZipCode"</span>: <span class="s2">"20020080"</span>,
+            <span class="s2">"City"</span>: <span class="s2">"Rio de Janeiro"</span>,
+            <span class="s2">"State"</span>: <span class="s2">"RJ"</span>,
+            <span class="s2">"Country"</span>: <span class="s2">"BR"</span>,
+            <span class="s2">"Comment"</span>: <span class="s2">"Ao lado do banco Santander"</span>
+        <span class="o">}</span>,
+        <span class="s2">"Status"</span>: <span class="s2">"New"</span>
+    <span class="o">}</span>,
+    <span class="s2">"Payment"</span>: <span class="o">{</span>
+        <span class="s2">"Type"</span>: <span class="s2">"CreditCard"</span>,
+        <span class="s2">"Amount"</span>: 15700,
+        <span class="s2">"Provider"</span>: <span class="s2">"Simulado"</span>,
+        <span class="s2">"Installments"</span>: 1,
+        <span class="s2">"CreditCard"</span>: <span class="o">{</span>
+            <span class="s2">"CardNumber"</span>: <span class="s2">"****6310"</span>,
+            <span class="s2">"Holder"</span>: <span class="s2">"Teste Holder"</span>,
+            <span class="s2">"ExpirationDate"</span>: <span class="s2">"12/2021"</span>,
+            <span class="s2">"SecurityCode"</span>: <span class="s2">"***"</span>,
+            <span class="s2">"Brand"</span>: <span class="s2">"visa"</span>
+        <span class="o">}</span>,
+        <span class="s2">"FraudAnalysis"</span>: <span class="o">{</span>
+            <span class="s2">"Sequence"</span>: <span class="s2">"AnalyseFirst"</span>,
+            <span class="s2">"SequenceCriteria"</span>: <span class="s2">"Always"</span>,
+            <span class="s2">"Provider"</span>: <span class="s2">"RedShield"</span>,
+            <span class="s2">"CaptureOnLowRisk"</span>: <span class="nb">true</span>,
+            <span class="s2">"VoidOnHighRisk"</span>: <span class="nb">true</span>,
+            <span class="s2">"TotalOrderAmount"</span>: 16700,
+            <span class="s2">"OrderDate"</span>: <span class="s2">"2016-12-09T19:16:38"</span>,
+            <span class="s2">"IsRetryTransaction"</span>: <span class="nb">false</span>,
+            <span class="s2">"SplitingPaymentMethod"</span>: <span class="s2">"None"</span>,
+            <span class="s2">"FingerPrintId"</span>: <span class="s2">"04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw=="</span>,
+            <span class="s2">"Browser"</span>: <span class="o">{</span>
+                <span class="s2">"IpAddress"</span>: <span class="s2">"187.32.163.105"</span>
+            <span class="o">}</span>,
+            <span class="s2">"Cart"</span>: <span class="o">{</span>
+                <span class="s2">"Items"</span>: <span class="o">[{</span>
+                    <span class="s2">"Name"</span>: <span class="s2">"Nome do produto"</span>,
+                    <span class="s2">"Sku"</span>: <span class="s2">"201411170235"</span>,
+                    <span class="s2">"UnitPrice"</span>: 10950,
+                    <span class="s2">"OriginalPrice"</span>: 11490,
+                    <span class="s2">"Quantity"</span>: 1,
+                    <span class="s2">"MerchantItemId"</span>: <span class="s2">"45584"</span>,
+                    <span class="s2">"GiftMessage"</span>: <span class="s2">"Mensagem para presente"</span>,
+                    <span class="s2">"Description"</span>: <span class="s2">"Descricao do produto"</span>,
+                    <span class="s2">"ShippingInstructions"</span>: <span class="s2">"Proximo ao 546"</span>,
+                    <span class="s2">"ShippingMethod"</span>: <span class="s2">"SameDay"</span>,
+                    <span class="s2">"ShippingTrackingNumber"</span>: <span class="s2">"123456"</span>,
+                    <span class="s2">"Passenger"</span>: <span class="o">{</span>
+                        <span class="s2">"Name"</span>: <span class="s2">"Passageiro Teste1"</span>,
+                        <span class="s2">"Identity"</span>: <span class="s2">"1234567891"</span>,
+                        <span class="s2">"Status"</span>: <span class="s2">"Platinum"</span>,
+                        <span class="s2">"Rating"</span>: <span class="s2">"Student"</span>,
+                        <span class="s2">"Email"</span>: <span class="s2">"passageiro_teste1@live.com"</span>,
+                        <span class="s2">"Phone"</span>: <span class="s2">"55999993333"</span>,
+                        <span class="s2">"DateOfBirth"</span>: <span class="s2">"1988-01-06"</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>, <span class="o">{</span>
+                    <span class="s2">"Name"</span>: <span class="s2">"Nome do produto"</span>,
+                    <span class="s2">"Sku"</span>: <span class="s2">"20141117023"</span>,
+                    <span class="s2">"UnitPrice"</span>: 10950,
+                    <span class="s2">"OriginalPrice"</span>: 11490,
+                    <span class="s2">"Quantity"</span>: 2,
+                    <span class="s2">"MerchantItemId"</span>: <span class="s2">"45585"</span>,
+                    <span class="s2">"GiftMessage"</span>: <span class="s2">"Mensagem para presente"</span>,
+                    <span class="s2">"Description"</span>: <span class="s2">"Descricao do produto"</span>,
+                    <span class="s2">"ShippingInstructions"</span>: <span class="s2">"Proximo ao 160"</span>,
+                    <span class="s2">"ShippingMethod"</span>: <span class="s2">"NextDay"</span>,
+                    <span class="s2">"ShippingTrackingNumber"</span>: <span class="s2">"654321"</span>,
+                    <span class="s2">"Passenger"</span>: <span class="o">{</span>
+                        <span class="s2">"Name"</span>: <span class="s2">"Passageiro Teste2"</span>,
+                        <span class="s2">"Identity"</span>: <span class="s2">"1234567892"</span>,
+                        <span class="s2">"Status"</span>: <span class="s2">"Gold"</span>,
+                        <span class="s2">"Rating"</span>: <span class="s2">"Adult"</span>,
+                        <span class="s2">"Email"</span>: <span class="s2">"passageiro_teste2@live.com"</span>,
+                        <span class="s2">"Phone"</span>: <span class="s2">"5521999994444"</span>,
+                        <span class="s2">"DateOfBirth"</span>: <span class="s2">"1958-07-06"</span>
+                    <span class="o">}</span>
+                <span class="o">}]</span>
+            <span class="o">}</span>,
+            <span class="s2">"MerchantDefinedFields"</span>: <span class="o">[{</span>
+                <span class="s2">"Id"</span>: <span class="s2">"95"</span>,
+                <span class="s2">"Value"</span>: <span class="s2">"Definido pelo cliente junto ao provedor"</span>
+            <span class="o">}</span>, <span class="o">{</span>
+                <span class="s2">"Id"</span>: <span class="s2">"96"</span>,
+                <span class="s2">"Value"</span>: <span class="s2">"Definido pelo cliente junto ao provedor"</span>
+            <span class="o">}]</span>,
+            <span class="s2">"Shipping"</span>: <span class="o">{</span>
+                <span class="s2">"Addressee"</span>: <span class="s2">"Destinatario Teste"</span>,
+                <span class="s2">"Email"</span>: <span class="s2">"destinatario_teste@live.com"</span>,
+                <span class="s2">"Method"</span>: <span class="s2">"LowCost"</span>,
+                <span class="s2">"Phone"</span>: <span class="s2">"5521995950277"</span>
+            <span class="o">}</span>,
+            <span class="s2">"CustomConfiguration"</span>: <span class="o">{</span>
+                <span class="s2">"MerchantWebsite"</span>: <span class="s2">"http://www.test.com"</span>
+            <span class="o">}</span>,
+            <span class="s2">"Travel"</span>: <span class="o">{</span>
+                <span class="s2">"Route"</span>: <span class="s2">"GIG-CGH-EZE"</span>,
+                <span class="s2">"DepartureTime"</span>: <span class="s2">"2016-12-10T15:10:15"</span>,
+                <span class="s2">"JourneyType"</span>: <span class="s2">"OneWayTrip"</span>,
+                <span class="s2">"Legs"</span>: <span class="o">[{</span>
+                    <span class="s2">"Origin"</span>: <span class="s2">"GIG"</span>,
+                    <span class="s2">"Destination"</span>: <span class="s2">"CGH"</span>
+                <span class="o">}</span>, <span class="o">{</span>
+                    <span class="s2">"Origin"</span>: <span class="s2">"CGH"</span>,
+                    <span class="s2">"Destination"</span>: <span class="s2">"EZE"</span>
+                <span class="o">}]</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+--verbose
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Tamanho</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">MerchantId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>Sim</td>
+<td>Identificador da loja na Braspag</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantKey</code></td>
+<td>Texto</td>
+<td>40</td>
+<td>Sim</td>
+<td>Chave Publica para Autenticação Dupla na Braspag</td>
+</tr>
+<tr>
+<td><code class="prettyprint">RequestId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>Não</td>
+<td>Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantOrderId</code></td>
+<td>Texto</td>
+<td>50</td>
+<td>Sim</td>
+<td>Numero de identificação do Pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Name</code></td>
+<td>Texto</td>
+<td>61</td>
+<td>Sim</td>
+<td>Nome do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Identity</code></td>
+<td>Número</td>
+<td>14</td>
+<td>Sim</td>
+<td>Número do RG, CPF ou CNPJ do Cliente</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.IdentityType</code></td>
+<td>Texto</td>
+<td>25</td>
+<td>Sim</td>
+<td>Tipo de documento de identificação do comprador (CPF ou CNPJ)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Email</code></td>
+<td>Texto</td>
+<td>60</td>
+<td>Sim</td>
+<td>Email do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Birthdate</code></td>
+<td>Date</td>
+<td>10</td>
+<td>Não</td>
+<td>Data de nascimento do Comprador no formato AAAA-MM-DD</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.WorkPhone</code></td>
+<td>Número</td>
+<td>19</td>
+<td>Não</td>
+<td>Número do telefone de trabalho do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Mobile</code></td>
+<td>Número</td>
+<td>19</td>
+<td>Não</td>
+<td>Número do celular do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Phone</code></td>
+<td>Número</td>
+<td>19</td>
+<td>Não</td>
+<td>Número do telefone do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Street</code></td>
+<td>Texto</td>
+<td>24</td>
+<td>Sim</td>
+<td>Endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Number</code></td>
+<td>Texto</td>
+<td>5</td>
+<td>Sim</td>
+<td>Número endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Complement</code></td>
+<td>Texto</td>
+<td>14</td>
+<td>Sim</td>
+<td>Complemento do endereço de contato do Comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.District</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Bairro do Comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.ZipCode</code></td>
+<td>Texto</td>
+<td>9</td>
+<td>Sim</td>
+<td>CEP do endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.City</code></td>
+<td>Texto</td>
+<td>20</td>
+<td>Sim</td>
+<td>Cidade do endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.State</code></td>
+<td>Texto</td>
+<td>2</td>
+<td>Sim</td>
+<td>Estado do endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Country</code></td>
+<td>Texto</td>
+<td>2</td>
+<td>Sim</td>
+<td>Pais do endereço de contato do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.Street</code></td>
+<td>Texto</td>
+<td>24</td>
+<td>Sim</td>
+<td>Endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.Number</code></td>
+<td>Texto</td>
+<td>5</td>
+<td>Sim</td>
+<td>Número do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.Complement</code></td>
+<td>Texto</td>
+<td>14</td>
+<td>Não</td>
+<td>Complemento do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.District</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Bairro do Comprador.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.ZipCode</code></td>
+<td>Texto</td>
+<td>9</td>
+<td>Sim</td>
+<td>CEP do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.City</code></td>
+<td>Texto</td>
+<td>20</td>
+<td>Sim</td>
+<td>Cidade do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.State</code></td>
+<td>Texto</td>
+<td>2</td>
+<td>Sim</td>
+<td>Estado do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.Country</code></td>
+<td>Texto</td>
+<td>2</td>
+<td>Sim</td>
+<td>Pais do endereço de entrega do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.DeliveryAddress.Comment</code></td>
+<td>Texto</td>
+<td>160</td>
+<td>Não</td>
+<td>Referências do endereço de entrega</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Status</code></td>
+<td>Texto</td>
+<td>8</td>
+<td>Não</td>
+<td>Status do comprador na loja. New -&gt; Identifica quando o comprador é novo na loja, nunca fez uma compra. Existing -&gt; identifica quando o comprador já é existente na loja, já realizou uma compra.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Type</code></td>
+<td>Texto</td>
+<td>100</td>
+<td>Sim</td>
+<td>Tipo do Meio de Pagamento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Amount</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Valor do Pedido (ser enviado em centavos)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Provider</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Nome da provedora de Meio de Pagamento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Installments</code></td>
+<td>Número</td>
+<td>2</td>
+<td>Sim</td>
+<td>Número de Parcelas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.CardNumber</code></td>
+<td>Texto</td>
+<td>16</td>
+<td>Sim</td>
+<td>Número do Cartão do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Holder</code></td>
+<td>Texto</td>
+<td>25</td>
+<td>Sim</td>
+<td>Nome do portador impresso no cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.ExpirationDate</code></td>
+<td>Texto</td>
+<td>7</td>
+<td>Sim</td>
+<td>Data de validade impresso no cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.SecurityCode</code></td>
+<td>Texto</td>
+<td>4</td>
+<td>Sim</td>
+<td>Código de segurança impresso no verso do cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Brand</code></td>
+<td>Texto</td>
+<td>10</td>
+<td>Sim</td>
+<td>Bandeira do cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Interest</code></td>
+<td>Texto</td>
+<td>10</td>
+<td>Não</td>
+<td>Tipo de parcelamento - Loja (ByMerchant - opção default) ou Emissor (ByIssuer)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Capture</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não (Default false)</td>
+<td>Booleano que indica se a autorização deve ser com captura automática (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Authenticate</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não (Default false)</td>
+<td>Booleano que indica se a transação deve ser autenticada (true) ou não (false). Deverá verificar junto à adquirente a disponibilidade desta funcionalidade</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Recurrent</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não (Default false)</td>
+<td>Booleano que indica se a transação é do tipo recorrente (true) ou não (false). Este com valor true não originará uma nova Recorrência, apenas permitirá a realização de uma transação sem a necessidade de envio do CVV. Somente para transações Cielo. Authenticate deve ser false quando Recurrent é true</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.SoftDescriptor</code></td>
+<td>Texto</td>
+<td>13</td>
+<td>Não</td>
+<td>Texto que será impresso na fatura do portador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ExtraDataCollection.Name</code></td>
+<td>Texto</td>
+<td>50</td>
+<td>Não</td>
+<td>Nome do campo que será gravado o Dado Extra</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ExtraDataCollection.Value</code></td>
+<td>Texto</td>
+<td>1024</td>
+<td>Não</td>
+<td>Valor do campo que será gravado o Dado Extra</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.SaveCard</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não (Default false)</td>
+<td>Booleano que identifica se o cartão será salvo para gerar o token (CardToken)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Sequence</code></td>
+<td>Texto</td>
+<td>14</td>
+<td>Sim</td>
+<td>Tipo de Fluxo para realização da análise de fraude. Primeiro Analise (AnalyseFirst) ou Primeiro Autorização (AuthorizeFirst)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.SequenceCriteria</code></td>
+<td>Texto</td>
+<td>9</td>
+<td>Sim</td>
+<td>Critério do fluxo.<BR><UL><LI>OnSuccess - Só realiza a analise se tiver sucesso na transação</LI><LI>Always - Sempre realiza a analise</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Provider</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Nome do provedor de Antofraude (Ex.: RedShield, Cybersource, etc)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.CaptureOnLowRisk</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Booleano que identifica se a autorização deve ser com captura automática quando o risco de fraude for considerado baixo (Accept). Em casos de Reject ou Review, o fluxo permanece o mesmo, ou seja, a captura acontecerá conforme o valor especificado no parâmetro &ldquo;Capture&rdquo;. Para a utilização deste parâmetro, a sequência do fluxo de análise de risco deve ser obrigatoriamente &ldquo;AuthorizeFirst&rdquo;. Por depender do resutlado de análise de risco, este parâmetro só terá efeito quando o serviço de Antifraude for contratado.</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.VoidOnHighRisk</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não</td>
+<td>Booleano que identifica se o estorno deve acontecer automaticamente quando o risco de fraude for considerado alto (Reject). Em casos de Accept ou Review, o fluxo permanece o mesmo, ou seja, o estorno deve ser feito manualmente. Para a utilização deste parâmetro, a sequência do fluxo de análise de risco deve ser obrigatoriamente &ldquo;AuthorizeFirst&rdquo;. Por depender do resutlado de análise de risco, este parâmetro só terá efeito quando o serviço de Antifraude for contratado.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.TotalOrderAmount</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Valor total do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.OrderDate</code></td>
+<td>Datetime</td>
+<td>&mdash;</td>
+<td>Sim</td>
+<td>Data do pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.IsRetryTransaction</code></td>
+<td>Booleano</td>
+<td>&mdash;</td>
+<td>Não</td>
+<td>Identifica que é uma retentativa de uma análise. Este campo deve ser enviado com valor igual a TRUE quando o código de retorno na primeira tentativa for igual a BP900, que identifica timeout entre Braspag e o Provedor. Este campo deve ser enviado somente quando Provedor igual a ReDShield.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.SplitingPaymentMethod</code></td>
+<td>Texto</td>
+<td>23</td>
+<td>Não</td>
+<td>Identifica se a autorização da transação é com um ou dois cartões ou com mais de um meio de pagamento, por exemplo, cartão de crédito e boleto bancário. Enum: None -&gt; Pagamento com um cartão apenas. (default) CardSplit -&gt; Pagamento com mais de um cartão. MixedPaymentMethodSplit -&gt; Pagamento com mais de um meio de pagamento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.FingerPrintId</code></td>
+<td>Texto</td>
+<td>6005</td>
+<td>Sim</td>
+<td>Impressão digital de dispositivos e geolocalização real do IP do comprador.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Browser.IpAddress</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Endereço IP do comprador. É altamente recomendável o envio deste campo</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Name</code></td>
+<td>Texto</td>
+<td>50</td>
+<td>Sim</td>
+<td>Nome do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Sku</code></td>
+<td>Texto</td>
+<td>12</td>
+<td>Sim</td>
+<td>Código comerciante identificador do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].UnitPrice</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Preço unitário do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].OriginalPrice</code></td>
+<td>Número</td>
+<td>50</td>
+<td>Sim</td>
+<td>Nome do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Quantity</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Quantidade de produtos</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].MerchantItemId</code></td>
+<td>Texto</td>
+<td>30</td>
+<td>Não</td>
+<td>Id do produto na loja</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].GiftMessage</code></td>
+<td>Texto</td>
+<td>160</td>
+<td>Não</td>
+<td>Mensagem de presente</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Description</code></td>
+<td>Texto</td>
+<td>76</td>
+<td>Não</td>
+<td>Descrição do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].ShippingInstructions</code></td>
+<td>Texto</td>
+<td>160</td>
+<td>Não</td>
+<td>Instruções de entrega do produto.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].ShippingMethod</code></td>
+<td>Texto</td>
+<td>27</td>
+<td>Não</td>
+<td>Meio de entrega do produto. Ex.: SameDay = Meio de entrega no mesmo dia, NextDay = Meio de entrega no próximo dia, TwoDay = Meio de entrega em dois dias, ThreeDay = Meio de entrega em três dias, LowCost = Meio de entrega de baixo custo, Pickup = Retirada na loja, CarrierDesignatedByCustomer = Meio de entrega designada pelo comprador, International = Meio de entrega internacional, Military = Meio de entrega militar, Other = Outro meio de entrega, None = Sem meio de entrega, pois é um serviço ou assinatura.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].ShippingTrackingNumber</code></td>
+<td>Texto</td>
+<td>19</td>
+<td>Não</td>
+<td>Número de rastreamento da transportadora</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Name</code></td>
+<td>Texto</td>
+<td>61</td>
+<td>Sim</td>
+<td>Nome do passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Identity</code></td>
+<td>Número</td>
+<td>14</td>
+<td>Sim</td>
+<td>Documento do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.IdentityType</code></td>
+<td>Número</td>
+<td>14</td>
+<td>Sim</td>
+<td>Documento do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Status</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Não</td>
+<td>Classificação da empresa aérea. Ex.: Gold, Platinum</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Rating</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Classificação do passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Email</code></td>
+<td>Texto</td>
+<td>60</td>
+<td>Sim</td>
+<td>Email do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.Phone</code></td>
+<td>Numero</td>
+<td>14</td>
+<td>Não</td>
+<td>Número de telefone do passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Cart.Items[n].Passenger.DateOfBirth</code></td>
+<td>Date</td>
+<td>10</td>
+<td>Não</td>
+<td>Data de nascimento do passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.MerchantDefinedFields.Id</code></td>
+<td>Texto</td>
+<td>&mdash;</td>
+<td>Sim (se aplicável)</td>
+<td>Id das informações adicionais a serem enviadas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.MerchantDefinedFields.Value</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Sim (se aplicável)</td>
+<td>Valor das informações adicionais a serem enviadas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.GiftCategory</code></td>
+<td>Texto</td>
+<td>9</td>
+<td>Não</td>
+<td>Campo que avaliará os endereços de cobrança e entrega para difrentes cidades, estados ou países<BR><UL><LI>Yes (Em caso de divergência entre endereços de cobrança e entrega, marca como risco pequeno)</LI><LI>No (Em caso de divergência entre endereços de cobrança e entrega, marca com risco alto)</LI><LI>Off (Ignora a análise de risco para endereços divergentes)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.HostHedge</code></td>
+<td>Texto</td>
+<td></td>
+<td>Não</td>
+<td>Nível de importância do e-mail e endereços IP dos clientes em risco de pontuação. <BR><UL><LI>Low (Baixa importância do e-mail e endereço IP na análise de risco)</LI><LI>Normal (Média importância do e-mail e endereço IP na análise de risco)</LI><LI>High (Alta importância do e-mail e endereço IP na análise de risco)</LI><LI>Off (E-mail e endereço IP não afetam a análise de risco)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.NonSensicalHedge</code></td>
+<td>Texto</td>
+<td>6</td>
+<td>Não</td>
+<td>Nível dos testes realizados sobre os dados do comprador com pedidos recebidos sem sentido. <BR><UL><LI>Low (Baixa importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>Normal (Média importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação feita sobre o pedido do comprador, na análise de risco)</LI><LI>Off (Verificação do pedido do comprador não afeta a análise de risco)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.ObscenitiesHedge</code></td>
+<td>Texto</td>
+<td>6</td>
+<td>Não</td>
+<td>Nível de obscenidade dos pedidos recebedidos. <BR><UL><LI>Low (Baixa importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Normal (Média importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>High (Alta importância da verificação sobre obscenidades do pedido do comprador, na análise de risco)</LI><LI>Off (Verificação de obscenidade no pedido do comprador não afeta a análise de risco)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.PhoneHedge</code></td>
+<td>Texto</td>
+<td>6</td>
+<td>Não</td>
+<td>Nível dos testes realizados com os números de telefones. <BR><UL><LI>Low (Baixa importância nos testes realizados com números de telefone)</LI><LI>Normal (Média importância nos testes realizados com números de telefone)</LI><LI>High (Alta importância nos testes realizados com números de telefone)</LI><LI>Off (Testes de números de telefone não afetam a análise de risco)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Name</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Sim</td>
+<td>Nome do Produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Quantity</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Quantidade do produto a ser adquirido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Sku</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Sim</td>
+<td>Código comerciante identificador do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.UnitPrice</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Preço unitário do produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Risk</code></td>
+<td>Texto</td>
+<td>6</td>
+<td>Não</td>
+<td>Nível do risco do produto. <BR><UL><LI>Low (O produto tem um histórico de poucos chargebacks)</LI><LI>Normal (O produto tem um histórico de chargebacks considerado normal)</LI><LI>High (O produto tem um histórico de chargebacks acima da média)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.TimeHedge</code></td>
+<td>Texto</td>
+<td></td>
+<td>Não</td>
+<td>Nível de importância da hora do dia do pedido do cliente. <BR><UL><LI>Low (Baixa importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>Normal (Média importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>High (Alta importância no horário do dia em que foi feita a compra, para a análise de risco)</LI><LI>Off (O horário da compra não afeta a análise de risco)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Type</code></td>
+<td>Texto</td>
+<td></td>
+<td>Não</td>
+<td>Tipo do produto. <BR><UL><LI>AdultContent(Conteúdo adulto)</LI><LI>Coupon(Cupon de desconto)</LI><LI>Default(Opção padrão para análise na CyberSource quando nenhum outro valor é selecionado)</LI><LI>EletronicGood(Produto eletrônico)</LI><LI>EletronicSoftware(Softwares distribuídos eletronicamente via download)</LI><LI>GiftCertificate(Vale presente)</LI><LI>HandlingOnly(Taxa de instalação ou manuseio)</LI><LI>Service(Serviço)</LI><LI>ShippingAndHandling(Frete e taxa de instalação ou manuseio)</LI><LI>ShippingOnly(Frete)</LI><LI>Subscription(Assinatura)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.VelocityHedge</code></td>
+<td>Texto</td>
+<td>6</td>
+<td>Não</td>
+<td>Nível de importância de frequência de compra do cliente. <BR><UL><LI>Low (Baixa importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>Normal (Média importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>High (Alta importância no número de compras realizadas pelo cliente nos últimos 15 minutos)</LI><LI>Off (A frequência de compras realizadas pelo cliente não afeta a análise de fraude)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Email</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Não</td>
+<td>Email do Passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Identity</code></td>
+<td>Texto</td>
+<td>32</td>
+<td>Não</td>
+<td>Id do passageiro a quem o bilheite foi emitido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Name</code></td>
+<td>Texto</td>
+<td>120</td>
+<td>Não</td>
+<td>Nome do passageiro</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Rating</code></td>
+<td>Texto</td>
+<td></td>
+<td>Não</td>
+<td>Classificação do Passageiro. <BR><UL><LI>Adult (Passageiro adulto)</LI><LI>Child(Passageiro criança)</LI><LI>Infant(Passageiro infantil)</LI><LI>Youth(Passageiro adolescente)</LI><LI>Student(Passageiro estudante)</LI><LI>SeniorCitizen(Passageiro idoso)</LI><LI>Military(Passageiro militar)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Phone</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Não</td>
+<td>Número do telefone do passageiro. Para pedidos fora do U.S., a CyberSource recomenda que inclua o código do país. 552133665599 (Ex. Código do Pais 55, Código da Cidade 21, Telefone 33665599)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Items.Passenger.Status</code></td>
+<td>Texto</td>
+<td>32</td>
+<td>Não</td>
+<td>Classificação da empresa aérea. Pode-se usar valores como Gold ou Platina</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Shipping.Addressee</code></td>
+<td>Texto</td>
+<td>61</td>
+<td>Não</td>
+<td>Nome do destinatário da entrega</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Shipping.Email</code></td>
+<td>Texto</td>
+<td>60</td>
+<td>Não</td>
+<td>E-mail do responsável por receber o produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Shipping.Method</code></td>
+<td>Texto</td>
+<td></td>
+<td>Não</td>
+<td>Tipo de serviço de entrega do produto. <BR><UL><LI>SameDay(Serviço de entrega no mesmo dia)</LI><LI>OneDay(Serviço de entrega noturna ou no dia seguint)</LI><LI>TwoDay(Serviço de entrega em dois dias)</LI><LI>ThreeDay(Serviço de entrega em três dias)</LI><LI>LowCost(Serviço de entrega de baixo custo)</LI><LI>Pickup(Produto retirado na loja)</LI><LI>Other(Outro método de entrega)</LI><LI>None(Sem serviço de entrega, pois é um serviço ou assinatura)</LI></UL></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Shipping.Phone</code></td>
+<td>Número</td>
+<td>19</td>
+<td>Não</td>
+<td>Telefone do responsável por receber o produto</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.CustomConfiguration.MerchantWebsite</code></td>
+<td>Texto</td>
+<td>60</td>
+<td>Não</td>
+<td>Website da loja</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Travel.Route</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Não</td>
+<td>Rota da viagem. Concatenação de pernas de viagem individuais no formato ORIG1-DEST1</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Travel.DepartureTime</code></td>
+<td>DateTime</td>
+<td>23</td>
+<td>Não</td>
+<td>Data, hora e minuto de partida do vôo. AAAA-MM-DD HH:mm:SS</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Travel.JourneyType</code></td>
+<td>Texto</td>
+<td>32</td>
+<td>Não</td>
+<td>Tipo de viagem. Ex. Só Ida, Só Volta, Ida e Volta</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Travel.Legs.Origin</code></td>
+<td>Texto</td>
+<td>3</td>
+<td>Código do aeroporto do ponto de origem da viagem.</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Travel.Legs.Destination</code></td>
+<td>Texto</td>
+<td>3</td>
+<td>Não</td>
+<td>Código do aeroporto do ponto de destino da viagem</td>
+</tr>
+</tbody></table>
+
+<h3 id="resposta">Resposta</h3>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"201411170314344356"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comprador Teste"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46286005030"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"IdentityType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CPF"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comprador_teste@live.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"552125553669"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Birthdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1986-08-01"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rua Teste"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Complement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AP 205"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ZipCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21002320"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"City"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rio de Janeiro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"State"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RJ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BR"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"District"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tijuca"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"DeliveryAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Av Marechal Camara"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"160"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Complement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sala 934"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ZipCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20020080"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"City"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rio de Janeiro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"State"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RJ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BR"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"District"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Centro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ao lado do banco Santander"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"WorkPhone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"552121544788"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521995760078"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"Payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"471622******6310"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Teste Holder"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12/2021"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"ProofOfSale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2110886"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"AcquirerTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0619022110886"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"AuthorizationCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"595071"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"FraudAnalysis"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Sequence"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AnalyseFirst"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SequenceCriteria"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Always"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"FingerPrintId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw=="</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RedShield"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"CaptureOnLowRisk"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"VoidOnHighRisk"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"TotalOrderAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">16700</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IsRetryTransaction"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SplitingPaymentMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"CustomConfiguration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"RiskAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"MerchantWebsite"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.test.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"MerchantDefinedFields"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Definido pelo cliente junto ao provedor"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"96"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Definido pelo cliente junto ao provedor"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"Cart"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"IsGift"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"ReturnsAccepted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Items"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Risk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"201411170235"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"UnitPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">10950</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"HostHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"NonSensicalHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ObscenitiesHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"PhoneHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"TimeHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"VelocityHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftCategory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Passenger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passageiro Teste1"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234567891"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Platinum"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Rating"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Student"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passageiro_teste1@live.com"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55999993333"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1988-01-06"</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"OriginalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">11490</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descricao do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mensagem para presente"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingInstructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Proximo ao 546"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SameDay"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingTrackingNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"CartType"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MerchantItemId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"45584"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Risk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20141117023"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"UnitPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">10950</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"HostHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"NonSensicalHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ObscenitiesHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"PhoneHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"TimeHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"VelocityHedge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftCategory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Passenger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passageiro Teste2"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234567892"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Rating"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Adult"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passageiro_teste2@live.com"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521999994444"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1958-07-06"</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"OriginalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">11490</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descricao do produto"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"GiftMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mensagem para presente"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingInstructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Proximo ao 160"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NextDay"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ShippingTrackingNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"654321"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"CartType"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MerchantItemId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"45585"</span><span class="w">
+                </span><span class="p">}]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Travel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Route"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GIG-CGH-EZE"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-10T15:10:15"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"JourneyType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OneWayTrip"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Legs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"Destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CGH"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GIG"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"Destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EZE"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CGH"</span><span class="w">
+                </span><span class="p">}]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Browser"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"CookiesAccepted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"IpAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"187.32.163.105"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Shipping"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Destinatario Teste"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5521995950277"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowCost"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destinatario_teste@live.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a97eb2ae-1355-e711-93ff-000d3ac03bed"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"StatusDescription"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ReplyData"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"FactorCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200.300.404"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"ReturnMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invalid or missing parameter"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"PaymentId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"949e33e4-d410-4212-b111-d9c8fdc0580d"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15700</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ReceivedDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-06-19 14:21:07"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRL"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRA"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ReasonCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ReasonMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successful"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ProviderReturnCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ProviderReturnMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Operation Successful"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Links"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerydev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/capture"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/void"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>
+    <span class="s2">"MerchantOrderId"</span>: <span class="s2">"201411170314344356"</span>,
+    <span class="s2">"Customer"</span>: <span class="o">{</span>
+        <span class="s2">"Name"</span>: <span class="s2">"Comprador Teste"</span>,
+        <span class="s2">"Identity"</span>: <span class="s2">"46286005030"</span>,
+        <span class="s2">"IdentityType"</span>: <span class="s2">"CPF"</span>,
+        <span class="s2">"Email"</span>: <span class="s2">"comprador_teste@live.com"</span>,
+        <span class="s2">"Phone"</span>: <span class="s2">"552125553669"</span>,
+        <span class="s2">"Birthdate"</span>: <span class="s2">"1986-08-01"</span>,
+        <span class="s2">"Address"</span>: <span class="o">{</span>
+            <span class="s2">"Street"</span>: <span class="s2">"Rua Teste"</span>,
+            <span class="s2">"Number"</span>: <span class="s2">"500"</span>,
+            <span class="s2">"Complement"</span>: <span class="s2">"AP 205"</span>,
+            <span class="s2">"ZipCode"</span>: <span class="s2">"21002320"</span>,
+            <span class="s2">"City"</span>: <span class="s2">"Rio de Janeiro"</span>,
+            <span class="s2">"State"</span>: <span class="s2">"RJ"</span>,
+            <span class="s2">"Country"</span>: <span class="s2">"BR"</span>,
+            <span class="s2">"District"</span>: <span class="s2">"Tijuca"</span>
+        <span class="o">}</span>,
+        <span class="s2">"DeliveryAddress"</span>: <span class="o">{</span>
+            <span class="s2">"Street"</span>: <span class="s2">"Av Marechal Camara"</span>,
+            <span class="s2">"Number"</span>: <span class="s2">"160"</span>,
+            <span class="s2">"Complement"</span>: <span class="s2">"Sala 934"</span>,
+            <span class="s2">"ZipCode"</span>: <span class="s2">"20020080"</span>,
+            <span class="s2">"City"</span>: <span class="s2">"Rio de Janeiro"</span>,
+            <span class="s2">"State"</span>: <span class="s2">"RJ"</span>,
+            <span class="s2">"Country"</span>: <span class="s2">"BR"</span>,
+            <span class="s2">"District"</span>: <span class="s2">"Centro"</span>,
+            <span class="s2">"Comment"</span>: <span class="s2">"Ao lado do banco Santander"</span>
+        <span class="o">}</span>,
+        <span class="s2">"Status"</span>: <span class="s2">"New"</span>,
+        <span class="s2">"WorkPhone"</span>: <span class="s2">"552121544788"</span>,
+        <span class="s2">"Mobile"</span>: <span class="s2">"5521995760078"</span>
+    <span class="o">}</span>,
+    <span class="s2">"Payment"</span>: <span class="o">{</span>
+        <span class="s2">"ServiceTaxAmount"</span>: 0,
+        <span class="s2">"Installments"</span>: 1,
+        <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
+        <span class="s2">"Capture"</span>: <span class="nb">true</span>,
+        <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
+        <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
+        <span class="s2">"CreditCard"</span>: <span class="o">{</span>
+            <span class="s2">"CardNumber"</span>: <span class="s2">"471622******6310"</span>,
+            <span class="s2">"Holder"</span>: <span class="s2">"Teste Holder"</span>,
+            <span class="s2">"ExpirationDate"</span>: <span class="s2">"12/2021"</span>,
+            <span class="s2">"SaveCard"</span>: <span class="nb">false</span>,
+            <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
+        <span class="o">}</span>,
+        <span class="s2">"ProofOfSale"</span>: <span class="s2">"2110886"</span>,
+        <span class="s2">"AcquirerTransactionId"</span>: <span class="s2">"0619022110886"</span>,
+        <span class="s2">"AuthorizationCode"</span>: <span class="s2">"595071"</span>,
+        <span class="s2">"FraudAnalysis"</span>: <span class="o">{</span>
+            <span class="s2">"Sequence"</span>: <span class="s2">"AnalyseFirst"</span>,
+            <span class="s2">"SequenceCriteria"</span>: <span class="s2">"Always"</span>,
+            <span class="s2">"FingerPrintId"</span>: <span class="s2">"04003hQUMXGB0poNf94lis1ztuLYRFk+zJ17aP79a9O8mWOBmEnKs6ziAo94ggAtBvKEN6/FI8Vv2QMAyHLnc295s0Nn8akZzRJtHwsEilYx1P+NzuNQnyK6+7x2OpjJZkl4NlfPt7h9d96X/miNlYT65UIY2PeH7sUAh9vKxMn1nlPu2MJCSi12NBBoiZbfxP1Whlz5wlRFwWJi0FRulruXQQGCQaJkXU7GWWZGI8Ypycnf7F299GIR12G/cdkIMFbm6Yf0/pTJUUz1vNp0X2Zw8QydKgnOIDKXq4HnEqNOos1c6njJgQh/4vXJiqy0MXMQOThNipDmXv9I185O+yC2f3lLEO0Tay66NZEyiLNePemJKSIdwO9O5ZtntuUkG6NTqARuHStXXfwp8cyGF4MPWLuvNvEfRkJupBy3Z8hSEMEK7ZWd2T2HOihQxRh4qp+NANqYKBTl3v6fQJAEKikeSQVeBN8sQqAL0BZFaIMzbrnMivi6m6JRQUIdvEt+MbJEPFc0LjRycC5ApUmJO+Aoo9VKL1B8ftMSQ1iq1uTKn16ZOmDpzZrZhMPbH83aV0rfB2GDXcjpghm9klVFOw7EoYzV7IDBIIRtgqG9KZ+8NH/z6D+YNUMLEUuK1N2ddqKbS5cKs2hplVRjwSv7x8lMXWE7VDaOZWB8+sD1cMLQtEUC0znzxZ4bpRaiSy4dJLxuJpQYAFUrDlfSKRv/eHV3QiboXLuw9Lm6xVBK8ZvpD5d5olGQdc+NgsqjFnAHZUE+OENgY4kVU9wB84+POrI4MkoD4iHJ5a1QF8AZkZDFo1m1h9Bl+J2Ohr6MkBZq8DG5iVaunHfxUdHou5GL7lS1H7r+8ctfDXi8AfOPjzqyODJQ74Aiel35TKTOWG8pq1WO6yzJ1GNmMuMWZBamlGXoG/imnjwHY9HQtQzpGfcm0cR8X2Fd1ngNFGLDGZlWOX0jWtOwU6XVGT37JFD9W/cx4kzI+mPNi65X5WFPYlDG9N0Lbh5nOj3u3DXqRCiKCUrsEkMt8z9fxO9pLLGVQUKIYR2wTw53CiWK96FOpPevDWtH2XR0QkfOd02D73n81x6hEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8rG2TtNki3mJC7Ass1MT2qnKBI77n6vsQkAp59TfbZm/tBXwAoYdLJXge8F/numhd5AvQ+6I8ZHGJfdN3qWndvJ2I7s5Aeuzb8t9//eNsm73fIa05XreFsNyfOq1vG2COftC6EEsoJWe5h5Nwu1x6PIKuCaWxLY+npfWgM0dwJPmSgPx7TNM31LyVNS65m83pQ+qMTRH6GRVfg7HAcS5fnS/cjdbgHxEkRmgkRq1Qs48sbX9QC8nOTD0ntb6FcJyEOEOVzmJtDqimkzDq+SXR1/63AYe4LEj+ogRgN+Z8HAFhGFzd/m6snVviELfRqJ4LLQIk9Y/fzqnsF6I5OGxfdT2sxxK2Vokpi3jWhCcEknw7dYlHYpOnCHZO7QVgjQTngF2mzKf4GeOF4ECFsWTgLy6HFEitfauYJt1Xh1NfZZerBMwXLFzdhzoTQxGlcXc8lZIoEG1BLYv/ScICf8Ft9PEtpEa+j0cDSlU99UoH2xknwR1W9MRGc5I/euE63/IMJTqguZ3YcnJpjSVnAGSpyz/0gKjypJ3L86rHFRGXt0QbmaXtSl2UmmjI0p0LCCdx7McatCFEVI6FwPpPV0ZSMv/jM75eBid1X/lTV4XNzjowzR/iFlKYMzHZtVO9hCBPKlTwblRXNn4MlvNm/XeSRQ+Mr0YV5w5CL5Z/tGyzqnaLPj/kOVdyfj8r2m5Bcrz4g/ieUIo8qRFv2T2mET46ydqaxi27G4ZYHj7hbiaIqTOxWaE07qMCkJw=="</span>,
+            <span class="s2">"Provider"</span>: <span class="s2">"RedShield"</span>,
+            <span class="s2">"CaptureOnLowRisk"</span>: <span class="nb">true</span>,
+            <span class="s2">"VoidOnHighRisk"</span>: <span class="nb">true</span>,
+            <span class="s2">"TotalOrderAmount"</span>: 16700,
+            <span class="s2">"IsRetryTransaction"</span>: <span class="nb">false</span>,
+            <span class="s2">"SplitingPaymentMethod"</span>: <span class="s2">"None"</span>,
+            <span class="s2">"CustomConfiguration"</span>: <span class="o">{</span>
+                <span class="s2">"RiskAmount"</span>: 0,
+                <span class="s2">"MerchantWebsite"</span>: <span class="s2">"http://www.test.com"</span>
+            <span class="o">}</span>,
+            <span class="s2">"MerchantDefinedFields"</span>: <span class="o">[{</span>
+                <span class="s2">"Id"</span>: <span class="s2">"95"</span>,
+                <span class="s2">"Value"</span>: <span class="s2">"Definido pelo cliente junto ao provedor"</span>
+            <span class="o">}</span>, <span class="o">{</span>
+                <span class="s2">"Id"</span>: <span class="s2">"96"</span>,
+                <span class="s2">"Value"</span>: <span class="s2">"Definido pelo cliente junto ao provedor"</span>
+            <span class="o">}]</span>,
+            <span class="s2">"Cart"</span>: <span class="o">{</span>
+                <span class="s2">"IsGift"</span>: <span class="nb">false</span>,
+                <span class="s2">"ReturnsAccepted"</span>: <span class="nb">false</span>,
+                <span class="s2">"Items"</span>: <span class="o">[{</span>
+                    <span class="s2">"Type"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Name"</span>: <span class="s2">"Nome do produto"</span>,
+                    <span class="s2">"Risk"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Sku"</span>: <span class="s2">"201411170235"</span>,
+                    <span class="s2">"UnitPrice"</span>: 10950,
+                    <span class="s2">"Quantity"</span>: 1,
+                    <span class="s2">"HostHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"NonSensicalHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"ObscenitiesHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"PhoneHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"TimeHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"VelocityHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"GiftCategory"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Passenger"</span>: <span class="o">{</span>
+                        <span class="s2">"Name"</span>: <span class="s2">"Passageiro Teste1"</span>,
+                        <span class="s2">"Identity"</span>: <span class="s2">"1234567891"</span>,
+                        <span class="s2">"Status"</span>: <span class="s2">"Platinum"</span>,
+                        <span class="s2">"Rating"</span>: <span class="s2">"Student"</span>,
+                        <span class="s2">"Email"</span>: <span class="s2">"passageiro_teste1@live.com"</span>,
+                        <span class="s2">"Phone"</span>: <span class="s2">"55999993333"</span>,
+                        <span class="s2">"DateOfBirth"</span>: <span class="s2">"1988-01-06"</span>
+                    <span class="o">}</span>,
+                    <span class="s2">"OriginalPrice"</span>: 11490,
+                    <span class="s2">"Description"</span>: <span class="s2">"Descricao do produto"</span>,
+                    <span class="s2">"Weight"</span>: 0,
+                    <span class="s2">"GiftMessage"</span>: <span class="s2">"Mensagem para presente"</span>,
+                    <span class="s2">"ShippingInstructions"</span>: <span class="s2">"Proximo ao 546"</span>,
+                    <span class="s2">"ShippingMethod"</span>: <span class="s2">"SameDay"</span>,
+                    <span class="s2">"ShippingTrackingNumber"</span>: <span class="s2">"123456"</span>,
+                    <span class="s2">"CartType"</span>: 0,
+                    <span class="s2">"MerchantItemId"</span>: <span class="s2">"45584"</span>
+                <span class="o">}</span>, <span class="o">{</span>
+                    <span class="s2">"Type"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Name"</span>: <span class="s2">"Nome do produto"</span>,
+                    <span class="s2">"Risk"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Sku"</span>: <span class="s2">"20141117023"</span>,
+                    <span class="s2">"UnitPrice"</span>: 10950,
+                    <span class="s2">"Quantity"</span>: 2,
+                    <span class="s2">"HostHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"NonSensicalHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"ObscenitiesHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"PhoneHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"TimeHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"VelocityHedge"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"GiftCategory"</span>: <span class="s2">"Undefined"</span>,
+                    <span class="s2">"Passenger"</span>: <span class="o">{</span>
+                        <span class="s2">"Name"</span>: <span class="s2">"Passageiro Teste2"</span>,
+                        <span class="s2">"Identity"</span>: <span class="s2">"1234567892"</span>,
+                        <span class="s2">"Status"</span>: <span class="s2">"Gold"</span>,
+                        <span class="s2">"Rating"</span>: <span class="s2">"Adult"</span>,
+                        <span class="s2">"Email"</span>: <span class="s2">"passageiro_teste2@live.com"</span>,
+                        <span class="s2">"Phone"</span>: <span class="s2">"5521999994444"</span>,
+                        <span class="s2">"DateOfBirth"</span>: <span class="s2">"1958-07-06"</span>
+                    <span class="o">}</span>,
+                    <span class="s2">"OriginalPrice"</span>: 11490,
+                    <span class="s2">"Description"</span>: <span class="s2">"Descricao do produto"</span>,
+                    <span class="s2">"Weight"</span>: 0,
+                    <span class="s2">"GiftMessage"</span>: <span class="s2">"Mensagem para presente"</span>,
+                    <span class="s2">"ShippingInstructions"</span>: <span class="s2">"Proximo ao 160"</span>,
+                    <span class="s2">"ShippingMethod"</span>: <span class="s2">"NextDay"</span>,
+                    <span class="s2">"ShippingTrackingNumber"</span>: <span class="s2">"654321"</span>,
+                    <span class="s2">"CartType"</span>: 0,
+                    <span class="s2">"MerchantItemId"</span>: <span class="s2">"45585"</span>
+                <span class="o">}]</span>
+            <span class="o">}</span>,
+            <span class="s2">"Travel"</span>: <span class="o">{</span>
+                <span class="s2">"Route"</span>: <span class="s2">"GIG-CGH-EZE"</span>,
+                <span class="s2">"DepartureTime"</span>: <span class="s2">"2016-12-10T15:10:15"</span>,
+                <span class="s2">"JourneyType"</span>: <span class="s2">"OneWayTrip"</span>,
+                <span class="s2">"Legs"</span>: <span class="o">[{</span>
+                    <span class="s2">"Destination"</span>: <span class="s2">"CGH"</span>,
+                    <span class="s2">"Origin"</span>: <span class="s2">"GIG"</span>
+                <span class="o">}</span>, <span class="o">{</span>
+                    <span class="s2">"Destination"</span>: <span class="s2">"EZE"</span>,
+                    <span class="s2">"Origin"</span>: <span class="s2">"CGH"</span>
+                <span class="o">}]</span>
+            <span class="o">}</span>,
+            <span class="s2">"Browser"</span>: <span class="o">{</span>
+                <span class="s2">"CookiesAccepted"</span>: <span class="nb">false</span>,
+                <span class="s2">"IpAddress"</span>: <span class="s2">"187.32.163.105"</span>
+            <span class="o">}</span>,
+            <span class="s2">"Shipping"</span>: <span class="o">{</span>
+                <span class="s2">"Addressee"</span>: <span class="s2">"Destinatario Teste"</span>,
+                <span class="s2">"Phone"</span>: <span class="s2">"5521995950277"</span>,
+                <span class="s2">"Method"</span>: <span class="s2">"LowCost"</span>,
+                <span class="s2">"Email"</span>: <span class="s2">"destinatario_teste@live.com"</span>
+            <span class="o">}</span>,
+            <span class="s2">"Id"</span>: <span class="s2">"a97eb2ae-1355-e711-93ff-000d3ac03bed"</span>,
+            <span class="s2">"Status"</span>: 0,
+            <span class="s2">"StatusDescription"</span>: <span class="s2">"Unknown"</span>,
+            <span class="s2">"ReplyData"</span>: <span class="o">{</span>
+                <span class="s2">"FactorCode"</span>: <span class="s2">"200.300.404"</span>,
+                <span class="s2">"ReturnMessage"</span>: <span class="s2">"invalid or missing parameter"</span>
+            <span class="o">}</span>
+        <span class="o">}</span>,
+        <span class="s2">"PaymentId"</span>: <span class="s2">"949e33e4-d410-4212-b111-d9c8fdc0580d"</span>,
+        <span class="s2">"Type"</span>: <span class="s2">"CreditCard"</span>,
+        <span class="s2">"Amount"</span>: 15700,
+        <span class="s2">"ReceivedDate"</span>: <span class="s2">"2017-06-19 14:21:07"</span>,
+        <span class="s2">"Currency"</span>: <span class="s2">"BRL"</span>,
+        <span class="s2">"Country"</span>: <span class="s2">"BRA"</span>,
+        <span class="s2">"Provider"</span>: <span class="s2">"Simulado"</span>,
+        <span class="s2">"ReasonCode"</span>: 0,
+        <span class="s2">"ReasonMessage"</span>: <span class="s2">"Successful"</span>,
+        <span class="s2">"Status"</span>: 1,
+        <span class="s2">"ProviderReturnCode"</span>: <span class="s2">"4"</span>,
+        <span class="s2">"ProviderReturnMessage"</span>: <span class="s2">"Operation Successful"</span>,
+        <span class="s2">"Links"</span>: <span class="o">[{</span>
+            <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
+            <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
+            <span class="s2">"Href"</span>: <span class="s2">"https://apiquerydev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d"</span>
+        <span class="o">}</span>, <span class="o">{</span>
+            <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
+            <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
+            <span class="s2">"Href"</span>: <span class="s2">"https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/capture"</span>
+        <span class="o">}</span>, <span class="o">{</span>
+            <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
+            <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
+            <span class="s2">"Href"</span>: <span class="s2">"https://apidev.braspag.com.br/v2/sales/949e33e4-d410-4212-b111-d9c8fdc0580d/void"</span>
+        <span class="o">}]</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Descrição</th>
+<th>Tipo</th>
+<th>Tamanho</th>
+<th>Formato</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">AcquirerTransactionId</code></td>
+<td>Id da transação no provedor de meio de pagamento</td>
+<td>Texto</td>
+<td>40</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProofOfSale</code></td>
+<td>Número do Comprovante de Venda</td>
+<td>Texto</td>
+<td>20</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AuthorizationCode</code></td>
+<td>Código de autorização</td>
+<td>Texto</td>
+<td>300</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">SoftDescriptor</code></td>
+<td>Texto que será impresso na fatura do portador</td>
+<td>Texto</td>
+<td>13</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PaymentId</code></td>
+<td>Campo Identificador do Pedido</td>
+<td>Guid</td>
+<td>36</td>
+<td>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReceivedDate</code></td>
+<td>Data em que a transação foi recebida pela Brapag</td>
+<td>Texto</td>
+<td>19</td>
+<td>AAAA-MM-DD HH:mm:SS</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonCode</code></td>
+<td>Código de retorno da Operação</td>
+<td>Texto</td>
+<td>32</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonMessage</code></td>
+<td>Mensagem de retorno da Operação</td>
+<td>Texto</td>
+<td>512</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Status</code></td>
+<td>Status da Transação</td>
+<td>Byte</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnCode</code></td>
+<td>Código retornado pelo provedor do meio de pagamento (adquirente e bancos)</td>
+<td>Texto</td>
+<td>32</td>
+<td>57</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnMessage</code></td>
+<td>Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)</td>
+<td>Texto</td>
+<td>512</td>
+<td>Transação Aprovada</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Id</code></td>
+<td>Indentificação da Transação no Antifraud</td>
+<td>Texto</td>
+<td>300</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.Status</code></td>
+<td>Status da Transação</td>
+<td>Byte</td>
+<td>&mdash;</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code class="prettyprint">FraudAnalysis.ReplyData.FactorCode</code></td>
+<td>Combinação de códigos que indicam o score do pedido. Os códigos são concatenados usando o caractere ^</td>
+<td>Texto</td>
+<td>100</td>
+<td>Ex: B^D^R^Z<br /><ul><li>A - Mudança de endereço excessiva. O cliente mudou o endereço de cobrança duas ou mais vezes nos últimos seis meses.</li><li>B - BIN do cartão ou autorização de risco. Os fatores de risco estão relacionados com BIN de cartão de crédito e/ou verificações de autorização do cartão.</li><li>C - Elevado números de cartões de créditos. O cliente tem usado mais de seis números de cartões de créditos nos últimos seis meses.</li><li>D - Impacto do endereço de e-mail. O cliente usa um provedor de e-mail gratuito ou o endereço de email é arriscado.</li><li>E - Lista positiva. O cliente está na sua lista positiva.</li><li>F - Lista negativa. O número da conta, endereço, endereço de e-mail ou endereço IP para este fim aparece sua lista negativa.</li><li>G - Inconsistências de geolocalização. O domínio do cliente de e-mail, número de telefone, endereço de cobrança, endereço de envio ou endereço IP é suspeito.</li><li>H - Excessivas mudanças de nome. O cliente mudou o nome duas ou mais vezes nos últimos seis meses.</li><li>I - Inconsistências de internet. O endereço IP e de domínio de e-mail não são consistentes com o endereço de cobrança.</li><li>N - Entrada sem sentido. O nome do cliente e os campos de endereço contém palavras sem sentido ou idioma.</li><li>O - Obscenidades. Dados do cliente contém palavras obscenas.</li><li>P - Identidade morphing. Vários valores de um elemento de identidade estão ligados a um valor de um elemento de identidade diferentes. Por exemplo, vários números de telefone estão ligados a um número de conta única.</li><li>Q - Inconsistências do telefone. O número de telefone do cliente é suspeito.</li><li>R - Ordem arriscada. A transação, o cliente e o lojista mostram informações correlacionadas de alto risco.</li><li>T - Cobertura Time. O cliente está a tentar uma compra fora do horário esperado.</li><li>U - Endereço não verificável. O endereço de cobrança ou de entrega não pode ser verificado.</li><li>V - Velocity. O número da conta foi usado muitas vezes nos últimos 15 minutos.</li><li>W - Marcado como suspeito. O endereço de cobrança ou de entrega é semelhante a um endereço previamente marcado como suspeito.</li><li>Y - O endereço, cidade, estado ou país dos endereços de cobrança e entrega não se correlacionam.</li><li>Z - Valor inválido. Como a solicitação contém um valor inesperado, um valor padrão foi substituído. Embora a transação ainda possa ser processada, examinar o pedido com cuidado para detectar anomalias.</li></ul></td>
+</tr>
+</tbody></table>
+
 <h2 id="criando-uma-transação-que-salva-o-cartão">Criando uma transação que salva o cartão</h2>
 
 <p>Caso você tenha contratado o Cartão Protegido, é possível salvar um cartão no formato de um Token, para substituir os dados do cartão numa próxima transação do mesmo comprador. É importante ressaltar que por questões de segurança, o CVV (Código de Segurança) não é tokenizado.</p>
@@ -3030,7 +4599,8 @@
          </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="s2">"12/2021"</span><span class="p">,</span><span class="w">
          </span><span class="s2">"SecurityCode"</span><span class="p">:</span><span class="s2">"123"</span><span class="p">,</span><span class="w">
          </span><span class="s2">"Brand"</span><span class="p">:</span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
-         </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+         </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cliente1"</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -3058,7 +4628,8 @@
          <span class="s2">"ExpirationDate"</span>:<span class="s2">"12/2021"</span>,
          <span class="s2">"SecurityCode"</span>:<span class="s2">"123"</span>,
          <span class="s2">"Brand"</span>:<span class="s2">"Visa"</span>,
-         <span class="s2">"SaveCard"</span>:true
+         <span class="s2">"SaveCard"</span>:true,
+     <span class="s2">"Alias"</span>: <span class="s2">"Cliente1"</span>
      <span class="o">}</span>
    <span class="o">}</span>
 <span class="o">}</span>
@@ -3179,6 +4750,13 @@
 <td>Não</td>
 <td>true se salva o cartão e false para não salvar</td>
 </tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Alias</code></td>
+<td>Texto</td>
+<td>64</td>
+<td>Não</td>
+<td>Alias (Apelido) do cartão de crédito</td>
+</tr>
 </tbody></table>
 
 <h3 id="resposta">Resposta</h3>
@@ -3191,7 +4769,7 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -3200,7 +4778,8 @@
       </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12/2021"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="s2">"CardToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"250e7c7c-5501-4a7c-aa42-a33d7ad61167"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+      </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cliente1"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="s2">"ProofOfSale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3519928"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"AcquirerTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0511023519928"</span><span class="p">,</span><span class="w">
@@ -3253,7 +4832,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -3262,7 +4841,8 @@
       <span class="s2">"ExpirationDate"</span>: <span class="s2">"12/2021"</span>,
       <span class="s2">"SaveCard"</span>: <span class="nb">true</span>,
       <span class="s2">"CardToken"</span>: <span class="s2">"250e7c7c-5501-4a7c-aa42-a33d7ad61167"</span>,
-      <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
+      <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>,
+      <span class="s2">"Alias"</span>: <span class="s2">"Cliente1"</span>
     <span class="o">}</span>,
     <span class="s2">"ProofOfSale"</span>: <span class="s2">"3519928"</span>,
     <span class="s2">"AcquirerTransactionId"</span>: <span class="s2">"0511023519928"</span>,
@@ -3546,7 +5126,7 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -3601,12 +5181,356 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
       <span class="s2">"SaveCard"</span>: <span class="nb">false</span>,
       <span class="s2">"CardToken"</span>: <span class="s2">"250e7c7c-5501-4a7c-aa42-a33d7ad61167"</span>,
+      <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
+    <span class="o">}</span>,
+    <span class="s2">"ProofOfSale"</span>: <span class="s2">"124305"</span>,
+    <span class="s2">"AcquirerTransactionId"</span>: <span class="s2">"0511030124305"</span>,
+    <span class="s2">"AuthorizationCode"</span>: <span class="s2">"065964"</span>,
+    <span class="s2">"PaymentId"</span>: <span class="s2">"23cd8bf5-2251-4991-9042-533ff5608788"</span>,
+    <span class="s2">"Type"</span>: <span class="s2">"CreditCard"</span>,
+    <span class="s2">"Amount"</span>: 10000,
+    <span class="s2">"ReceivedDate"</span>: <span class="s2">"2017-05-11 15:01:24"</span>,
+    <span class="s2">"Currency"</span>: <span class="s2">"BRL"</span>,
+    <span class="s2">"Country"</span>: <span class="s2">"BRA"</span>,
+    <span class="s2">"Provider"</span>: <span class="s2">"Simulado"</span>,
+    <span class="s2">"ReasonCode"</span>: 0,
+    <span class="s2">"ReasonMessage"</span>: <span class="s2">"Successful"</span>,
+    <span class="s2">"Status"</span>: 1,
+    <span class="s2">"ProviderReturnCode"</span>: <span class="s2">"4"</span>,
+    <span class="s2">"ProviderReturnMessage"</span>: <span class="s2">"Operation Successful"</span>,
+    <span class="s2">"Links"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
+        <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
+        <span class="s2">"Rel"</span>: <span class="s2">"capture"</span>,
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">"Method"</span>: <span class="s2">"PUT"</span>,
+        <span class="s2">"Rel"</span>: <span class="s2">"void"</span>,
+        <span class="s2">"Href"</span>: <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Descrição</th>
+<th>Tipo</th>
+<th>Tamanho</th>
+<th>Formato</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">AcquirerTransactionId</code></td>
+<td>Id da transação no provedor de meio de pagamento</td>
+<td>Texto</td>
+<td>40</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProofOfSale</code></td>
+<td>Número do Comprovante de Venda</td>
+<td>Texto</td>
+<td>20</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AuthorizationCode</code></td>
+<td>Código de autorização</td>
+<td>Texto</td>
+<td>300</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PaymentId</code></td>
+<td>Campo Identificador do Pedido</td>
+<td>Guid</td>
+<td>36</td>
+<td>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReceivedDate</code></td>
+<td>Data em que a transação foi recebida pela Brapag</td>
+<td>Texto</td>
+<td>19</td>
+<td>AAAA-MM-DD HH:mm:SS</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonCode</code></td>
+<td>Código de retorno da Operação</td>
+<td>Texto</td>
+<td>32</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonMessage</code></td>
+<td>Mensagem de retorno da Operação</td>
+<td>Texto</td>
+<td>512</td>
+<td>Texto alfanumérico</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Status</code></td>
+<td>Status da Transação</td>
+<td>Byte</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnCode</code></td>
+<td>Código retornado pelo provedor do meio de pagamento (adquirente e bancos)</td>
+<td>Texto</td>
+<td>32</td>
+<td>57</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnMessage</code></td>
+<td>Mensagem retornada pelo provedor do meio de pagamento (adquirente e bancos)</td>
+<td>Texto</td>
+<td>512</td>
+<td>Transação Aprovada</td>
+</tr>
+</tbody></table>
+
+<h2 id="criando-uma-transação-com-alias">Criando uma transação com Alias</h2>
+
+<p>Este é um exemplo de como utilizar o Alias, previamente salvo, para criar uma transação. Por questão de segurança, um Alias não tem guardado o Código de Segurança. Desta forma, é preciso solicitar esta informação ao portador para cada nova transação (exceto em casos de transações recorrentes).</p>
+
+<h3 id="requisição">Requisição</h3>
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+   </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017051105"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"Customer"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"Name"</span><span class="p">:</span><span class="s2">"Nome do Cliente"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"Payment"</span><span class="p">:{</span><span class="w">
+     </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
+         </span><span class="s2">"Alias"</span><span class="p">:</span><span class="s2">"Cliente1"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"SecurityCode"</span><span class="p">:</span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"Brand"</span><span class="p">:</span><span class="s2">"Visa"</span><span class="w">
+     </span><span class="p">}</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">curl
+--request POST <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/"</span>
+--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--header <span class="s2">"MerchantKey: 0123456789012345678901234567890123456789"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>
+   <span class="s2">"MerchantOrderId"</span>:<span class="s2">"2017051105"</span>,
+   <span class="s2">"Customer"</span>:<span class="o">{</span>
+      <span class="s2">"Name"</span>:<span class="s2">"Nome do Cliente"</span>
+   <span class="o">}</span>,
+   <span class="s2">"Payment"</span>:<span class="o">{</span>
+     <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
+     <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
+     <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Installments"</span>:1,
+     <span class="s2">"CreditCard"</span>:<span class="o">{</span>
+         <span class="s2">"Alias"</span>:<span class="s2">"Cliente1"</span>,
+         <span class="s2">"SecurityCode"</span>:<span class="s2">"123"</span>,
+         <span class="s2">"Brand"</span>:<span class="s2">"Visa"</span>
+     <span class="o">}</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+--verbose
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Tamanho</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">MerchantId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>Sim</td>
+<td>Identificador da loja na Braspag</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantKey</code></td>
+<td>Texto</td>
+<td>40</td>
+<td>Sim</td>
+<td>Chave Publica para Autenticação Dupla na Braspag</td>
+</tr>
+<tr>
+<td><code class="prettyprint">RequestId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>Não</td>
+<td>Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantOrderId</code></td>
+<td>Texto</td>
+<td>50</td>
+<td>Sim</td>
+<td>Numero de identificação do Pedido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Name</code></td>
+<td>Texto</td>
+<td>255</td>
+<td>Sim</td>
+<td>Nome do comprador</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Provider</code></td>
+<td>Texto</td>
+<td>15</td>
+<td>Sim</td>
+<td>Nome da provedora de Meio de Pagamento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Type</code></td>
+<td>Texto</td>
+<td>100</td>
+<td>Sim</td>
+<td>Tipo do Meio de Pagamento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Amount</code></td>
+<td>Número</td>
+<td>15</td>
+<td>Sim</td>
+<td>Valor do Pedido (ser enviado em centavos)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Installments</code></td>
+<td>Número</td>
+<td>2</td>
+<td>Sim</td>
+<td>Número de Parcelas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.CardToken</code></td>
+<td>Token no Cartão Protegido que representa os dados do cartão</td>
+<td>Guid</td>
+<td>36</td>
+<td>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.SecurityCode</code></td>
+<td>Texto</td>
+<td>4</td>
+<td>Sim</td>
+<td>Código de segurança impresso no verso do cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Brand</code></td>
+<td>Texto</td>
+<td>10</td>
+<td>Sim</td>
+<td>Bandeira do cartão</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Alias</code></td>
+<td>Texto</td>
+<td>64</td>
+<td>Não</td>
+<td>Alias (Apelido) do cartão de crédito</td>
+</tr>
+</tbody></table>
+
+<h3 id="resposta">Resposta</h3>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017051105"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do Cliente"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"Payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Alias"</span><span class="p">:</span><span class="s2">"Cliente1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"ProofOfSale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"124305"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AcquirerTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0511030124305"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AuthorizationCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"065964"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"PaymentId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"23cd8bf5-2251-4991-9042-533ff5608788"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReceivedDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-11 15:01:24"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReasonCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReasonMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successful"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ProviderReturnCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ProviderReturnMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Operation Successful"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"capture"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/capture"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"void"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apisandbox.braspag.com.br/v2/sales/23cd8bf5-2251-4991-9042-533ff5608788/void"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>
+  <span class="s2">"MerchantOrderId"</span>: <span class="s2">"2017051105"</span>,
+  <span class="s2">"Customer"</span>: <span class="o">{</span>
+    <span class="s2">"Name"</span>: <span class="s2">"Nome do Cliente"</span>
+  <span class="o">}</span>,
+  <span class="s2">"Payment"</span>: <span class="o">{</span>
+    <span class="s2">"ServiceTaxAmount"</span>: 0,
+    <span class="s2">"Installments"</span>: 1,
+    <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
+    <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
+    <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
+    <span class="s2">"CreditCard"</span>: <span class="o">{</span>
+      <span class="s2">"SaveCard"</span>: <span class="nb">false</span>,
+      <span class="s2">"Alias"</span>:<span class="s2">"Cliente1"</span>,
       <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
     <span class="o">}</span>,
     <span class="s2">"ProofOfSale"</span>: <span class="s2">"124305"</span>,
@@ -4381,7 +6305,7 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -4453,7 +6377,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -4717,7 +6641,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -4766,7 +6690,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -6472,7 +8396,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -6543,7 +8467,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -6864,7 +8788,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -6910,7 +8834,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -7984,7 +9908,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"455187******0181"</span><span class="p">,</span><span class="w">
@@ -8042,7 +9966,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">false</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
       <span class="s2">"CardNumber"</span>: <span class="s2">"455187******0181"</span>,
