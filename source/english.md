@@ -112,6 +112,7 @@ Example of a simple credit card transaction jsut with mandatory data. Some featu
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -141,6 +142,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -701,7 +703,8 @@ When a transaction is submitted to an authentication process, the customer is re
    "Payment":{  
       "Provider":"Cielo",
 	  "Type":"CreditCard",
-      "Amount":10000,      
+      "Amount":10000, 
+	  "Capture":true,
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
@@ -732,7 +735,8 @@ curl
    "Payment":{  
       "Provider":"Cielo",
 	  "Type":"CreditCard",
-      "Amount":10000,      
+      "Amount":10000,   
+	  "Capture":true,
       "Installments":1,
       "Authenticate":true,
       "ReturnUrl":"http://www.braspag.com.br",
@@ -779,6 +783,215 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
+    "AcquirerTransactionId": "10069930690009D2A47A",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "b125109f-681b-4338-8450-f3e38bc71b32",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 11:09:49",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+      }
+    ]
+  }
+}
+```
+
+```shell
+--header "Content-Type: application/json"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{
+  "MerchantOrderId": "2017051101",
+  "Customer": {
+    "Name": "Customer's Name"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
+    "Capture": true,
+    "Authenticate": true,
+    "Recurrent": false,
+    "CreditCard": {
+      "CardNumber": "455187******0181",
+      "Holder": "Nome do Portador",
+      "ExpirationDate": "12/2015",
+      "SaveCard": false,
+      "Brand": "Visa"
+    },
+    "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
+    "AcquirerTransactionId": "10069930690009D2A47A",
+    "ReturnUrl": "http://www.braspag.com.br",
+    "PaymentId": "b125109f-681b-4338-8450-f3e38bc71b32",
+    "Type": "CreditCard",
+    "Amount": 10000,
+    "ReceivedDate": "2017-05-11 11:09:49",
+    "Currency": "BRL",
+    "Country": "BRA",
+    "Provider": "Cielo",
+    "ReasonCode": 9,
+    "ReasonMessage": "Waiting",
+    "Status": 0,
+    "ProviderReturnCode": "0",
+    "Links": [
+      {
+        "Method": "GET",
+        "Rel": "self",
+        "Href": "https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"
+      }
+    ]
+  }
+}
+```
+
+|Property|Description|Type|Size|Format|
+|--------|-----------|----|----|------|
+|`AcquirerTransactionId`|Provider's Transaction ID |Text|40|Alphanumeric Text|
+|`ProofOfSale`|Provider's Proof of Sale Code|Text|20|Alphanumeric Text|
+|`AuthorizationCode`|Provider's Authorization Code|Text|300|Alphanumeric Text|
+|`PaymentId`|Braspag's Transaction ID|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+|`ReceivedDate`|Transaction's received date|Text|19|YYYY-MM-DD HH:mm:SS|
+|`ReasonCode`|Operation's Reason Code|Text|32|Alphanumeric Text|
+|`ReasonMessage`|Operation's Reason Message|Text|512|Alphanumeric Text|
+|`Status`|Transaction's Status|Byte|2|1|
+|`ProviderReturnCode`|Acquirer or Bank’s return code.|Text|32|57|
+|`ProviderReturnMessage`|Acquirer or Issuer’s return message|Text|32|57||Text|512|Transação Aprovada|
+|`AuthenticationUrl`|URL to redirect the customer when the authetication process is finalized|Text|256|https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08|
+
+## Card Payment with External Authentication
+
+When a transaction is submitted to an external authentication process, the customer is redirected to the issuer's environment, where it must perform a confirmation of its data. When the validation is successfully validated, the "liability" of the transaction is transfered to the bank. In case of dispute, the bank will be responsible for chageback.
+
+<aside class="notice"><strong>Authantication:</strong>The cardholder is redirected to the authentication environment of the card issuing bank where the card password is required. Applicable to Cielo, Global Payments and Banorte's payent methods.</aside>
+
+### Request
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+
+```json
+{  
+   "MerchantOrderId":"2017051101",
+   "Customer":{  
+      "Name": "Customer's Name"
+   },
+   "Payment":{  
+      "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000,    
+      "Capture":true,	  
+      "Installments":1,
+      "Authenticate":true,
+      "ReturnUrl":"http://www.braspag.com.br",
+      "CreditCard":{  
+         "CardNumber":"4551870000000181",
+         "Holder":"Cardholder",
+         "ExpirationDate":"12/2015",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+      },
+	  "ExternalAuthentication":{
+       "Cavv":"AAABB2gHA1B5EFNjWQcDAAAAAAB=",
+       "Xid":"Uk5ZanBHcWw2RjRCbEN5dGtiMTB=",
+       "Eci":"5",
+     }
+   }
+}
+```
+
+```shell
+curl
+--request POST "https://apisandbox.braspag.com.br/v2/sales/"
+--header "Content-Type: application/json"
+--header "MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--header "MerchantKey: 0123456789012345678901234567890123456789"
+--header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+--data-binary
+{  
+   "MerchantOrderId":"2017051101",
+   "Customer":{  
+      "Name": "Customer's Name"
+   },
+   "Payment":{  
+      "Provider":"Cielo",
+	  "Type":"CreditCard",
+      "Amount":10000, 
+      "Capture":true,	  
+      "Installments":1,
+      "Authenticate":true,
+      "ReturnUrl":"http://www.braspag.com.br",
+      "CreditCard":{  
+         "CardNumber":"4551870000000181",
+         "Holder":"Cardholder",
+         "ExpirationDate":"12/2015",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+      },
+	  "ExternalAuthentication":{
+       "Cavv":"AAABB2gHA1B5EFNjWQcDAAAAAAB=",
+       "Xid":"Uk5ZanBHcWw2RjRCbEN5dGtiMTB=",
+       "Eci":"5",
+     }
+   }
+}
+--verbose
+```
+
+|Property|Type|Size|Mandatory|Description|
+|--------|----|----|---------|-----------|
+|`MerchantId`|Guid|36|Yes|Merchant Identifier|
+|`MerchantKey`|Text|40|Yes|Merchant Key need to access the API|
+|`RequestId`|Guid|36|No|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|
+|`MerchantOrderId`|Text|50|Yes|Merchant Order ID|
+|`Customer.Name`|Text|255|Yes|Customer's Name|
+|`Payment.Provider`|Text|15|Yes|Payment Method Provider's name|
+|`Payment.Type`|Text|100|Yes|Payment Method's Type|
+|`Payment.Amount`|Number|15|Yes|Transaction Amount (must be sent in cents)|
+|`Payment.Installments`|Number|2|Yes|Number of Installments|
+|`Payment.Authenticate`|Boolean|---|No (Default false)|If authentication behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported|
+|`Payment.ReturnUrl`|Text|1024|Yes (whe Authenticate is true)|URL to redirect the customer when the authetication process is finalized|
+|`CreditCard.CardNumber`|Text|16|Yes|Credit Card number|
+|`CreditCard.Holder`|Text|25|Yes|Cardholder name|
+|`CreditCard.ExpirationDate`|Text|7|Yes|Expiration Date (MM/YYYY)|
+|`CreditCard.SecurityCode`|Text|4|Yes|Security Code (CVV2)|
+|`CreditCard.Brand`|Text|10|Yes|Card's Brand|
+|`Payment.ExternalAuthentication.Cavv`|Text|28|Yes|The value Cavv is returned by authentication provider|
+|`Payment.ExternalAuthentication.Xid`|Text|28|Yes|The value Xid is returned by authentication provider|
+|`Payment.ExternalAuthentication.Eci`|Number|1|Yes|The value Eci is returned by authentication provider|
+
+### Response
+
+```json
+{
+  "MerchantOrderId": "2017051101",
+  "Customer": {
+    "Name": "Customer's Name"
+  },
+  "Payment": {
+    "ServiceTaxAmount": 0,
+    "Installments": 1,
+    "Interest": "ByMerchant",
     "Capture": true
     "Authenticate": true,
     "Recurrent": false,
@@ -789,6 +1002,11 @@ curl
       "SaveCard": false,
       "Brand": "Visa"
     },
+	"ExternalAuthentication":{
+       "Cavv":"AAABB2gHA1B5EFNjWQcDAAAAAAB=",
+       "Xid":"Uk5ZanBHcWw2RjRCbEN5dGtiMTB=",
+       "Eci":"5",
+     },
     "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
     "AcquirerTransactionId": "10069930690009D2A47A",
     "ReturnUrl": "http://www.braspag.com.br",
@@ -837,6 +1055,11 @@ curl
       "SaveCard": false,
       "Brand": "Visa"
     },
+	"ExternalAuthentication":{
+       "Cavv":"AAABB2gHA1B5EFNjWQcDAAAAAAB=",
+       "Xid":"Uk5ZanBHcWw2RjRCbEN5dGtiMTB=",
+       "Eci":"5",
+     },
     "AuthenticationUrl": "https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab",
     "AcquirerTransactionId": "10069930690009D2A47A",
     "ReturnUrl": "http://www.braspag.com.br",
@@ -1626,6 +1849,7 @@ The Fraud Prevention requires the "FraudAnalysis" node filled.
     "Payment": {
         "Type": "CreditCard",
         "Amount": 15700,
+		"Capture":true,
         "Provider": "Simulado",
         "Installments": 1,
         "CreditCard": {
@@ -1771,6 +1995,7 @@ curl
     "Payment": {
         "Type": "CreditCard",
         "Amount": 15700,
+		"Capture":true,
         "Provider": "Simulado",
         "Installments": 1,
         "CreditCard": {
@@ -2443,6 +2668,7 @@ Using the "Cartão Protegido), it is possible to save a card in the form of a To
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -2474,6 +2700,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -2520,7 +2747,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2585,7 +2812,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2667,6 +2894,7 @@ This is an example of how to use the previously saved Card Token to create a new
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardToken":"250e7c7c-5501-4a7c-aa42-a33d7ad61167",
@@ -2694,6 +2922,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardToken":"250e7c7c-5501-4a7c-aa42-a33d7ad61167",
@@ -2732,7 +2961,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2789,7 +3018,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2864,6 +3093,7 @@ This is an example of how to use the previously saved Alias to create a new tran
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "Alias":"Cliente1",
@@ -2891,6 +3121,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "Alias":"Cliente1",
@@ -2930,7 +3161,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -2987,7 +3218,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3242,6 +3473,7 @@ In case of rejection by Velocity, the ProviderReasonCode will be BP171 - Rejecte
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -3292,6 +3524,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000181",
@@ -3375,7 +3608,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3449,7 +3682,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3518,6 +3751,7 @@ The "Renova Fácil" is a feature developed by CIELO and the banks, in order to i
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000183",
@@ -3546,6 +3780,7 @@ curl
      "Provider":"Simulado",
      "Type":"CreditCard",
      "Amount":10000,
+	 "Capture":true,
      "Installments":1,
      "CreditCard":{
          "CardNumber":"4551870000000183",
@@ -3588,7 +3823,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3639,7 +3874,7 @@ curl
     "ServiceTaxAmount": 0,
     "Installments": 1,
     "Interest": "ByMerchant",
-    "Capture": true
+    "Capture": true,
     "Authenticate": false,
     "Recurrent": false,
     "CreditCard": {
@@ -3963,7 +4198,7 @@ curl
 |`RequestId`|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|Guid|36|No|
 |`MerchantOrderId`|Merchant Order ID|Text|50|Yes|
 |`Customer.Name`|Customer's Name|Text|255|Yes|
-|`Customer.Identity`|No|Customer's RG, CPF or CNPJ|Text|14|
+|`Customer.Identity`|Yes|Customer's RG, CPF or CNPJ|Text|14|
 |`Customer.IdentityType`|Customer Identification Type  (CPF or CNPJ)|Text|255|No|
 |`Customer.Email`|Customer's e-mail address|Text|255|No|
 |`Customer.Address.Street`|Customer's main contact address||Text|255|No|
@@ -5841,7 +6076,7 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 |RedeSitef|Visa, Master, Hipercard, Diners|
 |CieloSitef|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
 |SantanderSitef|Visa, Master|
-|Banorte|Visa, Master|
+|Banorte|Visa, Master, Carnet|
 |DMCard|---|
 
 ### Debit Card Payments Provider
@@ -5860,7 +6095,7 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 
 |Provider|
 |--------|
-|Bradesco2, BancoDoBrasil2, ItauShopline|
+|Bradesco2, BancoDoBrasil2, ItauShopline, Santander2|
 
 ### Electronic Transfer Payments Provider (Online Debit)
 
