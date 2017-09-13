@@ -4555,26 +4555,45 @@ curl
 |`MerchantKey`|Text|40|Yes|Merchant Key need to access the API|
 |`RequestId`|Guid|36|No|Request Identifier defined by merchant, applicable to any operation GET/POST/PUT|
 |`MerchantOrderId`|Text|50|Yes|Merchant Order ID|
-|`Customer.Name`|Text|255|Yes|Customer's Name|
+|`Customer.Name`|Text|See the table below|Yes|Customer's Name|
 |`Customer.Identity`|Text|14 |No|Customer's RG, CPF or CNPJ| 
-|`Customer.IdentityType`|Text|255|No|Customer Identification Type  (CPF or CNPJ)|
-|`Customer.Address.Street`|Text|255|No|Customer's main contact address|
-|`Customer.Address.Number`|Text|15|No|Customer's main contact address building number|
-|`Customer.Address.Complement`|Text|50|No|Customer's main contact address additional data|
+|`Customer.IdentityType`|Text|See the table below|No|Customer Identification Type  (CPF or CNPJ)|
+|`Customer.Address.Street`|Text|See the table below|No|Customer's main contact address|
+|`Customer.Address.Number`|Text|See the table below|No|Customer's main contact address building number|
+|`Customer.Address.Complement`|Text|See the table below|No|Customer's main contact address additional data|
 |`Customer.Address.ZipCode`|Text|9|No|Customer's main contact address ZIP code|
-|`Customer.Address.City`|Text|50|No|Customer's main contact address' City|
+|`Customer.Address.City`|Text|See the table below|No|Customer's main contact address' City|
 |`Customer.Address.State`|Text|2|No|Customer's main contact address' State|
 |`Customer.Address.Country`|Text|35|No|Customer's main contact address' Country|
-|`Customer.Address.District`|Text|50 |No|Customer's main contact address' district name |
+|`Customer.Address.District`|Text|See the table below|No|Customer's main contact address' district name |
 |`Payment.Provider`|Text|15|Yes|Payment Method Provider's name de Boleto|
 |`Payment.Type`|Text|100|Yes|Payment Method's Type. In this case, "Boleto"|
 |`Payment.Amount`|Number|15|Yes|Valor do Pedido (deve ser enviado em centavos)|
-|`Payment.BoletoNumber`|Text|50 |No| Boleto Identification Number ("Nosso Número"). If this fiel is filled, it overrides the configured value. |
+|`Payment.BoletoNumber`|Text|See the table below|No| Boleto Identification Number ("Nosso Número"). If this fiel is filled, it overrides the configured value. |
 |`Payment.Assignor`|Text|200|No|Assignor's name. If this fiel is filled, it will override the configured value|
-|`Payment.Demonstrative`|Text|450|No|Demonstrative message. If this fiel is filled, it will override the configured value.|
+|`Payment.Demonstrative`|Text|See the table below|No|Demonstrative message. If this fiel is filled, it will override the configured value.|
 |`Payment.ExpirationDate`|Date |10 |No|Days to expiration. If this fiel is filled, it will override the configured value.|
 |`Payment.Identification`|Text|14 |No|Merchant's CNPJ. If this fiel is filled, it will override the configured value.|
-|`Payment.Instructions`|Text|450|No|Instruction Message. If this fiel is filled, it will override the configured value.|
+|`Payment.Instructions`|Text|See the table below|No|Instruction Message. If this fiel is filled, it will override the configured value.|
+
+### Fields max length specification for each bank
+
+| Property | Bradesco | BancoBanco do Brasil | Itaú | Santander | Caixa Econômica | Citibank |
+|------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------:|
+| Provider | Bradesco2 | BancoDoBrasil2 | ItauShopline | Santander2 | Caixa2 | Citibank2 |
+| `MerchantOrderId` | 27 (OBS 1) | 50 (OBS 1) | 8 | 50 (OBS 1) | 11 (OBS 1) | 10 (OBS 1) |
+| `Payment.BoletoNumber` | 11 (OBS 2) | 9 (OBS 2) | 8 (OBS 1) | 13 (OBS 2) | 14 (OBS 2) | 11 (OBS 2) |
+| `Customer.Name` | 34 (OBS 3) | 60 (OBS,3) | 30 | 40 (OBS 3) | 40 (OBS 3) | 50 (OBS 3) |
+| `Customer.Address.Street`; `Customer.Address.Number`; `Customer.Address.Complement`; `Customer.Address.District` | Street: 70 (OBS 4); Number: 10 (OBS 4); Complement: 20 (OBS 4); District: 50 (OBS 4) | These fields must have up to 60 characters | Street, Number e Complement must have up to 40 characters;  District: 15 | Street, Number e Complement must have up to 40 characters (OBS 3); District: 15 (OBS 3) | Street, Number e Complement must have up to 40 characters (OBS 3); District: 15 (OBS 3) | Street, Number e Complement must have up to 40 characters (OBS 3); District: 50 (OBS 3) |
+| `Customer.Address.City` | 50 (OBS 4) | 18 (OBS 3) | 15 | 30 (OBS 3) | 15 (OBS 3) | 50 (OBS 4) |
+| `Payment.Instructions` | 450 | 450 | this field is not sent to the bank | 450 | 450 | 450 |
+| `Payment.Demonstrative` | 255 | this field is not sent to the bank | this field is not sent to the bank | 255 | 255 | 255 |
+| >>>>>>>>>>>>>>>>>>>>>> |  |  |  |  |  |  |
+| Additional Obsrevations: | OBS 1: alphabets, numbers e characters like "_" and "$" | OBS 1: this field is not sent to the bank | OBS geral: the Pagador validates the limit | OBS 1: this field is not sent to the bank | OBS 1: when the value is greater than 11 digits, the Pagador will generate a number based on configured number in the admin panel | General OBS: the Pagador validates the limit |
+|  | OBS 2: the bank validates the limit | OBS 2: the value is truncated when pass 9 digits, considering the last 9 positions | OBS 1: the "nosso número" alwats will be the same value as "Order ID", and pagador validates the limit | OBS 2: the bank validates the limit | OBS 2: start with "14" + 14 digits + verification digit generates automatically. When greater than 14 digits, the Pagador truncate the value considering the last 14 digits | OBS 1: when greather than the max limit, the Pagador generates a incremental number configured in the admin panel |
+|  | OBS 3: the Pagador truncate automatically| OBS 3: accepted characteres: alphabets A a Z (CAPS LOCK); special characters: (-), ('), without space between these characters; Correct Examples: D'EL-REI, D'ALCORTIVO, SANT'ANA. Incorrect Examples: D'EL - REI; you can use one space between two words |  | OBS 3: the Pagador validates the limit | OBS 3: the Pagador validates the limit | OBS 2: when the value is greater than limit, the Pagador generates one randomic number |
+|  | OBS 4: the Pagador validates the limit |  |  |  |  | OBS 3: te Pagador removes the special characters 
+|  |  |  |  |  |  | OBS 4: this field is not sent to the bank |
 
 ### Response
 
