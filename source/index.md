@@ -4602,7 +4602,7 @@ Para gerar um boleto registrado, é necessário fornecer alguns dados a mais do 
 
 ```json
 {  
-    "MerchantOrderId":"2017051113",
+    "MerchantOrderId":"2017091101",
     "Customer":
     {  
         "Name":"Nome do Comprador",
@@ -4624,11 +4624,12 @@ Para gerar um boleto registrado, é necessário fornecer alguns dados a mais do 
         "Provider":"Simulado",
 		"Type":"Boleto",
         "Amount":10000,
+		"BoletoNumber":"2017091101",
         "Assignor": "Empresa Teste",
         "Demonstrative": "Desmonstrative Teste",
         "ExpirationDate": "2017-12-31",
         "Identification": "12346578909",
-        "Instructions": "Aceitar somente até a data de vencimento."      
+        "Instructions": "Aceitar somente até a data de vencimento."     
     }
 }
 ```
@@ -4642,7 +4643,7 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {  
-    "MerchantOrderId":"2017051113",
+    "MerchantOrderId":"2017091101",
     "Customer":
     {  
         "Name":"Nome do Comprador",
@@ -4664,6 +4665,7 @@ curl
         "Provider":"Simulado",
 		"Type":"Boleto",
         "Amount":10000,
+		"BoletoNumber":"2017091101",		
         "Assignor": "Empresa Teste",
         "Demonstrative": "Desmonstrative Teste",
         "ExpirationDate": "2017-12-31",
@@ -4679,32 +4681,52 @@ curl
 |`MerchantId`|Guid|36|Sim|Identificador da loja na Braspag|
 |`MerchantKey`|Texto|40|Sim|Chave Publica para Autenticação Dupla na Braspag|
 |`RequestId`|Guid|36|Não|Identificador do Request definido pela loja, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT|
-|`MerchantOrderId`|Texto|50|Sim|Numero de identificação do Pedido|
-|`Customer.Name`|Texto|255|Sim|Nome do comprador|
+|`MerchantOrderId`|Texto|vide tabela abaixo|Sim|Numero de identificação do Pedido. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+|`Customer.Name`|Texto|vide tabela abaixo|Sim|Nome do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
 |`Customer.Identity`|Texto |14 |Sim|Número do RG, CPF ou CNPJ do Cliente| 
 |`Customer.IdentityType`|Texto|255|Sim|Tipo de documento de identificação do comprador (CPF ou CNPJ)|
-|`Customer.Address.Street`|Texto|255|Sim|Endereço de contato do comprador|
-|`Customer.Address.Number`|Texto|15|Sim|Número endereço de contato do comprador|
-|`Customer.Address.Complement`|Texto|50|Não|Complemento do endereço de contato do Comprador|
-|`Customer.Address.ZipCode`|Texto|9|Sim|CEP do endereço de contato do comprador|
-|`Customer.Address.City`|Texto|50|Sim|Cidade do endereço de contato do comprador|
+|`Customer.Address.Street`|Texto|vide tabela abaixo|Sim|Endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+|`Customer.Address.Number`|Texto|vide tabela abaixo|Sim|Número endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+|`Customer.Address.Complement`|Texto|vide tabela abaixo|Não|Complemento do endereço de contato do Comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+|`Customer.Address.ZipCode`|Texto|8|Sim|CEP do endereço de contato do comprador|
+|`Customer.Address.District`|Texto|vide tabela abaixo|Sim|Bairro do endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+|`Customer.Address.City`|Texto|vide tabela abaixo|Sim|Cidade do endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
 |`Customer.Address.State`|Texto|2|Sim|Estado do endereço de contato do comprador|
 |`Customer.Address.Country`|Texto|35|Sim|Pais do endereço de contato do comprador|
 |`Payment.Provider`|Texto|15|Sim|Nome da provedora de Meio de Pagamento de Boleto|
 |`Payment.Type`|Texto|100|Sim|Tipo do Meio de Pagamento. No caso "Boleto"|
 |`Payment.Amount`|Número|15|Sim|Valor do Pedido (deve ser enviado em centavos)|
-|`Payment.BoletoNumber`|Texto |50 |Não| Número do Boleto ("Nosso Número"). Caso preenchido, sobrepõe o valor configurado no meio de pagamento |
+|`Payment.BoletoNumber`|Texto |vide tabela abaixo|Não|Número do Boleto ("Nosso Número"). Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo|
 |`Payment.Assignor`|Texto |200|Não|Nome do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
-|`Payment.Demonstrative`|Texto |450|Não|Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Demonstrative`|Texto |vide tabela abaixo|Não|Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
 |`Payment.ExpirationDate`|Date |10 |Não|Dias para vencer o boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
 |`Payment.Identification`|Texto |14 |Não|CNPJ do Cedente. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
-|`Payment.Instructions`|Texto |450|Não|Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento|
+|`Payment.Instructions`|Texto |vide tabela abaixo|Não|Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)|
+
+### Tabela de Especificação de quantidade de caracteres do campo por Provider
+
+| Propriedade | Bradesco | BancoBanco do Brasil | Itaú | Santander | Caixa Econômica | Citibank |
+|------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------:|
+| Provider | Bradesco2 | BancoDoBrasil2 | ItauShopline | Santander2 | Caixa2 | Citibank2 |
+| `MerchantOrderId` | 27 (OBS 1) | 50 (OBS 1) | 8 | 50 (OBS 1) | 11 (OBS 1) | 10 (OBS 1) |
+| `Payment.BoletoNumber` | 11 (OBS 2) | 9 (OBS 2) | 8 (OBS 1) | 13 (OBS 2) | 14 (OBS 2) | 11 (OBS 2) |
+| `Customer.Name` | 34 (OBS 3) | 60 (OBS,3) | 30 | 40 (OBS 3) | 40 (OBS 3) | 50 (OBS 3) |
+| `Customer.Address.Street`; `Customer.Address.Number`; `Customer.Address.Complement`; `Customer.Address.District` | Street: 70 (OBS 4); Number: 10 (OBS 4); Complement: 20 (OBS 4); District: 50 (OBS 4) | Os campos devem totalizar até 60 caracteres | Street, Number e Complement devem totalizar até 40 caracteres;  District: 15 | Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 15 (OBS 3) | Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 15 (OBS 3) | Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 50 (OBS 3) |
+| `Customer.Address.City` | 50 (OBS 4) | 18 (OBS 3) | 15 | 30 (OBS 3) | 15 (OBS 3) | 50 (OBS 4) |
+| `Payment.Instructions` | 450 | 450 | não é enviado ao banco | 450 | 450 | 450 |
+| `Payment.Demonstrative` | 255 | não é enviado ao banco | não é enviado ao banco | 255 | 255 | 255 |
+| >>>>>>>>>>>>>>>>>>>>>> |  |  |  |  |  |  |
+| Particularidades e Observações: | OBS 1: letras, números e caracteres como "_" e "$" | OBS 1: não é enviado ao banco | OBS geral: o Pagador persiste a quantidade de caracteres | OBS 1: não é enviado ao banco | OBS 1: quando ultrapassa os 11 dígitos, o pagador considera o número incremental cadastrado no admin | OBS geral: o Pagador persiste as qts de caracteres |
+|  | OBS 2: o valor é presistido no banco | OBS 2: quando enviado acima de 9 posições, o Pagador trunca automaticamente, considerando os últimos 9 dígitos | OBS 1: o nosso número será sempre igual ao Order ID, sendo que o pagador valida o tamanho do campo | OBS 2: o valor é persistido no banco | OBS 2: inicia-se com "14" + 14 dígitos + dígito verificador gerado automaticamente. Quando maior que 14, o Pagador trunca pegando os últimos 14 digitos | OBS 1: quando fora do limite, o pagador gera um número incremental configurado a partir do Admin |
+|  | OBS 3: o Pagador trunca automaticamente | OBS 3: são aceitos como caracteres válidos: as letras de A a Z (MAIÚSCULAS); caracteres especiais de conjunção: hífen (-), apóstrofo ('). Quando utilizados não pode conter espaços entre as letras; Exemplos corretos: D'EL-REI, D'ALCORTIVO, SANT'ANA. Exemplos incorretos: D'EL - REI; até um espaço em branco entre palavras |  | OBS 3: o valor é persistido no Pagador | OBS 3: o valor é persistido no Pagador | OBS 2: quando fora do limite, o pagador gera um número aleatório |
+|  | OBS 4: o valor é persistido no Pagador |  |  |  |  | OBS 3: o Pagador trunca até o limite permitido e remove os caracteres especiais e acentuados |
+|  |  |  |  |  |  | OBS 4: não é enviado para banco |
 
 ### Resposta
 
 ```json
 {
-  "MerchantOrderId": "2017051113",
+  "MerchantOrderId": "2017091101",
   "Customer": {
     "Name": "Nome do Comprador",
     "Identity": "12345678909",
@@ -4724,7 +4746,7 @@ curl
     "ExpirationDate": "2017-12-31",
     "Demonstrative": "Desmonstrative Teste",
     "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f",
-    "BoletoNumber": "2634-0",
+    "BoletoNumber": "2017091101",
     "BarCodeNumber": "00091739000000100000494250000000263400656560",
     "DigitableLine": "00090.49420 50000.000260 34006.565609 1 73900000010000",
     "Assignor": "Empresa Teste",
@@ -4756,7 +4778,7 @@ curl
 --header "RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 --data-binary
 {
-  "MerchantOrderId": "2017051113",
+  "MerchantOrderId": "2017091101",
   "Customer": {
     "Name": "Nome do Comprador",
     "Identity": "12345678909",
@@ -4777,7 +4799,7 @@ curl
     "ExpirationDate": "2017-12-31",
     "Demonstrative": "Desmonstrative Teste",
     "Url": "https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f",
-    "BoletoNumber": "2634-0",
+    "BoletoNumber": "2017091101",
     "BarCodeNumber": "00091739000000100000494250000000263400656560",
     "DigitableLine": "00090.49420 50000.000260 34006.565609 1 73900000010000",
     "Assignor": "Empresa Teste",
@@ -4809,7 +4831,7 @@ curl
 |`PaymentId`|Campo Identificador do Pedido. |Guid |36 |xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx |
 |`ExpirationDate`|Data de expiração. |Texto |10 |2014-12-25 |
 |`Url`|URL do Boleto gerado |string |256 |https://.../pagador/reenvia.asp/8464a692-b4bd-41e7-8003-1611a2b8ef2d |
-|`Number`|"NossoNumero" gerado. |Texto|50 |1000000012-8 |
+|`Number`|"NossoNumero" gerado. |Texto|50 |2017091101 |
 |`BarCodeNumber`|Representação numérica do código de barras. |Texto |44 |00091628800000157000494250100000001200656560 |
 |`DigitableLine`|Linha digitável. |Texto |256 |00090.49420 50100.000004 12006.565605 1 62880000015700 |
 |`Address`|Endereço do Loja cadastrada no banco |Texto |256 |Av. Teste, 160 |
