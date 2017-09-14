@@ -231,6 +231,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="s2">"4551870000000181"</span><span class="p">,</span><span class="w">
@@ -258,6 +259,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"CardNumber"</span>:<span class="s2">"4551870000000181"</span>,
@@ -1328,7 +1330,8 @@
    </span><span class="s2">"Payment"</span><span class="p">:{</span><span class="w">  
       </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Cielo"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">      
+      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w"> 
+      </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
       </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="s2">"ReturnUrl"</span><span class="p">:</span><span class="s2">"http://www.braspag.com.br"</span><span class="p">,</span><span class="w">
@@ -1357,7 +1360,8 @@
    <span class="s2">"Payment"</span>:<span class="o">{</span>  
       <span class="s2">"Provider"</span>:<span class="s2">"Cielo"</span>,
       <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
-      <span class="s2">"Amount"</span>:10000,      
+      <span class="s2">"Amount"</span>:10000,   
+      <span class="s2">"Capture"</span>:true,
       <span class="s2">"Installments"</span>:1,
       <span class="s2">"Authenticate"</span>:true,
       <span class="s2">"ReturnUrl"</span>:<span class="s2">"http://www.braspag.com.br"</span>,
@@ -1506,6 +1510,403 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"455187******0181"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do Portador"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12/2015"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"AuthenticationUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AcquirerTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10069930690009D2A47A"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReturnUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.braspag.com.br"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"PaymentId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b125109f-681b-4338-8450-f3e38bc71b32"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReceivedDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-11 11:09:49"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cielo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReasonCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ReasonMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Status"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ProviderReturnCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>
+  <span class="s2">"MerchantOrderId"</span>: <span class="s2">"2017051101"</span>,
+  <span class="s2">"Customer"</span>: <span class="o">{</span>
+    <span class="s2">"Name"</span>: <span class="s2">"Customer's Name"</span>
+  <span class="o">}</span>,
+  <span class="s2">"Payment"</span>: <span class="o">{</span>
+    <span class="s2">"ServiceTaxAmount"</span>: 0,
+    <span class="s2">"Installments"</span>: 1,
+    <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
+    <span class="s2">"Authenticate"</span>: <span class="nb">true</span>,
+    <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
+    <span class="s2">"CreditCard"</span>: <span class="o">{</span>
+      <span class="s2">"CardNumber"</span>: <span class="s2">"455187******0181"</span>,
+      <span class="s2">"Holder"</span>: <span class="s2">"Nome do Portador"</span>,
+      <span class="s2">"ExpirationDate"</span>: <span class="s2">"12/2015"</span>,
+      <span class="s2">"SaveCard"</span>: <span class="nb">false</span>,
+      <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
+    <span class="o">}</span>,
+    <span class="s2">"AuthenticationUrl"</span>: <span class="s2">"https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab"</span>,
+    <span class="s2">"AcquirerTransactionId"</span>: <span class="s2">"10069930690009D2A47A"</span>,
+    <span class="s2">"ReturnUrl"</span>: <span class="s2">"http://www.braspag.com.br"</span>,
+    <span class="s2">"PaymentId"</span>: <span class="s2">"b125109f-681b-4338-8450-f3e38bc71b32"</span>,
+    <span class="s2">"Type"</span>: <span class="s2">"CreditCard"</span>,
+    <span class="s2">"Amount"</span>: 10000,
+    <span class="s2">"ReceivedDate"</span>: <span class="s2">"2017-05-11 11:09:49"</span>,
+    <span class="s2">"Currency"</span>: <span class="s2">"BRL"</span>,
+    <span class="s2">"Country"</span>: <span class="s2">"BRA"</span>,
+    <span class="s2">"Provider"</span>: <span class="s2">"Cielo"</span>,
+    <span class="s2">"ReasonCode"</span>: 9,
+    <span class="s2">"ReasonMessage"</span>: <span class="s2">"Waiting"</span>,
+    <span class="s2">"Status"</span>: 0,
+    <span class="s2">"ProviderReturnCode"</span>: <span class="s2">"0"</span>,
+    <span class="s2">"Links"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">"Method"</span>: <span class="s2">"GET"</span>,
+        <span class="s2">"Rel"</span>: <span class="s2">"self"</span>,
+        <span class="s2">"Href"</span>: <span class="s2">"https://apiquerysandbox.braspag.com.br/v2/sales/b125109f-681b-4338-8450-f3e38bc71b32"</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Format</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">AcquirerTransactionId</code></td>
+<td>Provider&rsquo;s Transaction ID</td>
+<td>Text</td>
+<td>40</td>
+<td>Alphanumeric Text</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProofOfSale</code></td>
+<td>Provider&rsquo;s Proof of Sale Code</td>
+<td>Text</td>
+<td>20</td>
+<td>Alphanumeric Text</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AuthorizationCode</code></td>
+<td>Provider&rsquo;s Authorization Code</td>
+<td>Text</td>
+<td>300</td>
+<td>Alphanumeric Text</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PaymentId</code></td>
+<td>Braspag&rsquo;s Transaction ID</td>
+<td>Guid</td>
+<td>36</td>
+<td>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReceivedDate</code></td>
+<td>Transaction&rsquo;s received date</td>
+<td>Text</td>
+<td>19</td>
+<td>YYYY-MM-DD HH:mm:SS</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonCode</code></td>
+<td>Operation&rsquo;s Reason Code</td>
+<td>Text</td>
+<td>32</td>
+<td>Alphanumeric Text</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ReasonMessage</code></td>
+<td>Operation&rsquo;s Reason Message</td>
+<td>Text</td>
+<td>512</td>
+<td>Alphanumeric Text</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Status</code></td>
+<td>Transaction&rsquo;s Status</td>
+<td>Byte</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnCode</code></td>
+<td>Acquirer or Bank’s return code.</td>
+<td>Text</td>
+<td>32</td>
+<td>57</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ProviderReturnMessage</code></td>
+<td>Acquirer or Issuer’s return message</td>
+<td>Text</td>
+<td>32</td>
+<td>57</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AuthenticationUrl</code></td>
+<td>URL to redirect the customer when the authetication process is finalized</td>
+<td>Text</td>
+<td>256</td>
+<td>https://qasecommerce.cielo.com.br/web/index.cbmp?id=5f177203bf524c78982ad28f7ece5f08</td>
+</tr>
+</tbody></table>
+
+<h2 id="card-payment-with-external-authentication">Card Payment with External Authentication</h2>
+
+<p>When a transaction is submitted to an external authentication process, the customer is redirected to the issuer&rsquo;s environment, where it must perform a confirmation of its data. When the validation is successfully validated, the &ldquo;liability&rdquo; of the transaction is transfered to the bank. In case of dispute, the bank will be responsible for chageback.</p>
+
+<aside class="notice"><strong>Authantication:</strong>The cardholder is redirected to the authentication environment of the card issuing bank where the card password is required. Applicable to Cielo, Global Payments and Banorte&rsquo;s payent methods.</aside>
+
+<h3 id="request">Request</h3>
+
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">  
+   </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017051101"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"Customer"</span><span class="p">:{</span><span class="w">  
+      </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Customer's Name"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"Payment"</span><span class="p">:{</span><span class="w">  
+      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Cielo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">    
+      </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">     
+      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ReturnUrl"</span><span class="p">:</span><span class="s2">"http://www.braspag.com.br"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">  
+         </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="s2">"4551870000000181"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"Holder"</span><span class="p">:</span><span class="s2">"Cardholder"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="s2">"12/2015"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"SecurityCode"</span><span class="p">:</span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"Brand"</span><span class="p">:</span><span class="s2">"Visa"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"ExternalAuthentication"</span><span class="p">:{</span><span class="w">
+       </span><span class="s2">"Cavv"</span><span class="p">:</span><span class="s2">"AAABB2gHA1B5EFNjWQcDAAAAAAB="</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"Xid"</span><span class="p">:</span><span class="s2">"Uk5ZanBHcWw2RjRCbEN5dGtiMTB="</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"Eci"</span><span class="p">:</span><span class="s2">"5"</span><span class="p">,</span><span class="w">
+     </span><span class="err">}</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell">curl
+--request POST <span class="s2">"https://apisandbox.braspag.com.br/v2/sales/"</span>
+--header <span class="s2">"Content-Type: application/json"</span>
+--header <span class="s2">"MerchantId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--header <span class="s2">"MerchantKey: 0123456789012345678901234567890123456789"</span>
+--header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
+--data-binary
+<span class="o">{</span>  
+   <span class="s2">"MerchantOrderId"</span>:<span class="s2">"2017051101"</span>,
+   <span class="s2">"Customer"</span>:<span class="o">{</span>  
+      <span class="s2">"Name"</span>: <span class="s2">"Customer's Name"</span>
+   <span class="o">}</span>,
+   <span class="s2">"Payment"</span>:<span class="o">{</span>  
+      <span class="s2">"Provider"</span>:<span class="s2">"Cielo"</span>,
+      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
+      <span class="s2">"Amount"</span>:10000, 
+      <span class="s2">"Capture"</span>:true,     
+      <span class="s2">"Installments"</span>:1,
+      <span class="s2">"Authenticate"</span>:true,
+      <span class="s2">"ReturnUrl"</span>:<span class="s2">"http://www.braspag.com.br"</span>,
+      <span class="s2">"CreditCard"</span>:<span class="o">{</span>  
+         <span class="s2">"CardNumber"</span>:<span class="s2">"4551870000000181"</span>,
+         <span class="s2">"Holder"</span>:<span class="s2">"Cardholder"</span>,
+         <span class="s2">"ExpirationDate"</span>:<span class="s2">"12/2015"</span>,
+         <span class="s2">"SecurityCode"</span>:<span class="s2">"123"</span>,
+         <span class="s2">"Brand"</span>:<span class="s2">"Visa"</span>
+      <span class="o">}</span>,
+      <span class="s2">"ExternalAuthentication"</span>:<span class="o">{</span>
+       <span class="s2">"Cavv"</span>:<span class="s2">"AAABB2gHA1B5EFNjWQcDAAAAAAB="</span>,
+       <span class="s2">"Xid"</span>:<span class="s2">"Uk5ZanBHcWw2RjRCbEN5dGtiMTB="</span>,
+       <span class="s2">"Eci"</span>:<span class="s2">"5"</span>,
+     <span class="o">}</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+--verbose
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">MerchantId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>Yes</td>
+<td>Merchant Identifier</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantKey</code></td>
+<td>Text</td>
+<td>40</td>
+<td>Yes</td>
+<td>Merchant Key need to access the API</td>
+</tr>
+<tr>
+<td><code class="prettyprint">RequestId</code></td>
+<td>Guid</td>
+<td>36</td>
+<td>No</td>
+<td>Request Identifier defined by merchant, applicable to any operation GET/POST/PUT</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantOrderId</code></td>
+<td>Text</td>
+<td>50</td>
+<td>Yes</td>
+<td>Merchant Order ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Name</code></td>
+<td>Text</td>
+<td>255</td>
+<td>Yes</td>
+<td>Customer&rsquo;s Name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Provider</code></td>
+<td>Text</td>
+<td>15</td>
+<td>Yes</td>
+<td>Payment Method Provider&rsquo;s name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Type</code></td>
+<td>Text</td>
+<td>100</td>
+<td>Yes</td>
+<td>Payment Method&rsquo;s Type</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Amount</code></td>
+<td>Number</td>
+<td>15</td>
+<td>Yes</td>
+<td>Transaction Amount (must be sent in cents)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Installments</code></td>
+<td>Number</td>
+<td>2</td>
+<td>Yes</td>
+<td>Number of Installments</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Authenticate</code></td>
+<td>Boolean</td>
+<td>&mdash;</td>
+<td>No (Default false)</td>
+<td>If authentication behavior is required, send true. Else, false. Check with the Acquirer if this feature is supported</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ReturnUrl</code></td>
+<td>Text</td>
+<td>1024</td>
+<td>Yes (whe Authenticate is true)</td>
+<td>URL to redirect the customer when the authetication process is finalized</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.CardNumber</code></td>
+<td>Text</td>
+<td>16</td>
+<td>Yes</td>
+<td>Credit Card number</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Holder</code></td>
+<td>Text</td>
+<td>25</td>
+<td>Yes</td>
+<td>Cardholder name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.ExpirationDate</code></td>
+<td>Text</td>
+<td>7</td>
+<td>Yes</td>
+<td>Expiration Date (MM/YYYY)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.SecurityCode</code></td>
+<td>Text</td>
+<td>4</td>
+<td>Yes</td>
+<td>Security Code (CVV2)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CreditCard.Brand</code></td>
+<td>Text</td>
+<td>10</td>
+<td>Yes</td>
+<td>Card&rsquo;s Brand</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ExternalAuthentication.Cavv</code></td>
+<td>Text</td>
+<td>28</td>
+<td>Yes</td>
+<td>The value Cavv is returned by authentication provider</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ExternalAuthentication.Xid</code></td>
+<td>Text</td>
+<td>28</td>
+<td>Yes</td>
+<td>The value Xid is returned by authentication provider</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.ExternalAuthentication.Eci</code></td>
+<td>Number</td>
+<td>1</td>
+<td>Yes</td>
+<td>The value Eci is returned by authentication provider</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017051101"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Customer's Name"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"Payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -1516,6 +1917,11 @@
       </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
       </span><span class="s2">"Brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
     </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"ExternalAuthentication"</span><span class="p">:{</span><span class="w">
+       </span><span class="s2">"Cavv"</span><span class="p">:</span><span class="s2">"AAABB2gHA1B5EFNjWQcDAAAAAAB="</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"Xid"</span><span class="p">:</span><span class="s2">"Uk5ZanBHcWw2RjRCbEN5dGtiMTB="</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"Eci"</span><span class="p">:</span><span class="s2">"5"</span><span class="p">,</span><span class="w">
+     </span><span class="err">}</span><span class="p">,</span><span class="w">
     </span><span class="s2">"AuthenticationUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"AcquirerTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10069930690009D2A47A"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"ReturnUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.braspag.com.br"</span><span class="p">,</span><span class="w">
@@ -1562,6 +1968,11 @@
       <span class="s2">"SaveCard"</span>: <span class="nb">false</span>,
       <span class="s2">"Brand"</span>: <span class="s2">"Visa"</span>
     <span class="o">}</span>,
+    <span class="s2">"ExternalAuthentication"</span>:<span class="o">{</span>
+       <span class="s2">"Cavv"</span>:<span class="s2">"AAABB2gHA1B5EFNjWQcDAAAAAAB="</span>,
+       <span class="s2">"Xid"</span>:<span class="s2">"Uk5ZanBHcWw2RjRCbEN5dGtiMTB="</span>,
+       <span class="s2">"Eci"</span>:<span class="s2">"5"</span>,
+     <span class="o">}</span>,
     <span class="s2">"AuthenticationUrl"</span>: <span class="s2">"https://qasecommerce.cielo.com.br/web/index.cbmp?id=9e61c78c0b0ca3e5db41fa7e31585eab"</span>,
     <span class="s2">"AcquirerTransactionId"</span>: <span class="s2">"10069930690009D2A47A"</span>,
     <span class="s2">"ReturnUrl"</span>: <span class="s2">"http://www.braspag.com.br"</span>,
@@ -3032,6 +3443,7 @@
     </span><span class="s2">"Payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15700</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -3175,6 +3587,7 @@
     <span class="s2">"Payment"</span>: <span class="o">{</span>
         <span class="s2">"Type"</span>: <span class="s2">"CreditCard"</span>,
         <span class="s2">"Amount"</span>: 15700,
+        <span class="s2">"Capture"</span>:true,
         <span class="s2">"Provider"</span>: <span class="s2">"Simulado"</span>,
         <span class="s2">"Installments"</span>: 1,
         <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -4596,6 +5009,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="s2">"4551870000000181"</span><span class="p">,</span><span class="w">
@@ -4625,6 +5039,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"CardNumber"</span>:<span class="s2">"4551870000000181"</span>,
@@ -4773,8 +5188,8 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"455187******0181"</span><span class="p">,</span><span class="w">
@@ -4836,7 +5251,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">true</span>
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -4989,6 +5404,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"CardToken"</span><span class="p">:</span><span class="s2">"250e7c7c-5501-4a7c-aa42-a33d7ad61167"</span><span class="p">,</span><span class="w">
@@ -5014,6 +5430,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"CardToken"</span>:<span class="s2">"250e7c7c-5501-4a7c-aa42-a33d7ad61167"</span>,
@@ -5130,8 +5547,8 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -5185,7 +5602,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">true</span>
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -5326,6 +5743,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"Alias"</span><span class="p">:</span><span class="s2">"Cliente1"</span><span class="p">,</span><span class="w">
@@ -5351,6 +5769,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"Alias"</span>:<span class="s2">"Cliente1"</span>,
@@ -5474,8 +5893,8 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"SaveCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -5529,7 +5948,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">true</span>
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -5968,6 +6387,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="s2">"4551870000000181"</span><span class="p">,</span><span class="w">
@@ -6016,6 +6436,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"CardNumber"</span>:<span class="s2">"4551870000000181"</span>,
@@ -6309,8 +6730,8 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"455187******0181"</span><span class="p">,</span><span class="w">
@@ -6381,7 +6802,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">true</span>
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -6486,6 +6907,7 @@
      </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"CreditCard"</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"Capture"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
      </span><span class="s2">"Installments"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
      </span><span class="s2">"CreditCard"</span><span class="p">:{</span><span class="w">
          </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="s2">"4551870000000183"</span><span class="p">,</span><span class="w">
@@ -6512,6 +6934,7 @@
      <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
      <span class="s2">"Type"</span>:<span class="s2">"CreditCard"</span>,
      <span class="s2">"Amount"</span>:10000,
+     <span class="s2">"Capture"</span>:true,
      <span class="s2">"Installments"</span>:1,
      <span class="s2">"CreditCard"</span>:<span class="o">{</span>
          <span class="s2">"CardNumber"</span>:<span class="s2">"4551870000000183"</span>,
@@ -6644,8 +7067,8 @@
     </span><span class="s2">"ServiceTaxAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByMerchant"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="s2">"Authenticate"</span><span class="err">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Capture"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Recurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"CreditCard"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"CardNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"455187******0183"</span><span class="p">,</span><span class="w">
@@ -6693,7 +7116,7 @@
     <span class="s2">"ServiceTaxAmount"</span>: 0,
     <span class="s2">"Installments"</span>: 1,
     <span class="s2">"Interest"</span>: <span class="s2">"ByMerchant"</span>,
-    <span class="s2">"Capture"</span>: <span class="nb">true</span>
+    <span class="s2">"Capture"</span>: <span class="nb">true</span>,
     <span class="s2">"Authenticate"</span>: <span class="nb">false</span>,
     <span class="s2">"Recurrent"</span>: <span class="nb">false</span>,
     <span class="s2">"CreditCard"</span>: <span class="o">{</span>
@@ -7255,7 +7678,7 @@
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Identity</code></td>
-<td>No</td>
+<td>Yes</td>
 <td>Customer&rsquo;s RG, CPF or CNPJ</td>
 <td>Text</td>
 <td>14</td>
@@ -7887,7 +8310,7 @@
 <tr>
 <td><code class="prettyprint">Customer.Name</code></td>
 <td>Text</td>
-<td>255</td>
+<td>See the table below</td>
 <td>Yes</td>
 <td>Customer&rsquo;s Name</td>
 </tr>
@@ -7901,28 +8324,28 @@
 <tr>
 <td><code class="prettyprint">Customer.IdentityType</code></td>
 <td>Text</td>
-<td>255</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer Identification Type  (CPF or CNPJ)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.Street</code></td>
 <td>Text</td>
-<td>255</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer&rsquo;s main contact address</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.Number</code></td>
 <td>Text</td>
-<td>15</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer&rsquo;s main contact address building number</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.Complement</code></td>
 <td>Text</td>
-<td>50</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer&rsquo;s main contact address additional data</td>
 </tr>
@@ -7936,7 +8359,7 @@
 <tr>
 <td><code class="prettyprint">Customer.Address.City</code></td>
 <td>Text</td>
-<td>50</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer&rsquo;s main contact address&rsquo; City</td>
 </tr>
@@ -7957,7 +8380,7 @@
 <tr>
 <td><code class="prettyprint">Customer.Address.District</code></td>
 <td>Text</td>
-<td>50 </td>
+<td>See the table below</td>
 <td>No</td>
 <td>Customer&rsquo;s main contact address&rsquo; district name </td>
 </tr>
@@ -7985,7 +8408,7 @@
 <tr>
 <td><code class="prettyprint">Payment.BoletoNumber</code></td>
 <td>Text</td>
-<td>50 </td>
+<td>See the table below</td>
 <td>No</td>
 <td>Boleto Identification Number (&ldquo;Nosso Número&rdquo;). If this fiel is filled, it overrides the configured value.</td>
 </tr>
@@ -7999,7 +8422,7 @@
 <tr>
 <td><code class="prettyprint">Payment.Demonstrative</code></td>
 <td>Text</td>
-<td>450</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Demonstrative message. If this fiel is filled, it will override the configured value.</td>
 </tr>
@@ -8020,9 +8443,150 @@
 <tr>
 <td><code class="prettyprint">Payment.Instructions</code></td>
 <td>Text</td>
-<td>450</td>
+<td>See the table below</td>
 <td>No</td>
 <td>Instruction Message. If this fiel is filled, it will override the configured value.</td>
+</tr>
+</tbody></table>
+
+<h3 id="fields-max-length-specification-for-each-bank">Fields max length specification for each bank</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th style="text-align: center">Bradesco</th>
+<th style="text-align: center">BancoBanco do Brasil</th>
+<th style="text-align: center">Itaú</th>
+<th style="text-align: center">Santander</th>
+<th style="text-align: center">Caixa Econômica</th>
+<th style="text-align: center">Citibank</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Provider</td>
+<td style="text-align: center">Bradesco2</td>
+<td style="text-align: center">BancoDoBrasil2</td>
+<td style="text-align: center">ItauShopline</td>
+<td style="text-align: center">Santander2</td>
+<td style="text-align: center">Caixa2</td>
+<td style="text-align: center">Citibank2</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantOrderId</code></td>
+<td style="text-align: center">27 (OBS 1)</td>
+<td style="text-align: center">50 (OBS 1)</td>
+<td style="text-align: center">8</td>
+<td style="text-align: center">50 (OBS 1)</td>
+<td style="text-align: center">11 (OBS 1)</td>
+<td style="text-align: center">10 (OBS 1)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.BoletoNumber</code></td>
+<td style="text-align: center">11 (OBS 2)</td>
+<td style="text-align: center">9 (OBS 2)</td>
+<td style="text-align: center">8 (OBS 1)</td>
+<td style="text-align: center">13 (OBS 2)</td>
+<td style="text-align: center">14 (OBS 2)</td>
+<td style="text-align: center">11 (OBS 2)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Name</code></td>
+<td style="text-align: center">34 (OBS 3)</td>
+<td style="text-align: center">60 (OBS,3)</td>
+<td style="text-align: center">30</td>
+<td style="text-align: center">40 (OBS 3)</td>
+<td style="text-align: center">40 (OBS 3)</td>
+<td style="text-align: center">50 (OBS 3)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Street</code>; <code class="prettyprint">Customer.Address.Number</code>; <code class="prettyprint">Customer.Address.Complement</code>; <code class="prettyprint">Customer.Address.District</code></td>
+<td style="text-align: center">Street: 70 (OBS 4); Number: 10 (OBS 4); Complement: 20 (OBS 4); District: 50 (OBS 4)</td>
+<td style="text-align: center">These fields must have up to 60 characters</td>
+<td style="text-align: center">Street, Number e Complement must have up to 40 characters;  District: 15</td>
+<td style="text-align: center">Street, Number e Complement must have up to 40 characters (OBS 3); District: 15 (OBS 3)</td>
+<td style="text-align: center">Street, Number e Complement must have up to 40 characters (OBS 3); District: 15 (OBS 3)</td>
+<td style="text-align: center">Street, Number e Complement must have up to 40 characters (OBS 3); District: 50 (OBS 3)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.City</code></td>
+<td style="text-align: center">50 (OBS 4)</td>
+<td style="text-align: center">18 (OBS 3)</td>
+<td style="text-align: center">15</td>
+<td style="text-align: center">30 (OBS 3)</td>
+<td style="text-align: center">15 (OBS 3)</td>
+<td style="text-align: center">50 (OBS 4)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Instructions</code></td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">this field is not sent to the bank</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Demonstrative</code></td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">this field is not sent to the bank</td>
+<td style="text-align: center">this field is not sent to the bank</td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">255</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td>Additional Obsrevations:</td>
+<td style="text-align: center">OBS 1: alphabets, numbers e characters like &ldquo;_&rdquo; and &ldquo;$&rdquo;</td>
+<td style="text-align: center">OBS 1: this field is not sent to the bank</td>
+<td style="text-align: center">OBS geral: the Pagador validates the limit</td>
+<td style="text-align: center">OBS 1: this field is not sent to the bank</td>
+<td style="text-align: center">OBS 1: when the value is greater than 11 digits, the Pagador will generate a number based on configured number in the admin panel</td>
+<td style="text-align: center">General OBS: the Pagador validates the limit</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 2: the bank validates the limit</td>
+<td style="text-align: center">OBS 2: the value is truncated when pass 9 digits, considering the last 9 positions</td>
+<td style="text-align: center">OBS 1: the &ldquo;nosso número&rdquo; alwats will be the same value as &ldquo;Order ID&rdquo;, and pagador validates the limit</td>
+<td style="text-align: center">OBS 2: the bank validates the limit</td>
+<td style="text-align: center">OBS 2: start with &ldquo;14&rdquo; + 14 digits + verification digit generates automatically. When greater than 14 digits, the Pagador truncate the value considering the last 14 digits</td>
+<td style="text-align: center">OBS 1: when greather than the max limit, the Pagador generates a incremental number configured in the admin panel</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 3: the Pagador truncate automatically</td>
+<td style="text-align: center">OBS 3: accepted characteres: alphabets A a Z (CAPS LOCK); special characters: (-), (&rsquo;), without space between these characters; Correct Examples: D&#39;EL-REI, D&#39;ALCORTIVO, SANT&#39;ANA. Incorrect Examples: D&#39;EL - REI; you can use one space between two words</td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 3: the Pagador validates the limit</td>
+<td style="text-align: center">OBS 3: the Pagador validates the limit</td>
+<td style="text-align: center">OBS 2: when the value is greater than limit, the Pagador generates one randomic number</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 4: the Pagador validates the limit</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 3: te Pagador removes the special characters</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 4: this field is not sent to the bank</td>
 </tr>
 </tbody></table>
 
@@ -10908,7 +11472,7 @@ New Next scheduled recurrence date: Oct 2th <BR>
 </tr>
 <tr>
 <td>Banorte</td>
-<td>Visa, Master</td>
+<td>Visa, Master, Carnet</td>
 </tr>
 <tr>
 <td>DMCard</td>
@@ -10950,7 +11514,7 @@ New Next scheduled recurrence date: Oct 2th <BR>
 </tr>
 </thead><tbody>
 <tr>
-<td>Bradesco2, BancoDoBrasil2, ItauShopline</td>
+<td>Bradesco2, BancoDoBrasil2, ItauShopline, Santander2</td>
 </tr>
 </tbody></table>
 

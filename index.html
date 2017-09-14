@@ -8568,7 +8568,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 
 <aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 <pre><code class="highlight json"><span class="p">{</span><span class="w">  
-    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017051113"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017091101"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w">
     </span><span class="p">{</span><span class="w">  
         </span><span class="s2">"Name"</span><span class="p">:</span><span class="s2">"Nome do Comprador"</span><span class="p">,</span><span class="w">
@@ -8590,11 +8590,12 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
         </span><span class="s2">"Provider"</span><span class="p">:</span><span class="s2">"Simulado"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Type"</span><span class="p">:</span><span class="s2">"Boleto"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Amount"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"BoletoNumber"</span><span class="p">:</span><span class="s2">"2017091101"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Assignor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Empresa Teste"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Demonstrative"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Desmonstrative Teste"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-31"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"Identification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12346578909"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"Instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aceitar somente até a data de vencimento."</span><span class="w">      
+        </span><span class="s2">"Instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aceitar somente até a data de vencimento."</span><span class="w">     
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -8606,7 +8607,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 --header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
 --data-binary
 <span class="o">{</span>  
-    <span class="s2">"MerchantOrderId"</span>:<span class="s2">"2017051113"</span>,
+    <span class="s2">"MerchantOrderId"</span>:<span class="s2">"2017091101"</span>,
     <span class="s2">"Customer"</span>:
     <span class="o">{</span>  
         <span class="s2">"Name"</span>:<span class="s2">"Nome do Comprador"</span>,
@@ -8628,6 +8629,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
         <span class="s2">"Provider"</span>:<span class="s2">"Simulado"</span>,
         <span class="s2">"Type"</span>:<span class="s2">"Boleto"</span>,
         <span class="s2">"Amount"</span>:10000,
+        <span class="s2">"BoletoNumber"</span>:<span class="s2">"2017091101"</span>,        
         <span class="s2">"Assignor"</span>: <span class="s2">"Empresa Teste"</span>,
         <span class="s2">"Demonstrative"</span>: <span class="s2">"Desmonstrative Teste"</span>,
         <span class="s2">"ExpirationDate"</span>: <span class="s2">"2017-12-31"</span>,
@@ -8671,16 +8673,16 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <tr>
 <td><code class="prettyprint">MerchantOrderId</code></td>
 <td>Texto</td>
-<td>50</td>
+<td>vide tabela abaixo</td>
 <td>Sim</td>
-<td>Numero de identificação do Pedido</td>
+<td>Numero de identificação do Pedido. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Name</code></td>
 <td>Texto</td>
-<td>255</td>
+<td>vide tabela abaixo</td>
 <td>Sim</td>
-<td>Nome do comprador</td>
+<td>Nome do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Identity</code></td>
@@ -8699,37 +8701,44 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <tr>
 <td><code class="prettyprint">Customer.Address.Street</code></td>
 <td>Texto</td>
-<td>255</td>
+<td>vide tabela abaixo</td>
 <td>Sim</td>
-<td>Endereço de contato do comprador</td>
+<td>Endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.Number</code></td>
 <td>Texto</td>
-<td>15</td>
+<td>vide tabela abaixo</td>
 <td>Sim</td>
-<td>Número endereço de contato do comprador</td>
+<td>Número endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.Complement</code></td>
 <td>Texto</td>
-<td>50</td>
+<td>vide tabela abaixo</td>
 <td>Não</td>
-<td>Complemento do endereço de contato do Comprador</td>
+<td>Complemento do endereço de contato do Comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.ZipCode</code></td>
 <td>Texto</td>
-<td>9</td>
+<td>8</td>
 <td>Sim</td>
 <td>CEP do endereço de contato do comprador</td>
 </tr>
 <tr>
+<td><code class="prettyprint">Customer.Address.District</code></td>
+<td>Texto</td>
+<td>vide tabela abaixo</td>
+<td>Sim</td>
+<td>Bairro do endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
+</tr>
+<tr>
 <td><code class="prettyprint">Customer.Address.City</code></td>
 <td>Texto</td>
-<td>50</td>
+<td>vide tabela abaixo</td>
 <td>Sim</td>
-<td>Cidade do endereço de contato do comprador</td>
+<td>Cidade do endereço de contato do comprador. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Customer.Address.State</code></td>
@@ -8769,9 +8778,9 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <tr>
 <td><code class="prettyprint">Payment.BoletoNumber</code></td>
 <td>Texto </td>
-<td>50 </td>
+<td>vide tabela abaixo</td>
 <td>Não</td>
-<td>Número do Boleto (&ldquo;Nosso Número&rdquo;). Caso preenchido, sobrepõe o valor configurado no meio de pagamento</td>
+<td>Número do Boleto (&ldquo;Nosso Número&rdquo;). Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Payment.Assignor</code></td>
@@ -8783,9 +8792,9 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <tr>
 <td><code class="prettyprint">Payment.Demonstrative</code></td>
 <td>Texto </td>
-<td>450</td>
+<td>vide tabela abaixo</td>
 <td>Não</td>
-<td>Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento</td>
+<td>Texto de Demonstrativo. Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">Payment.ExpirationDate</code></td>
@@ -8804,15 +8813,156 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <tr>
 <td><code class="prettyprint">Payment.Instructions</code></td>
 <td>Texto </td>
-<td>450</td>
+<td>vide tabela abaixo</td>
 <td>Não</td>
-<td>Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento</td>
+<td>Instruções do Boleto. Caso preenchido, sobrepõe o valor configurado no meio de pagamento. A regra varia de acordo com o Provider utilizado (vide tabela abaixo)</td>
+</tr>
+</tbody></table>
+
+<h3 id="tabela-de-especificação-de-quantidade-de-caracteres-do-campo-por-provider">Tabela de Especificação de quantidade de caracteres do campo por Provider</h3>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th style="text-align: center">Bradesco</th>
+<th style="text-align: center">BancoBanco do Brasil</th>
+<th style="text-align: center">Itaú</th>
+<th style="text-align: center">Santander</th>
+<th style="text-align: center">Caixa Econômica</th>
+<th style="text-align: center">Citibank</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Provider</td>
+<td style="text-align: center">Bradesco2</td>
+<td style="text-align: center">BancoDoBrasil2</td>
+<td style="text-align: center">ItauShopline</td>
+<td style="text-align: center">Santander2</td>
+<td style="text-align: center">Caixa2</td>
+<td style="text-align: center">Citibank2</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MerchantOrderId</code></td>
+<td style="text-align: center">27 (OBS 1)</td>
+<td style="text-align: center">50 (OBS 1)</td>
+<td style="text-align: center">8</td>
+<td style="text-align: center">50 (OBS 1)</td>
+<td style="text-align: center">11 (OBS 1)</td>
+<td style="text-align: center">10 (OBS 1)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.BoletoNumber</code></td>
+<td style="text-align: center">11 (OBS 2)</td>
+<td style="text-align: center">9 (OBS 2)</td>
+<td style="text-align: center">8 (OBS 1)</td>
+<td style="text-align: center">13 (OBS 2)</td>
+<td style="text-align: center">14 (OBS 2)</td>
+<td style="text-align: center">11 (OBS 2)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Name</code></td>
+<td style="text-align: center">34 (OBS 3)</td>
+<td style="text-align: center">60 (OBS,3)</td>
+<td style="text-align: center">30</td>
+<td style="text-align: center">40 (OBS 3)</td>
+<td style="text-align: center">40 (OBS 3)</td>
+<td style="text-align: center">50 (OBS 3)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.Street</code>; <code class="prettyprint">Customer.Address.Number</code>; <code class="prettyprint">Customer.Address.Complement</code>; <code class="prettyprint">Customer.Address.District</code></td>
+<td style="text-align: center">Street: 70 (OBS 4); Number: 10 (OBS 4); Complement: 20 (OBS 4); District: 50 (OBS 4)</td>
+<td style="text-align: center">Os campos devem totalizar até 60 caracteres</td>
+<td style="text-align: center">Street, Number e Complement devem totalizar até 40 caracteres;  District: 15</td>
+<td style="text-align: center">Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 15 (OBS 3)</td>
+<td style="text-align: center">Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 15 (OBS 3)</td>
+<td style="text-align: center">Street, Number e Complement devem totalizar até 40 caracteres (OBS 3); District: 50 (OBS 3)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Customer.Address.City</code></td>
+<td style="text-align: center">50 (OBS 4)</td>
+<td style="text-align: center">18 (OBS 3)</td>
+<td style="text-align: center">15</td>
+<td style="text-align: center">30 (OBS 3)</td>
+<td style="text-align: center">15 (OBS 3)</td>
+<td style="text-align: center">50 (OBS 4)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Instructions</code></td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">não é enviado ao banco</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+<td style="text-align: center">450</td>
+</tr>
+<tr>
+<td><code class="prettyprint">Payment.Demonstrative</code></td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">não é enviado ao banco</td>
+<td style="text-align: center">não é enviado ao banco</td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">255</td>
+<td style="text-align: center">255</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td>Particularidades e Observações:</td>
+<td style="text-align: center">OBS 1: letras, números e caracteres como &ldquo;_&rdquo; e &ldquo;$&rdquo;</td>
+<td style="text-align: center">OBS 1: não é enviado ao banco</td>
+<td style="text-align: center">OBS geral: o Pagador persiste a quantidade de caracteres</td>
+<td style="text-align: center">OBS 1: não é enviado ao banco</td>
+<td style="text-align: center">OBS 1: quando ultrapassa os 11 dígitos, o pagador considera o número incremental cadastrado no admin</td>
+<td style="text-align: center">OBS geral: o Pagador persiste as qts de caracteres</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 2: o valor é presistido no banco</td>
+<td style="text-align: center">OBS 2: quando enviado acima de 9 posições, o Pagador trunca automaticamente, considerando os últimos 9 dígitos</td>
+<td style="text-align: center">OBS 1: o nosso número será sempre igual ao Order ID, sendo que o pagador valida o tamanho do campo</td>
+<td style="text-align: center">OBS 2: o valor é persistido no banco</td>
+<td style="text-align: center">OBS 2: inicia-se com &ldquo;14&rdquo; + 14 dígitos + dígito verificador gerado automaticamente. Quando maior que 14, o Pagador trunca pegando os últimos 14 digitos</td>
+<td style="text-align: center">OBS 1: quando fora do limite, o pagador gera um número incremental configurado a partir do Admin</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 3: o Pagador trunca automaticamente</td>
+<td style="text-align: center">OBS 3: são aceitos como caracteres válidos: as letras de A a Z (MAIÚSCULAS); caracteres especiais de conjunção: hífen (-), apóstrofo (&rsquo;). Quando utilizados não pode conter espaços entre as letras; Exemplos corretos: D&#39;EL-REI, D&#39;ALCORTIVO, SANT&#39;ANA. Exemplos incorretos: D&#39;EL - REI; até um espaço em branco entre palavras</td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 3: o valor é persistido no Pagador</td>
+<td style="text-align: center">OBS 3: o valor é persistido no Pagador</td>
+<td style="text-align: center">OBS 2: quando fora do limite, o pagador gera um número aleatório</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center">OBS 4: o valor é persistido no Pagador</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 3: o Pagador trunca até o limite permitido e remove os caracteres especiais e acentuados</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">OBS 4: não é enviado para banco</td>
 </tr>
 </tbody></table>
 
 <h3 id="resposta">Resposta</h3>
 <pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017051113"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017091101"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"Customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nome do Comprador"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678909"</span><span class="p">,</span><span class="w">
@@ -8832,7 +8982,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     </span><span class="s2">"ExpirationDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-31"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Demonstrative"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Desmonstrative Teste"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"BoletoNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2634-0"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"BoletoNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017091101"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"BarCodeNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00091739000000100000494250000000263400656560"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"DigitableLine"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00090.49420 50000.000260 34006.565609 1 73900000010000"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"Assignor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Empresa Teste"</span><span class="p">,</span><span class="w">
@@ -8862,7 +9012,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 --header <span class="s2">"RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>
 --data-binary
 <span class="o">{</span>
-  <span class="s2">"MerchantOrderId"</span>: <span class="s2">"2017051113"</span>,
+  <span class="s2">"MerchantOrderId"</span>: <span class="s2">"2017091101"</span>,
   <span class="s2">"Customer"</span>: <span class="o">{</span>
     <span class="s2">"Name"</span>: <span class="s2">"Nome do Comprador"</span>,
     <span class="s2">"Identity"</span>: <span class="s2">"12345678909"</span>,
@@ -8883,7 +9033,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
     <span class="s2">"ExpirationDate"</span>: <span class="s2">"2017-12-31"</span>,
     <span class="s2">"Demonstrative"</span>: <span class="s2">"Desmonstrative Teste"</span>,
     <span class="s2">"Url"</span>: <span class="s2">"https://homologacao.pagador.com.br/post/pagador/reenvia.asp/d24b0aa4-21c9-449d-b85c-6279333f070f"</span>,
-    <span class="s2">"BoletoNumber"</span>: <span class="s2">"2634-0"</span>,
+    <span class="s2">"BoletoNumber"</span>: <span class="s2">"2017091101"</span>,
     <span class="s2">"BarCodeNumber"</span>: <span class="s2">"00091739000000100000494250000000263400656560"</span>,
     <span class="s2">"DigitableLine"</span>: <span class="s2">"00090.49420 50000.000260 34006.565609 1 73900000010000"</span>,
     <span class="s2">"Assignor"</span>: <span class="s2">"Empresa Teste"</span>,
@@ -8945,7 +9095,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <td>&ldquo;NossoNumero&rdquo; gerado. </td>
 <td>Texto</td>
 <td>50 </td>
-<td>1000000012-8 </td>
+<td>2017091101 </td>
 </tr>
 <tr>
 <td><code class="prettyprint">BarCodeNumber</code></td>
