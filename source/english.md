@@ -6096,6 +6096,9 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 |CieloSitef|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
 |SantanderSitef|Visa, Master|
 |Banorte|Visa, Master, Carnet|
+|Getnet|Visa, Master|
+|FirstData|Visa, Master, Cabal|
+|GlobalPayments|Visa, Master|
 |DMCard|---|
 
 ### Debit Card Payments Provider
@@ -6103,6 +6106,9 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 |Provider|Brand|
 |--------|-----|
 |Cielo|Visa, Master|
+|Getnet|Visa, Master|
+|FirstData|Visa, Master|
+|GlobalPayments|Visa, Master|
 
 ### Boleto without Registration Payments Provider
 
