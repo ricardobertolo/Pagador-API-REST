@@ -6203,6 +6203,9 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 |CieloSitef|Visa, Master, Amex, Elo, Aura, Jcb, Diners, Discover|
 |SantanderSitef|Visa, Master|
 |Banorte|Visa, Master, Carnet|
+|Getnet|Visa, Master|
+|FirstData|Visa, Master, Cabal|
+|GlobalPayments|Visa, Master|
 |DMCard|---|
 
 ### Providers pra Débito
@@ -6210,6 +6213,9 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 |Provider|Brand|
 |--------|-----|
 |Cielo|Visa, Master|
+|Getnet|Visa, Master|
+|FirstData|Visa, Master|
+|GlobalPayments|Visa, Master
 |
 ### Providers para Boleto sem Registro
 
