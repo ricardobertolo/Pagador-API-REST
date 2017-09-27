@@ -6114,13 +6114,13 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 
 |Provider|
 |--------|
-|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Brb, Caixa, Santander, HSBC|
+|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Caixa, Santander|
 
 ### Registered Boleto Payments Provider
 
 |Provider|
 |--------|
-|Bradesco2, BancoDoBrasil2, ItauShopline, Santander2|
+|Bradesco2, BancoDoBrasil2, ItauShopline, Santander2, Caixa2, CitiBank2|
 
 ### Electronic Transfer Payments Provider (Online Debit)
 
