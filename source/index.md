@@ -6221,13 +6221,13 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 
 |Provider|
 |--------|
-|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Brb, Caixa, Santander, HSBC|
+|Simulado, Bradesco, BancoDoBrasil, CitiBank, Itau, Caixa, Santander|
 
 ### Providers para Boleto com Registro
 
 |Provider|
 |--------|
-|Bradesco2, BancoDoBrasil2, ItauShopline, Santander2|
+|Bradesco2, BancoDoBrasil2, ItauShopline, Santander2, Caixa2, CitiBank2|
 
 ### Providers para Transferência Eletronica (Débito Online)
 
