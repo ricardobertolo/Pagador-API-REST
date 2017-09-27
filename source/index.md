@@ -6215,8 +6215,8 @@ Caso não seja retornado o HTTP Status Code 200 OK será tentado mais duas vezes
 |Cielo|Visa, Master|
 |Getnet|Visa, Master|
 |FirstData|Visa, Master|
-|GlobalPayments|Visa, Master
-|
+|GlobalPayments|Visa, Master|
+
 ### Providers para Boleto sem Registro
 
 |Provider|
