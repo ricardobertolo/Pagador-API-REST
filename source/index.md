@@ -3562,7 +3562,7 @@ No caso da rejeição pela regra de Velocity, o ProviderReasonCode será BP171 -
 
 ### Requisição
 
-<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
 {
@@ -3863,7 +3863,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 
 ### Requisição
 
-<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 
 ```json
 {
