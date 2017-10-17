@@ -1743,7 +1743,7 @@ curl
 |`ProviderReturnCode`|Acquirer or Bank’s return code.|Text|32|57|
 |`ProviderReturnMessage`|Acquirer or Issuer’s return message|Text|32|57||Text|512|Transação Aprovada|
 |`FraudAnalysis.Id`|Indentificação da Transação no Antifraud|Text|300|Alphanumeric Text|
-|`FraudAnalysis.Status`|Status da Transação|Byte|---|2|
+|`FraudAnalysis.Status`|Transaction Status |Byte|3|Ex.: 500|
 |`FraudAnalysis.FraudAnalysisReasonCode`|Analysis Reason Code|Byte|---|<UL><LI>100 - Successful operation</LI>
 <LI>101 - There are one or more missed requests fields. Possible action: See the fields that are missing in AntiFraudResponse list.MissingFieldCollection. Resend the request with complete information</LI>
 <LI>102 - One or more request fields contain invalid data. Possible action: See the invalid fields in AntiFraudResponse list.InvalidFieldCollection. Resubmit the request with the correct information</LI>
@@ -2628,7 +2628,7 @@ in risk assessment. High - High significance of the purchaser's order obscenitie
 |`ProviderReturnCode`|Acquirer or Bank’s return code.|Text|32|57|
 |`ProviderReturnMessage`|Acquirer or Issuer’s return message|Text|32|57||Text|512|Transação Aprovada|
 |`FraudAnalysis.Id`|Indentificação da Transação no Antifraud|Text|300|Alphanumeric Text|
-|`FraudAnalysis.Status`|Transaction status|Byte|---|2|
+|`FraudAnalysis.Status`|Transaction Status |Byte|3|Ex.: 500|
 |`FraudAnalysis.ReplyData.FactorCode`|Codes that identifies the score level of an order|Text|100|Ex: B^D^R^Z<br /><UL><LI>A - Excessive Change of Address.The customer has changed the billing address two or more times in the last six months.</LI>
 <LI>B - BIN card or risk authorization. Risk factors are related to credit card and BIN / or card authorization checks.</LI>
 <LI>C - High numbers of credit cards.The customer has used more than six numbers of credit cards in the past six months.</LI>
@@ -4589,7 +4589,7 @@ curl
 | `Payment.Instructions` | 450 | 450 | this field is not sent to the bank | 450 | 450 | 450 |
 | `Payment.Demonstrative` | 255 | this field is not sent to the bank | this field is not sent to the bank | 255 | 255 | 255 |
 | >>>>>>>>>>>>>>>>>>>>>> |  |  |  |  |  |  |
-| Additional Obsrevations: | OBS 1: alphabets, numbers e characters like "_" and "$" | OBS 1: this field is not sent to the bank | OBS geral: the Pagador validates the limit | OBS 1: this field is not sent to the bank | OBS 1: when the value is greater than 11 digits, the Pagador will generate a number based on configured number in the admin panel | General OBS: the Pagador validates the limit |
+| Additional Obsrevations: | OBS 1: alphabets, numbers e characters like "_" and "$" | OBS 1: this field is not sent to the bank | OBS geral: the Pagador truncates the fields automatically | OBS 1: this field is not sent to the bank | OBS 1: when the value is greater than 11 digits, the Pagador will generate a number based on configured number in the admin panel | General OBS: the Pagador does not validate the fields, but the Bank truncates the fields automatically|
 |  | OBS 2: the bank validates the limit | OBS 2: the value is truncated when pass 9 digits, considering the last 9 positions | OBS 1: the "nosso número" alwats will be the same value as "Order ID", and pagador validates the limit | OBS 2: the bank validates the limit | OBS 2: start with "14" + 14 digits + verification digit generates automatically. When greater than 14 digits, the Pagador truncate the value considering the last 14 digits | OBS 1: when greather than the max limit, the Pagador generates a incremental number configured in the admin panel |
 |  | OBS 3: the Pagador truncate automatically| OBS 3: accepted characteres: alphabets A a Z (CAPS LOCK); special characters: (-), ('), without space between these characters; Correct Examples: D'EL-REI, D'ALCORTIVO, SANT'ANA. Incorrect Examples: D'EL - REI; you can use one space between two words |  | OBS 3: the Pagador validates the limit | OBS 3: the Pagador validates the limit | OBS 2: when the value is greater than limit, the Pagador generates one randomic number |
 |  | OBS 4: the Pagador validates the limit |  |  |  |  | OBS 3: te Pagador removes the special characters 
@@ -6106,6 +6106,7 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 |Provider|Brand|
 |--------|-----|
 |Cielo|Visa, Master|
+|Cielo30 (Cielo 3.0)|Visa, Master|
 |Getnet|Visa, Master|
 |FirstData|Visa, Master|
 |GlobalPayments|Visa, Master|
@@ -6142,6 +6143,18 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 |13|Aborted|Transaction aborted because of some reason (ex; rejected by velocity)|
 |20|Scheduled|Credit Card|Scheduled Recurrency Payment|
 
+## Fraud Analysis' Status
+
+|Code|Description|
+|------|---------|
+|500|Started|
+|501|Accept|
+|502|Review|
+|503|Reject|
+|504|Pendent|
+|505|Unfinished|
+|506|Aborted|
+
 ## HTTP Status Code List
 
 |HTTP Status Code|Description|
@@ -6153,7 +6166,7 @@ The Braspag will make 3 tentatives to send a notification. It stops notifying wh
 
 ## Recurrency Payment Status List
 
-|Código|Descrição|
+|Code|Description|
 |------|---------|
 |1|	Active|
 |2|	Finished|
