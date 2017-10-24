@@ -5942,6 +5942,13 @@ curl
 |`CreditCard.Brand`|Bandeira do cartão|Texto|10 |
 |`CreditCard.SaveCard`|Booleano que identifica se o cartão será salvo para gerar o token (CardToken)|Booleano|--- (Default false)|
 
+<aside class="notice"><strong>Regra:</strong> 
+<ul>
+<li>Transação com vida até 3 meses – consulta via API ou <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a></li>
+<li>Transação com vida de 3 meses a 12 meses - somente via consulta no <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a> com a opção “Histórico” selecionada</li>
+<li>Transação com vida acima de 12 meses - entrar em contato com seu Executivo Comercial Braspag</li>
+</ul>
+</aside>
 
 ## Consultando uma venda pelo identificador da loja
 
@@ -6011,6 +6018,14 @@ curls
 |Propriedade|Descrição|Tipo|Tamanho|Formato|
 |-----------|---------|----|-------|-------|
 |`PaymentId`|Campo Identificador do Pedido|Guid|36|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|
+
+<aside class="notice"><strong>Regra:</strong> 
+<ul>
+<li>Transação com vida até 3 meses – consulta via API ou <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a></li>
+<li>Transação com vida de 3 meses a 12 meses - somente via consulta no <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a> com a opção “Histórico” selecionada</li>
+<li>Transação com vida acima de 12 meses - entrar em contato com seu Executivo Comercial Braspag</li>
+</ul>
+</aside>
 
 ## Consultando um pedido Recorrente
 
