@@ -3674,8 +3674,8 @@
 <td><code class="prettyprint">Status</code></td>
 <td>Status da Transação</td>
 <td>Byte</td>
-<td>2</td>
-<td>1</td>
+<td>3</td>
+<td>Ex.: 500</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ProviderReturnCode</code></td>
@@ -3702,8 +3702,8 @@
 <td><code class="prettyprint">FraudAnalysis.Status</code></td>
 <td>Status da Transação</td>
 <td>Byte</td>
-<td>&mdash;</td>
-<td>2</td>
+<td>3</td>
+<td>Ex.: 500</td>
 </tr>
 <tr>
 <td><code class="prettyprint">FraudAnalysis.FraudAnalysisReasonCode</code></td>
@@ -5320,8 +5320,8 @@
 <td><code class="prettyprint">Status</code></td>
 <td>Status da Transação</td>
 <td>Byte</td>
-<td>2</td>
-<td>1</td>
+<td>3</td>
+<td>Ex.: 500</td>
 </tr>
 <tr>
 <td><code class="prettyprint">ProviderReturnCode</code></td>
@@ -6722,7 +6722,7 @@
 
 <h3 id="requisição">Requisição</h3>
 
-<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 <pre><code class="highlight json"><span class="p">{</span><span class="w">
    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017051202"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"Customer"</span><span class="p">:{</span><span class="w">
@@ -7265,7 +7265,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 
 <h3 id="requisição">Requisição</h3>
 
-<aside class="request"><span class="method put">PUT</span> <span class="endpoint">/v2/sales/{PaymentId}/void?amount=xxx</span></aside>
+<aside class="request"><span class="method post">POST</span> <span class="endpoint">/v2/sales/</span></aside>
 <pre><code class="highlight json"><span class="p">{</span><span class="w">
    </span><span class="s2">"MerchantOrderId"</span><span class="p">:</span><span class="s2">"2017051201"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"Customer"</span><span class="p">:{</span><span class="w">
@@ -8826,7 +8826,7 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <th>Propriedade</th>
 <th style="text-align: center">Bradesco</th>
 <th style="text-align: center">BancoBanco do Brasil</th>
-<th style="text-align: center">Itaú</th>
+<th style="text-align: center">Itaú Shopline</th>
 <th style="text-align: center">Santander</th>
 <th style="text-align: center">Caixa Econômica</th>
 <th style="text-align: center">Citibank</th>
@@ -8917,10 +8917,10 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <td>Particularidades e Observações:</td>
 <td style="text-align: center">OBS 1: letras, números e caracteres como &ldquo;_&rdquo; e &ldquo;$&rdquo;</td>
 <td style="text-align: center">OBS 1: não é enviado ao banco</td>
-<td style="text-align: center">OBS geral: o Pagador persiste a quantidade de caracteres</td>
+<td style="text-align: center">OBS geral: o Pagador trunca automaticamente os campos</td>
 <td style="text-align: center">OBS 1: não é enviado ao banco</td>
 <td style="text-align: center">OBS 1: quando ultrapassa os 11 dígitos, o pagador considera o número incremental cadastrado no admin</td>
-<td style="text-align: center">OBS geral: o Pagador persiste as qts de caracteres</td>
+<td style="text-align: center">OBS geral: o Pagador não valida os campos, porém é truncado automaticamente pelo Banco</td>
 </tr>
 <tr>
 <td></td>
@@ -11326,6 +11326,14 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 </tr>
 </tbody></table>
 
+<aside class="notice"><strong>Regra:</strong> 
+<ul>
+<li>Transação com vida até 3 meses – consulta via API ou <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a></li>
+<li>Transação com vida de 3 meses a 12 meses - somente via consulta no <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a> com a opção “Histórico” selecionada</li>
+<li>Transação com vida acima de 12 meses - entrar em contato com seu Executivo Comercial Braspag</li>
+</ul>
+</aside>
+
 <h2 id="consultando-uma-venda-pelo-identificador-da-loja">Consultando uma venda pelo identificador da loja</h2>
 
 <p>Não é possível consultar diretamente uma pagamento pelo identificador enviado pela loja (MerchantOrderId), mas é possível obter todos os PaymentIds associados ao identificador.</p>
@@ -11434,6 +11442,14 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <td>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</td>
 </tr>
 </tbody></table>
+
+<aside class="notice"><strong>Regra:</strong> 
+<ul>
+<li>Transação com vida até 3 meses – consulta via API ou <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a></li>
+<li>Transação com vida de 3 meses a 12 meses - somente via consulta no <a href="https://admin.braspag.com.br/">Painel Admin Braspag</a> com a opção “Histórico” selecionada</li>
+<li>Transação com vida acima de 12 meses - entrar em contato com seu Executivo Comercial Braspag</li>
+</ul>
+</aside>
 
 <h2 id="consultando-um-pedido-recorrente">Consultando um pedido Recorrente</h2>
 
@@ -11850,6 +11866,10 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <td>Visa, Master</td>
 </tr>
 <tr>
+<td>Cielo30 (Cielo 3.0)</td>
+<td>Visa, Master</td>
+</tr>
+<tr>
 <td>Getnet</td>
 <td>Visa, Master</td>
 </tr>
@@ -11964,6 +11984,44 @@ substituiu as vencidas. Bancos Emissores participantes: Bradesco, Banco do Brasi
 <td>Scheduled</td>
 <td>Cartão de crédito</td>
 <td>Recorrência agendada</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-de-status-do-antifraude">Lista de Status do Antifraude</h2>
+
+<table><thead>
+<tr>
+<th>Código</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>500</td>
+<td>Started</td>
+</tr>
+<tr>
+<td>501</td>
+<td>Accept</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Review</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Reject</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Pendent</td>
+</tr>
+<tr>
+<td>505</td>
+<td>Unfinished</td>
+</tr>
+<tr>
+<td>506</td>
+<td>Aborted</td>
 </tr>
 </tbody></table>
 
