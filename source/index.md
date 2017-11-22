@@ -3572,7 +3572,7 @@ No caso da rejeição pela regra de Velocity, o ProviderReasonCode será BP171 -
       "Identity":"12345678909",
       "IdentityType":"CPF",
       "Email":"comprador@braspag.com.br",
-      "IpAdress":"127.0.01",
+      "IpAddress":"127.0.01",
       "Address":{  
          "Street":"Alameda Xingu",
          "Number":"512",
@@ -3623,7 +3623,7 @@ curl
       "Identity":"12345678909",
       "IdentityType":"CPF",
       "Email":"comprador@braspag.com.br",
-      "IpAdress":"127.0.01",
+      "IpAddress":"127.0.01",
       "Address":{  
          "Street":"Alameda Xingu",
          "Number":"512",
