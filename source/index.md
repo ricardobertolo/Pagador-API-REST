@@ -88,6 +88,19 @@ Para que você possa desfrutar de todos os recursos disponíveis em nossa API, �
 * **Cancelamento**: O cancelamento é necessário quando, por algum motivo, não se quer mais efetivar uma venda. No caso de uma pré-autorização, o cancelamento irá liberar o limite do cartão que foi sensibilizado em uma pré-autorização. Quando a transação já estiver sido capturada, o cancelamento irá desfazer a venda, mas deve ser executado até às 23:59:59 da data da autorização/captura.
 * **Estorno**: O estorno é aplicável quando uma transação criada no dia anterior ou antes já estiver capturada. Neste caso, a transação será submetida no processo de 'chargeback' pela adquirente. 
 
+Abaixo segue a lista de adquirentes com as quais temos integração para solicitações de estorno: 
+
+|Adquirente|Prazo Máximo para Solicitação de Estorno|
+|-----------|----|
+|Cielo|300 dias|
+|Rede| Tecnologia Komerci: 90 dias; Tecnologia eRede: 60 dias|
+|Getnet|90 dias|
+|Transbank|90 dias| 
+|Global Payments| -- |
+|First Data| -- |
+|Banorte| -- |
+|Credibanco| -- |
+
 <aside class="warning">A disponibilidade do serviço de Estorno varia de adquirente para adquirente.</aside>
 
 * **Autenticação**: O processo de autenticação possibilita realizar uma venda a qual passará pelo processo de autenticação do banco emissor do cartão, assim trazendo mais segurança para a venda e transferindo para o banco, o risco de fraude.
