@@ -88,6 +88,19 @@ For the better use of all the features available in our API, first of all, it is
 * **Void (Cancel)**: A void will cancel the transfer of funds from the customer to the merchant.
 * **Refund**: A refund transfers funds from your merchant account to the customer’s account. 
 
+Below we have the list of acquirers that support refund transaction:
+
+|Acquirer|Deadline for Refund Request|
+|-----------|----|
+|Cielo|300 days|
+|Rede| Komerci tecnology: 90 days; eRede tecnology: 60 days|
+|Getnet|90 days|
+|Transbank|90 days| 
+|Global Payments| -- |
+|First Data| -- |
+|Banorte| -- |
+|Credibanco| -- |
+
 <aside class="warning">Please, check if the acquirer supports Void or Refund operation before development</aside>
 
 * **Authentication**: This process submits the cardholder to an authentication flow, in order to check if he is the same person that making this purchase.
