@@ -8,5 +8,9 @@ language_tabs:
 search: true
 ---
 
-Estamos redirecionando...
+Estamos redirecionando ao manual... 
 Caso não tenha sido redirecionado automaticamente, <a href="https://braspag.github.io//manual/braspag-pagador">clique aqui</a>
+
+<script>
+	window.location = "https://braspag.github.io//manual/braspag-pagador";
+</script>
